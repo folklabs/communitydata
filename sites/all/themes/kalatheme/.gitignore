@@ -1,0 +1,10 @@
+
+# Ignore default text files
+.htaccess
+
+# Eclipse & Mac
+.project
+.buildpath
+._*
+.DS_Store
+.settings/*
