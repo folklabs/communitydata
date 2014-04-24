@@ -103,6 +103,61 @@ function openviz_visualisation_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ov_visualisation-field_ov_rating'
+  $field_instances['node-ov_visualisation-field_ov_rating'] = array(
+    'bundle' => 'ov_visualisation',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'fivestar',
+        'settings' => array(
+          'expose' => 1,
+          'style' => 'average',
+          'text' => 'average',
+          'widget' => array(
+            'fivestar_widget' => 'sites/all/modules/contrib/fivestar/widgets/oxygen/oxygen.css',
+          ),
+        ),
+        'type' => 'fivestar_formatter_default',
+        'weight' => 3,
+      ),
+      'featured' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ov_rating',
+    'label' => 'Rating',
+    'required' => 0,
+    'settings' => array(
+      'allow_clear' => 0,
+      'allow_ownvote' => 1,
+      'allow_revote' => 0,
+      'stars' => 5,
+      'target' => 'none',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'fivestar',
+      'settings' => array(),
+      'type' => 'exposed',
+      'weight' => 34,
+    ),
+  );
+
   // Exported field_instance: 'node-ov_visualisation-field_ov_tags'
   $field_instances['node-ov_visualisation-field_ov_tags'] = array(
     'bundle' => 'ov_visualisation',
@@ -150,6 +205,7 @@ function openviz_visualisation_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Categories');
+  t('Rating');
   t('Tags');
 
   return $field_instances;

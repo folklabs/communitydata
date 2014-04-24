@@ -44,6 +44,24 @@ function openviz_core_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
+  // Exported field_base: 'field_ov_rating'
+  $field_bases['field_ov_rating'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ov_rating',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'fivestar',
+    'settings' => array(
+      'axis' => 'vote',
+    ),
+    'translatable' => 0,
+    'type' => 'fivestar',
+  );
+
   // Exported field_base: 'field_ov_tags'
   $field_bases['field_ov_tags'] = array(
     'active' => 1,
