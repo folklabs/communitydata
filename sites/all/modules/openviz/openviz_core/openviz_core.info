@@ -1,0 +1,13 @@
+name = OpenViz Core
+core = 7.x
+package = OpenViz
+version = 7.x-1.0-alpha1
+project = openviz_core
+dependencies[] = features
+dependencies[] = taxonomy
+features[features_api][] = api:2
+features[field_base][] = field_ov_categories
+features[field_base][] = field_ov_tags
+features[taxonomy][] = ov_categories
+features[taxonomy][] = ov_tags
+project path = sites/all/modules/openviz

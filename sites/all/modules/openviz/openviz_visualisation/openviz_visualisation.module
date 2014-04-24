@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenViz Visualisation feature.
+ */
+
+include_once 'openviz_visualisation.features.inc';

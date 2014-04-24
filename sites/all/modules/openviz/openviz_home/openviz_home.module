@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenViz Home feature.
+ */
+
+include_once 'openviz_home.features.inc';
