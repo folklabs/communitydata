@@ -165,7 +165,7 @@ function kalatheme_process_page(&$variables) {
   }
 
   // If panels arent being used at all.
-  $variables['no_panels'] = !(module_exists('page_manager') && page_manager_get_current_page());
+  $variables['no_panels'] = TRUE; //!(module_exists('page_manager') && page_manager_get_current_page());
 
   // Check if we're to always print the page title, even on panelized pages.
   $variables['always_show_page_title'] = theme_get_setting('always_show_page_title') ? TRUE : FALSE;
