@@ -1,0 +1,17 @@
+<h2>Choose visualisation</h2>
+<a href='#/'>
+<div class='btn btn-primary'>Back</div>
+</a>
+<div class='explorer'>
+<!-- {'ng-controller'=>'VisualizationTypeController'} -->
+<ul ng-repeat='renderer in renderers'>
+<li>
+<h4>{{ renderer.rendererName }}</h4>
+<!-- TODO: save viz type -->
+<a href='#/select-columns' ng-click='saveRenderer(renderer)'>
+<img src='{{ renderer.thumbnail }}'>
+</a>
+</li>
+</ul>
+<div class='vb-view'></div>
+</div>

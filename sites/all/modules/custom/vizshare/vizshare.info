@@ -1,0 +1,9 @@
+name = VizShare Field
+description = A field for storing a VizShare visualisation representation.
+package = Open data
+core = 7.x
+
+files[] = vizshare_builder.inc
+files[] = vizshare.test
+
+; scripts[] = drupal-vizshare.js

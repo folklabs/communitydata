@@ -1,0 +1,15 @@
+<h2>Edit visualisation</h2>
+<a href='#/select-columns'>
+<div class='btn btn-primary'>Back</div>
+</a>
+<div class='visualization' visualization></div>
+<form accept-charset='UTF-8' action='/visualization/new' id='vizshare-builder-form' method='post'>
+<div class='form-group'>
+<label for='visualizationName'>Name</label>
+<input class='form-control' id='visualizationName'>
+</div>
+<div class='form-group'>
+<!-- %label{"for"=>"visualizationName"} Name -->
+<input class='btn btn-success' id='edit-submit' name='op' type='submit' value='Save'>
+</div>
+</form>
