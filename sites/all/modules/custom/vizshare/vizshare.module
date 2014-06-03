@@ -4,6 +4,7 @@
  * An example field using the Field Types API.
  */
 
+module_load_include('inc', 'vizshare', 'vizshare.formatters');
 
 /**
  * Implementation of hook_menu().
@@ -21,8 +22,6 @@ function vizshare_menu() {
 
   $items['views'] = array(
     'page callback' => 'vizshare_get_angular_view',
-    // 'delivery callback' => 'vizshare_deliver_raw_page',
-    // 'page arguments' => array('vizshare_builder_form'),
     'access arguments' => array('access content')
   );
 
@@ -45,74 +44,6 @@ function vizshare_get_angular_view($filename) {
   // return $file;
 }
 
-// function vizshare_deliver_raw_page($page_callback_result) {
-//   dpm('vizshare_deliver_raw_page');
-//   return $page_callback_result;
-// }
-
-
-
-// <div class="container">
-// <script type=text/ng-template id=views/datatables.html>
-
-// <div class="container">
-// <a href="#/select-type">
-// <div class="btn btn-primary pull-right">Select visualization type</div>
-// </a>
-// <h2>Datasets</h2>
-// <div class="content">
-// <p>Browse datasets:</p>
-// <ul ng-repeat="dataset in datatables">
-// <li>
-// <div class="panel panel-default dataset">
-// <div class="panel-heading">
-// <h4 class="title">{{dataset["rdfs:label"]}}</h4>
-// <div class="btn btn-success" ng-class="dataset.btnState" ng-click="select(dataset)">{{ !dataset.selected && "Select" || "Remove" }}</div>
-// </div>
-// <div class="panel-body">
-// <!-- {{ dataset.selected }} -->
-// Categories:
-// <!-- .label.label-default {{dataset["rdfs:label"]}} -->
-// </div>
-// </div>
-// </li>
-// </ul>
-// </div>
-// <div class="sidebar-right">
-// <div class="selected-data">
-// <h4>Selected datasets</h4>
-// <ul ng-repeat="dataset in datatables | filter: {selected: true}">
-// <li>
-// {{dataset["rdfs:label"]}}
-// </li>
-// </ul>
-// </div>
-// </div>
-// </div>
-
-// </script>
-
-// <script type=text/ng-template id=views/select-type.html>
-// <h2>Choose visualisation</h2>
-// <a href="#">
-// <div class="btn btn-primary">Back</div>
-// </a>
-// <div class="explorer" ng-controller="VisualizationTypeController">
-// <ul ng-repeat="renderer in renderers">
-// <li>
-// <h4>{{ renderer.rendererName }}</h4>
-// <!-- TODO: save viz type -->
-// <a href="#/select-columns">
-// <img src="{{ renderer.thumbnail }}">
-// </a>
-// </li>
-// </ul>
-// <div class="vb-view"></div>
-// </div>
-
-// </script>
-//
-//
 function vizshare_builder_form() {
   $form = array();
   $form['#attached']['js'] = array(
@@ -132,32 +63,15 @@ function vizshare_builder_form() {
 
   $form['divapp'] = array(
     '#markup' => '
-
-
-
 <div ng-view></div>
 ',
     '#weight' => -1,
   );
-  // $form['wrapper'] = array(
-  //   '#type' => 'container',
-  //   '#attributes' => array(
-  //     'ng-app' => 'vizBuilder'
-  //   )
-  //   // '#title' => 'Name'
-  // );
-  $form['name'] = array(
-    '#type' => 'textfield',
-    '#title' => 'Name'
-  );
-  $form['last_name'] = array(
-    '#type' => 'textfield',
-    '#title' => 'Last Name'
-  );
   $form['vizshare_definition'] = array(
-    '#type' => 'hidden',
+    '#type' => 'textarea',
     '#attributes' => array(
-      'ng-value' => 'vizshareDef'
+      'ng-value' => 'vizshareDef',
+      'style' => 'display: none'
     )
   );
   $form['submit'] = array(
@@ -177,7 +91,7 @@ function vizshare_builder_form_submit($form, &$form_state) {
   $_SESSION['vizshare_definition'] = $form['vizshare_definition']['#value'];
 
   // dpm($form_state);
-  drupal_goto('/node/add/visualisation');
+  drupal_goto('node/add/ov-visualisation');
 }
 
 
@@ -187,13 +101,14 @@ function vizshare_builder_form_submit($form, &$form_state) {
 function vizshare_form_alter(&$form, &$form_state, $form_id) {
   // dpm($form_id);
   // dpm($form);
+  // dpm($_SESSION);
   // dpm($_SESSION['vizshare_definition']);
   // dpm($form_state);
   switch ($form_id) {
-    case 'visualisation_node_form':
+    case 'ov_visualisation_node_form':
       // dpm('found!');
       // Form modification code goes here.
-      $form['field_v2']['und'][0]['value']['#default_value'] = $_SESSION['vizshare_definition'];
+      $form['field_ov_visualization_data']['und'][0]['value']['#default_value'] = $_SESSION['vizshare_definition'];
       break;
   }
   // dpm($form);
@@ -288,7 +203,6 @@ function vizshare_field_validate($entity_type, $entity, $field, $instance, $lang
   // }
 }
 
-
 /**
  * Implements hook_field_is_empty().
  *
@@ -309,16 +223,16 @@ function vizshare_field_is_empty($item, $field) {
  *
  * @see vizshare_field_formatter_view()
  */
-function vizshare_field_formatter_info() {
-  // dpm('vizshare_field_formatter_info');
-  return array(
-    // This formatter just displays the hex value in the color indicated.
-    'vizshare_draw' => array(
-      'label' => t('Visualisation renderer'),
-      'field types' => array('vizshare_value'),
-    ),
-  );
-}
+// function vizshare_field_formatter_info() {
+//   // dpm('vizshare_field_formatter_info');
+//   return array(
+//     // This formatter just displays the hex value in the color indicated.
+//     'vizshare_draw' => array(
+//       'label' => t('Visualisation renderer'),
+//       'field types' => array('vizshare_value'),
+//     ),
+//   );
+// }
 
 /**
  * Implements hook_field_formatter_view().
@@ -327,7 +241,7 @@ function vizshare_field_formatter_info() {
  * @see vizshare_field_formatter_info()
  */
 function vizshare_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  dpm('vizshare_field_formatter_view ');
+  // dpm('vizshare_field_formatter_view ');
   // kpr($display);
   // kpr($items);
   drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/d3.js', array('weight' => 1));
@@ -336,43 +250,42 @@ function vizshare_field_formatter_view($entity_type, $entity, $field, $instance,
   drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/vizshare-renderers-0.1.0.js', array('weight' => 4));
   drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/vizshare.drupal.js', array('weight' => 5));
 
+  $settings = $display['settings'];
   $element = array();
 
   switch ($display['type']) {
     // This formatter simply outputs the field as text and with a color.
     case 'vizshare_draw':
-      dpm('vizshare_draw ');
+      // dpm('vizshare_draw ');
       foreach ($items as $delta => $viz) {
         // dpm($viz);
+        // dpm($viz['value']);
 
-      $viz_id = drupal_html_id('vizshare_viz');
-      $element[$delta] = array(
-        // We create a render array to produce the desired markup,
-        // "<p style="color: #hexcolor">The color code ... #hexcolor</p>".
-        // See theme_html_tag().
-        '#type' => 'html_tag',
-        '#tag' => 'div',
-        '#attributes' => array(
-          'style' => 'color: #f00',
-          'id' => $viz_id
-        ),
-        // '#value' => t('The color code in this field is @code', array('@code' => $item['value'])),
-        // '#value' => $viz['value'],
-      );
+        $viz_id = drupal_html_id('vizshare_viz');
+        $element[$delta] = array(
+          // We create a render array to produce the desired markup,
+          // "<p style="color: #hexcolor">The color code ... #hexcolor</p>".
+          // See theme_html_tag().
+          '#type' => 'html_tag',
+          '#tag' => 'div',
+          '#attributes' => array(
+            'style' => 'height: ' . $settings['height'] . 'px',
+            'id' => $viz_id
+          ),
+        );
 
-      $settings = array(
-        'vizId' => $viz_id,
-        'viz' => $viz['value'],
-        // 'features' => $features,
-      );
-      // drupal_alter('leaflet_map_prebuild', $settings);
+        $settings = array(
+          'vizId' => $viz_id,
+          'viz' => drupal_json_decode($viz['value']),
+          'height' => $settings['height'],
+        );
 
-      $element[$delta]['#attached']['js'][] = array(
-        'data' => array('vizshare' => array($settings)),
-        'type' => 'setting',
-      );
-    }
-    break;
+        $element[$delta]['#attached']['js'][] = array(
+          'data' => array('vizshare' => array($settings)),
+          'type' => 'setting',
+        );
+      }
+      break;
   }
   return $element;
 }

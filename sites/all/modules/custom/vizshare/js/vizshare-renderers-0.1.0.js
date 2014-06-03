@@ -3,10 +3,11 @@
  */
  var vizshare = vizshare || {};
 
-vizshare.vega = (function (vg) {
+vizshare.vega = (function ($, vg) {
     var render = function (renderTo, spec) {
               vg.parse.spec(spec, function (chart) {
-                  chart({el: renderTo}).renderer("svg").update();
+                    var domElem = $(renderTo).get(0);
+                    chart({el: domElem}).renderer("svg").update(); 
               });
         },
         encodeFieldName = function (fieldName) {
@@ -17,11 +18,11 @@ vizshare.vega = (function (vg) {
         render: render,
         encodeFieldName: encodeFieldName
     };
-}(vg));
+}(jQuery, vg));
 
 // Bar chart renderer
 // Note: requires Vega and D3
-(function (vegaHelper) {
+(function ($, vegaHelper) {
     var renderFuncBar = function (selector, dataHelper, vizSettings) {
             // References to look up in the data settings
         var dataSetRef = "default",
@@ -34,16 +35,23 @@ vizshare.vega = (function (vg) {
             fieldYAxis = dataset.getDataField(yAxisFieldRef),
 
             // Viz
+            vizSettingsFinal = {},
             vegaSpec = null;
 
         // Encode vega field references
         fieldXAxis = vegaHelper.encodeFieldName(fieldXAxis);
         fieldYAxis = vegaHelper.encodeFieldName(fieldYAxis);
 
+        // Viz settings
+        vizSettingsFinal = $.extend(true, {}, {
+            height: 200,
+            width: 400
+        }, vizSettings || {});
+        
         // Vega spec
         vegaSpec = {
-            "width": 400,
-            "height": 200,
+            "width": vizSettingsFinal.width,
+            "height": vizSettingsFinal.height,
             "data": [
                 {
                     "name": dataSetRef,
@@ -73,7 +81,7 @@ vizshare.vega = (function (vg) {
             ],
             "axes": [
                 {
-                    "type": "x",
+                    "type": "x", 
                     "scale": "x"
                 },
                 {"type": "y", "scale": "y"}
@@ -107,12 +115,12 @@ vizshare.vega = (function (vg) {
     // Register the render function
     var renderOpts = {'renderFunc': renderFuncBar};
     vizshare.registerRenderer("vizshare.barchart", renderOpts);
-} (vizshare.vega));
+} (jQuery, vizshare.vega));
 
 
 // Pie chart renderer
 // Note: requires Vega and D3
-(function (vegaHelper) {
+(function ($, vegaHelper) {
     var renderFuncPie = function (selector, dataHelper, vizSettings) {
             // References to look up in the data settings
         var dataSetRef = "default",
@@ -125,20 +133,27 @@ vizshare.vega = (function (vg) {
             valueField = dataset.getDataField(valueFieldRef),
 
             // Viz
+            vizSettingsFinal = {},
             vegaSpec = null;
 
         // Encode vega field references
         nameField = vegaHelper.encodeFieldName(nameField);
         valueField = vegaHelper.encodeFieldName(valueField);
 
+        // Viz settings
+        vizSettingsFinal = $.extend(true, {}, {
+            height: 350,
+            width: 350
+        }, vizSettings || {});
+
         // Viz dimensions
-        var height = 400;
-        var width = 400;
+        var height = vizSettingsFinal.height;
+        var width = vizSettingsFinal.width;
         minExtent = Math.min(height, width);
         outerRadius = Math.floor(minExtent / 2);
         innerRadius = Math.floor(minExtent * 0.30);
         labelRadius = Math.floor(innerRadius + ((outerRadius - innerRadius) / 2));
-
+        
         // Vega spec
         vegaSpec = {
             "width": width,
@@ -228,7 +243,7 @@ vizshare.vega = (function (vg) {
     // Register the render function
     var renderOpts = {'renderFunc': renderFuncPie};
     vizshare.registerRenderer("vizshare.piechart", renderOpts);
-} (vizshare.vega));
+} (jQuery, vizshare.vega));
 
 
 // Line chart renderer
@@ -238,7 +253,7 @@ vizshare.vega = (function (vg) {
  * One single line is drawn for all the series, so it always
  * stays the same colour (see svg source)
  */
-(function (vegaHelper) {
+(function ($, vegaHelper) {
     var renderFuncLine = function (selector, dataHelper, vizSettings) {
             // References to look up in the data settings
         var dataSetRef = "default",
@@ -253,6 +268,7 @@ vizshare.vega = (function (vg) {
             fieldName = dataset.getDataField(nameFieldRef),
 
             // Viz
+            vizSettingsFinal = {},
             vegaSpec = null;
 
         // Encode vega field references
@@ -260,16 +276,22 @@ vizshare.vega = (function (vg) {
         fieldYAxis = vegaHelper.encodeFieldName(fieldYAxis);
         fieldName = vegaHelper.encodeFieldName(fieldName);
 
+        // Viz settings
+        vizSettingsFinal = $.extend(true, {}, {
+            height: 200,
+            width: 400
+        }, vizSettings || {});
+        
         // Vega spec
         vegaSpec = {
-            "width": 400,
-            "height": 200,
+            "width": vizSettingsFinal.width,
+            "height": vizSettingsFinal.height,
             "data": [
                 {
                     "name": dataSetRef,
                     "url": dataset.url,
                     "format": {
-                        "type": "csv",
+                        "type": "csv", 
                         "parse": {
                             fieldXAxis: "number",
                             fieldYAxis: "number"
@@ -292,18 +314,18 @@ vizshare.vega = (function (vg) {
                     "domain": {"data": dataSetRef, "field": "data." + fieldYAxis}
                 },
                 {
-                    "name": "color",
-                    "type": "ordinal",
+                    "name": "color", 
+                    "type": "ordinal", 
                     "range": "category10"
                 }
             ],
             "axes": [
                 {
-                    "type": "x",
+                    "type": "x", 
                     "scale": "x"
                 },
                 {
-                    "type": "y",
+                    "type": "y", 
                     "scale": "y"
                 }
             ],
@@ -341,7 +363,7 @@ vizshare.vega = (function (vg) {
                         }
                     ]
                 }
-
+                
             ]
         };
 
@@ -352,4 +374,4 @@ vizshare.vega = (function (vg) {
     // Register the render function
     var renderOpts = {'renderFunc': renderFuncLine};
     vizshare.registerRenderer("vizshare.linechart", renderOpts);
-} (vizshare.vega));
+} (jQuery, vizshare.vega));

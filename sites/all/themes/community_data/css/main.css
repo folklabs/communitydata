@@ -1,3 +1,11 @@
-/*! 
- * Kalatheme (http://drupal.org/project/kalatheme) 
- */ 
+/*!
+ * Kalatheme (http://drupal.org/project/kalatheme)
+ */
+
+#content {
+  margin-bottom: 50px
+}
+
+.views-field-field-ov-visualization-data {
+  margin-bottom: 40px
+}

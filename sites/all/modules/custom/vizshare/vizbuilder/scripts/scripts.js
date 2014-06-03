@@ -32,7 +32,7 @@
   ]);
 
   vizBuilder.config(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://0.0.0.0:6543/api/beta');
+    RestangularProvider.setBaseUrl('http://0.0.0.0:6542/api/beta');
     return RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
       var extractedData;
       extractedData = data;
@@ -48,7 +48,7 @@
 (function() {
   var DU_API, renderers, vizBuilder;
 
-  DU_API = 'http://0.0.0.0:6543/';
+  DU_API = 'http://0.0.0.0:6542/';
 
   vizBuilder = angular.module('vizBuilder');
 
@@ -95,7 +95,7 @@
   renderers = [
     {
       rendererName: 'vizshare.barchart',
-      thumbnail: '/images/chart_bar.png',
+      thumbnail: '/sites/all/modules/custom/vizshare/vizbuilder/images/chart_bar.png',
       datasets: [
         {
           name: 'dataset1',
@@ -114,7 +114,7 @@
       ]
     }, {
       rendererName: 'vizshare.piechart',
-      thumbnail: '/images/chart_pie.png',
+      thumbnail: '/sites/all/modules/custom/vizshare/vizbuilder/images/chart_pie.png',
       datasets: [
         {
           name: 'dataset1',
@@ -247,6 +247,10 @@
           data: [jsonSettings],
           vizOptions: {}
         };
+        // TODO: convert to string
+        scope.$parent.vizshareDef = JSON.stringify([jsonSettings]);
+        console.log('scope.$parent');
+        console.log(scope.$parent);
         return element.vizshare(renderOpt);
       }
     };
