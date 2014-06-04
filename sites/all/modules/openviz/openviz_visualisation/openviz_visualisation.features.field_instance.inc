@@ -22,7 +22,7 @@ function openviz_visualisation_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'featured' => array(
         'label' => 'above',
@@ -56,7 +56,7 @@ function openviz_visualisation_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 31,
+      'weight' => 3,
     ),
   );
 
@@ -72,7 +72,7 @@ function openviz_visualisation_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 1,
+        'weight' => 2,
       ),
       'featured' => array(
         'label' => 'above',
@@ -99,7 +99,7 @@ function openviz_visualisation_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 32,
+      'weight' => 4,
     ),
   );
 
@@ -122,7 +122,7 @@ function openviz_visualisation_field_default_field_instances() {
           ),
         ),
         'type' => 'fivestar_formatter_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'featured' => array(
         'label' => 'above',
@@ -154,7 +154,7 @@ function openviz_visualisation_field_default_field_instances() {
       'module' => 'fivestar',
       'settings' => array(),
       'type' => 'exposed',
-      'weight' => 34,
+      'weight' => 6,
     ),
   );
 
@@ -170,7 +170,7 @@ function openviz_visualisation_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'featured' => array(
         'label' => 'above',
@@ -197,7 +197,52 @@ function openviz_visualisation_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 33,
+      'weight' => 5,
+    ),
+  );
+
+  // Exported field_instance: 'node-ov_visualisation-field_ov_visualization_data'
+  $field_instances['node-ov_visualisation-field_ov_visualization_data'] = array(
+    'bundle' => 'ov_visualisation',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'vizshare',
+        'settings' => array(
+          'height' => 100,
+        ),
+        'type' => 'vizshare_draw',
+        'weight' => 0,
+      ),
+      'featured' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ov_visualization_data',
+    'label' => 'Visualization data',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'vizshare',
+      'settings' => array(),
+      'type' => 'vizshare_textarea',
+      'weight' => 2,
     ),
   );
 
@@ -207,6 +252,7 @@ function openviz_visualisation_field_default_field_instances() {
   t('Categories');
   t('Rating');
   t('Tags');
+  t('Visualization data');
 
   return $field_instances;
 }

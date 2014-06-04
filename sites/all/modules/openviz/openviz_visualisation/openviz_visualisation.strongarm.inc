@@ -41,10 +41,10 @@ function openviz_visualisation_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '-5',
+          'weight' => '0',
         ),
         'path' => array(
-          'weight' => '30',
+          'weight' => '1',
         ),
       ),
       'display' => array(),
@@ -87,7 +87,7 @@ function openviz_visualisation_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_submitted_ov_visualisation';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_submitted_ov_visualisation'] = $strongarm;
 
   return $export;
