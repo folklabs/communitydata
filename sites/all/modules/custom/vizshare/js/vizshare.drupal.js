@@ -19,15 +19,20 @@
         // jsonSettings = JSON.parse(this.viz);
         // console.log(jsonSettings);
         // vizshareObj.empty();
-
+        var selector = '#' + this.vizId;
+        var width = $(selector).width();
+        if (width < 200) {
+          width = 200;
+        }
+        console.log();
         var renderOpt = {
           //TODO: fix to generic
           rendererName: "vizshare.barchart",
-          selector: '#' + this.vizId,
+          selector: selector,
           data: this.viz,
           vizOptions: {
             height: parseInt(this.height),
-            // width: 1100
+            width: width,
           }
         };
         vizshare.render(renderOpt);
