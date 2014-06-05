@@ -23,20 +23,16 @@ projects[fieldable_panels_panes][subdir] = contrib
 projects[pm_existing_pages][version] = 1.4
 projects[pm_existing_pages][subdir] = contrib
 
-projects[fape][version] = 1.x-dev
+projects[fape][version] = 1.2
 projects[fape][subdir] = contrib
-projects[fape][download][type] = git
-projects[fape][download][revision] = 1143ee2
-projects[fape][download][branch] = 7.x-1.x
-projects[fape][patch][1846156] = http://drupal.org/files/fape-1846156-5.patch
 
 ; Views Magic
 
-projects[views][version] = 3.7
+projects[views][version] = 3.8
 projects[views][subdir] = contrib
 projects[views][patch][2037469] = http://drupal.org/files/views-exposed-sorts-2037469-1.patch
 
-projects[views_autocomplete_filters][version] = 1.0
+projects[views_autocomplete_filters][version] = 1.1
 projects[views_autocomplete_filters][subdir] = contrib
 
 projects[views_bulk_operations][version] = 3.2
@@ -46,15 +42,15 @@ projects[views_bulk_operations][subdir] = contrib
 
 projects[pathauto][version] = 1.2
 projects[pathauto][subdir] = contrib
-projects[pathauto][patch][936222] = http://drupal.org/files/pathauto-persist-936222-130-pathauto-state.patch
+projects[pathauto][patch][936222] = http://drupal.org/files/issues/pathauto-persist-936222-195-pathauto-state.patch
 
 projects[token][version] = 1.5
 projects[token][subdir] = contrib
 
-projects[entity][version] = 1.3
+projects[entity][version] = 1.5
 projects[entity][subdir] = contrib
 
-projects[libraries][version] = 2.1
+projects[libraries][version] = 2.2
 projects[libraries][subdir] = contrib
 
 ; Field modules
@@ -107,7 +103,7 @@ projects[migrate_extras][type] = "module"
 projects[migrate_extras][subdir] = "contrib"
 
 ; Recommended Modules
-projects[devel][version] = 1.4
+projects[devel][version] = 1.5
 projects[devel][subdir] = contrib
 
 projects[uuid][version] = 1.0-alpha5
