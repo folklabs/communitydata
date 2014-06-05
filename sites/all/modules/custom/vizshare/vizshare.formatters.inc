@@ -19,6 +19,14 @@ function vizshare_field_formatter_info() {
     )
   );
 
+  $formatters['vizshare_icon'] = array(
+    'label' => t('Visualization icon'),
+    'field types' => array('vizshare_value'),
+    'settings' => array(
+      'height' => 200,
+    )
+  );
+
   return $formatters;
 }
 

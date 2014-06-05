@@ -393,7 +393,7 @@ function openviz_visualisation_panelizer_defaults() {
     $pane->uuid = 'b8b16644-6b75-40b0-a5a1-a2e1234ff949';
     $display->content['new-b8b16644-6b75-40b0-a5a1-a2e1234ff949'] = $pane;
     $display->panels['header'][0] = 'new-b8b16644-6b75-40b0-a5a1-a2e1234ff949';
-  $display->hide_title = PANELS_TITLE_NONE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $panelizer->display = $display;
   $export['node:ov_visualisation:default'] = $panelizer;

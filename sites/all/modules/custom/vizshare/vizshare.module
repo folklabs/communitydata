@@ -238,26 +238,6 @@ function vizshare_field_is_empty($item, $field) {
 }
 
 /**
- * Implements hook_field_formatter_info().
- *
- * We need to tell Drupal that we have two different types of formatters
- * for this field. One will change the text color, and the other will
- * change the background color.
- *
- * @see vizshare_field_formatter_view()
- */
-// function vizshare_field_formatter_info() {
-//   // dpm('vizshare_field_formatter_info');
-//   return array(
-//     // This formatter just displays the hex value in the color indicated.
-//     'vizshare_draw' => array(
-//       'label' => t('Visualisation renderer'),
-//       'field types' => array('vizshare_value'),
-//     ),
-//   );
-// }
-
-/**
  * Implements hook_field_formatter_view().
  *
  *
@@ -277,18 +257,10 @@ function vizshare_field_formatter_view($entity_type, $entity, $field, $instance,
   $element = array();
 
   switch ($display['type']) {
-    // This formatter simply outputs the field as text and with a color.
     case 'vizshare_draw':
-      // dpm('vizshare_draw ');
       foreach ($items as $delta => $viz) {
-        // dpm($viz);
-        // dpm($viz['value']);
-
         $viz_id = drupal_html_id('vizshare_viz');
         $element[$delta] = array(
-          // We create a render array to produce the desired markup,
-          // "<p style="color: #hexcolor">The color code ... #hexcolor</p>".
-          // See theme_html_tag().
           '#type' => 'html_tag',
           '#tag' => 'div',
           '#attributes' => array(
@@ -306,6 +278,22 @@ function vizshare_field_formatter_view($entity_type, $entity, $field, $instance,
         $element[$delta]['#attached']['js'][] = array(
           'data' => array('vizshare' => array($settings)),
           'type' => 'setting',
+        );
+      }
+      break;
+
+    case 'vizshare_icon':
+      foreach ($items as $delta => $viz) {
+        $viz_json = drupal_json_decode($viz['value']);
+        $vizType = $viz_json[0]['visualizationType'];
+
+        $element[$delta] = array(
+          '#type' => 'html_tag',
+          '#tag' => 'img',
+          '#attributes' => array(
+            'src' => drupal_get_path('module', 'vizshare') . '/images/thmb-' . $vizType . '.png',
+            'style' => 'height: 100px; width: 100px',
+          ),
         );
       }
       break;
