@@ -32,7 +32,12 @@
   ]);
 
   vizBuilder.config(function(RestangularProvider) {
-    RestangularProvider.setBaseUrl('http://0.0.0.0:6542/api/beta');
+    var url = 'http://0.0.0.0:6542/api/beta';
+    if (window.data_unity_url) {
+      url = window.data_unity_url;
+      console.log(url);
+    }
+    RestangularProvider.setBaseUrl(url);
     return RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
       var extractedData;
       extractedData = data;
@@ -49,6 +54,11 @@
   var DU_API, renderers, vizBuilder;
 
   DU_API = 'http://0.0.0.0:6542/';
+
+  if (window.data_unity_url) {
+      DU_API = window.data_unity_url;
+      console.log(url);
+    }
 
   vizBuilder = angular.module('vizBuilder');
 

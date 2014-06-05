@@ -21,9 +21,9 @@
         // vizshareObj.empty();
 
         var renderOpt = {
+          //TODO: fix to generic
           rendererName: "vizshare.barchart",
           selector: '#' + this.vizId,
-          // data: jsonSettings,
           data: this.viz,
           vizOptions: {
             height: parseInt(this.height),
@@ -31,6 +31,9 @@
           }
         };
         vizshare.render(renderOpt);
+      })
+      $(settings.data_unity).each(function () {
+        window.data_unity_url = this.url;
       })
     }
   };

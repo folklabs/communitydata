@@ -25,6 +25,15 @@ function vizshare_menu() {
     'access arguments' => array('access content')
   );
 
+  $items['admin/config/services/vizshare'] = array(
+    'title' => 'VizShare',
+    'description' => 'Configure the Data Unity service for VizShare fields.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('vizshare_settings_form'),
+    'access arguments' => array('access content'),
+    'file' => 'vizshare.admin.inc',
+  );
+
   return $items;
 }
 
@@ -46,6 +55,7 @@ function vizshare_get_angular_view($filename) {
 
 function vizshare_builder_form() {
   $form = array();
+  //TODO: move to libraries
   $form['#attached']['js'] = array(
     drupal_get_path('module', 'vizshare') .'/js/d3.js',
     drupal_get_path('module', 'vizshare') .'/js/vega.js',
@@ -79,8 +89,18 @@ function vizshare_builder_form() {
     '#value' => 'Save'
   );
   $form['#attributes'] = array(
-      'ng-app' => 'vizBuilder'
-    );
+    'ng-app' => 'vizBuilder'
+  );
+
+  $settings = array(
+    'url' => variable_get('data_unity_url', ''),
+  );
+
+  $form['#attached']['js'][] = array(
+    'data' => array('data_unity' => array($settings)),
+    'type' => 'setting',
+  );
+
   return $form;
 }
 
@@ -108,7 +128,9 @@ function vizshare_form_alter(&$form, &$form_state, $form_id) {
     case 'ov_visualisation_node_form':
       // dpm('found!');
       // Form modification code goes here.
-      $form['field_ov_visualization_data']['und'][0]['value']['#default_value'] = $_SESSION['vizshare_definition'];
+      if ($_SESSION['vizshare_definition'] != none) {
+        $form['field_ov_visualization_data']['und'][0]['value']['#default_value'] = $_SESSION['vizshare_definition'];
+      }
       break;
   }
   // dpm($form);

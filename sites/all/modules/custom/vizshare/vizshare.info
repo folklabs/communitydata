@@ -1,9 +1,11 @@
-name = VizShare Field
-description = A field for storing a VizShare visualisation representation.
+name = VizShare
+description = Support for displaying vizshare visualizations integrated with Data Unity.
 package = Open data
 core = 7.x
 
 files[] = vizshare_builder.inc
 files[] = vizshare.test
+
+configure = admin/config/services/vizshare
 
 ; scripts[] = drupal-vizshare.js
