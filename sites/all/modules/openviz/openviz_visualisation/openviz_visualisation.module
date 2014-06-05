@@ -5,3 +5,29 @@
  */
 
 include_once 'openviz_visualisation.features.inc';
+
+/**
+ * Implementation of hook_menu().
+ */
+function openviz_visualisation_menu() {
+  $items = array();
+
+  $items['node/%node/edit-visualization'] = array(
+    'title' => 'Edit visualization',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('vizshare_builder_form', 1),
+    'access callback' => 'openviz_visualization_check_node_ov_visualization',
+    'access arguments' => array(1),
+    'weight' => 10,
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+  );
+
+  return $items;
+}
+
+function openviz_visualization_check_node_ov_visualization($node) {
+  // dpm($node);
+  //TODO: add user access check
+  return $node->type == 'ov_visualisation';
+}

@@ -39,7 +39,7 @@ function vizshare_menu() {
 
 function vizshare_get_angular_view($filename) {
   // print file_directory_path();
-  dpm('vizshare_get_angular_view');
+  // dpm('vizshare_get_angular_view');
   // $path = drupal_get_path('module', 'vizshare') . '/vizbuilder/views/select-columns.html';
   // dsm('path: ' . $path);
 
@@ -53,7 +53,9 @@ function vizshare_get_angular_view($filename) {
   // return $file;
 }
 
-function vizshare_builder_form() {
+function vizshare_builder_form($form, &$form_state) {
+  dpm($form_state);
+
   $form = array();
   //TODO: move to libraries
   $form['#attached']['js'] = array(
