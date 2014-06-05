@@ -126,9 +126,8 @@ function vizshare_form_alter(&$form, &$form_state, $form_id) {
   // dpm($form_state);
   switch ($form_id) {
     case 'ov_visualisation_node_form':
-      // dpm('found!');
       // Form modification code goes here.
-      if ($_SESSION['vizshare_definition'] != none) {
+      if (isset($_SESSION['vizshare_definition']) && $_SESSION['vizshare_definition'] != 0) {
         $form['field_ov_visualization_data']['und'][0]['value']['#default_value'] = $_SESSION['vizshare_definition'];
       }
       break;
