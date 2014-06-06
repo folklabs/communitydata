@@ -27,7 +27,7 @@
         console.log();
         var renderOpt = {
           //TODO: fix to generic
-          rendererName: "vizshare.barchart",
+          rendererName: "vizshare." + this.viz[0].visualizationType,
           selector: selector,
           data: this.viz,
           vizOptions: {

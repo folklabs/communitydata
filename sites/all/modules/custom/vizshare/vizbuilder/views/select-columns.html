@@ -1,4 +1,5 @@
 <h2>Select columns</h2>
+<wizard-progress-bar active-step='Columns'></wizard-progress-bar>
 <a href='#/visualization'>
 <div class='btn btn-primary pull-right'>Plot visualization</div>
 </a>
@@ -10,18 +11,8 @@
 <div ng-repeat='field in $parent.selectedRenderer.datasets[0].fields'>
 <b>{{ field.vizField }}</b>
 <div class='list-group'></div>
-<a class='list-group-item' ng-class='{active: col.selected[field.vizField]}' ng-click='selectColForField(field, col)' ng-repeat="col in $parent.selectedDataset['structure']['qb:component']">
-{{ col['dtbl:fieldRef'] }}
+<a class='list-group-item' ng-class='{active: col.selected[field.vizField]}' ng-click='selectColForField(field, col)' ng-repeat="col in $parent.selectedDataset.structure.component | orderBy:'fieldRef'">
+{{ col.fieldRef }}
 </a>
 </div>
-<!-- %p -->
-<!-- %b X axis -->
-<!-- .list-group -->
-<!-- %a.list-group-item{"ng-repeat"=>"col in $parent.selectedDataset['structure']['qb:component']", 'ng-click'=>'selectX(col)', 'ng-class'=>'{active: col.selectedX}'} -->
-<!-- {{ col['dtbl:fieldRef'] }} -->
-<!-- %p -->
-<!-- %b Y axis -->
-<!-- .list-group -->
-<!-- %a.list-group-item{"ng-repeat"=>"col in $parent.selectedDataset['structure']['qb:component']", 'ng-click'=>'selectY(col)', 'ng-class'=>'{active: col.selectedY}'} -->
-<!-- {{ col['dtbl:fieldRef'] }} -->
 </div>

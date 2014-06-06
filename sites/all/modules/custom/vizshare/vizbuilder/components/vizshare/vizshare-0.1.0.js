@@ -97,6 +97,10 @@ vizshare.dataHelper = (function () {
                 }
             }
             return null;
+        },
+        getDataSettings: function () {
+            // Gets the original data settings sent to the renderer
+            return dataSettings;
         }
     };
     

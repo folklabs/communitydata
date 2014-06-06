@@ -1,5 +1,7 @@
 (function() {
-  var vizBuilder;
+  var DATA_UNITY_URL, vizBuilder;
+
+  DATA_UNITY_URL = 'http://0.0.0.0:6543/api/beta';
 
   vizBuilder = angular.module("vizBuilder", ['restangular']);
 
@@ -32,17 +34,18 @@
   ]);
 
   vizBuilder.config(function(RestangularProvider) {
-    var url = 'http://0.0.0.0:6542/api/beta';
-    if (window.data_unity_url) {
+    var url;
+    url = DATA_UNITY_URL;
+    console.log(window.data_unity_url);
+    if (window.data_unity_url !== void 0) {
       url = window.data_unity_url;
-      console.log(url);
     }
     RestangularProvider.setBaseUrl(url);
     return RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
       var extractedData;
       extractedData = data;
       if (operation === "getList") {
-        extractedData = data['dtbl:dataTable'];
+        extractedData = data.dataTable;
       }
       return extractedData;
     });
@@ -53,12 +56,7 @@
 (function() {
   var DU_API, renderers, vizBuilder;
 
-  DU_API = 'http://0.0.0.0:6542/';
-
-  if (window.data_unity_url) {
-      DU_API = window.data_unity_url;
-      console.log(url);
-    }
+  DU_API = 'http://0.0.0.0:6543/';
 
   vizBuilder = angular.module('vizBuilder');
 
@@ -67,8 +65,9 @@
       model.fetchFields = function() {
         var id, structPromise, structureDefURL;
         console.log('fetchFields');
+        console.log(model);
         if (!model.structData) {
-          structureDefURL = model['qb:structure']['@id'];
+          structureDefURL = model['structure'];
           console.log(structureDefURL);
           id = structureDefURL.substring(structureDefURL.lastIndexOf('/') + 1);
           console.log(id);
@@ -105,7 +104,8 @@
   renderers = [
     {
       rendererName: 'vizshare.barchart',
-      thumbnail: '/sites/all/modules/custom/vizshare/vizbuilder/images/chart_bar.png',
+      type: 'barchart',
+      thumbnail: '/images/chart_bar.png',
       datasets: [
         {
           name: 'dataset1',
@@ -121,10 +121,12 @@
             }
           ]
         }
-      ]
+      ],
+      vizOptions: {}
     }, {
       rendererName: 'vizshare.piechart',
-      thumbnail: '/sites/all/modules/custom/vizshare/vizbuilder/images/chart_pie.png',
+      type: 'piechart',
+      thumbnail: '/images/chart_pie.png',
       datasets: [
         {
           name: 'dataset1',
@@ -140,7 +142,92 @@
             }
           ]
         }
-      ]
+      ],
+      vizOptions: {}
+    }, {
+      rendererName: 'vizshare.geoleaflet',
+      type: 'map',
+      thumbnail: '/images/map.png',
+      datasets: [
+        {
+          name: 'dataset1',
+          "fields": [
+            {
+              "vizField": "lat",
+              "dataField": "Lat"
+            }, {
+              "vizField": "long",
+              "dataField": "Long"
+            }, {
+              "vizField": "title",
+              "dataField": "Name"
+            }, {
+              "vizField": "value",
+              "dataField": "Value"
+            }
+          ]
+        }
+      ],
+      vizOptions: {
+        "scales": [
+          {
+            "name": "area",
+            "type": "linear",
+            "domain": {
+              "data": "default",
+              "vizField": "value"
+            },
+            "range": [50000, 100000]
+          }, {
+            "name": "onetoten",
+            "type": "linear",
+            "domain": [1, 10],
+            "range": [50000, 1000000]
+          }, {
+            "name": "colours",
+            "type": "linear",
+            "domain": {
+              "data": "default",
+              "vizField": "value"
+            },
+            "range": ["red", "blue"]
+          }, {
+            "name": "coloursonetoten",
+            "type": "linear",
+            "domain": [1, 10],
+            "range": ["red", "blue"]
+          }
+        ],
+        "marks": [
+          {
+            "type": "latlongcircle",
+            "from": {
+              "data": "default"
+            },
+            "properties": {
+              "enter": {
+                "lat": {
+                  "vizField": "lat"
+                },
+                "long": {
+                  "vizField": "long"
+                },
+                "size": {
+                  "scale": "onetoten",
+                  "vizField": "value"
+                },
+                "text": {
+                  "vizField": "title"
+                },
+                "fill": {
+                  "scale": "colours",
+                  "vizField": "value"
+                }
+              }
+            }
+          }
+        ]
+      }
     }
   ];
 
@@ -155,9 +242,26 @@
 }).call(this);
 
 (function() {
-  var vizBuilder;
+  var STEPS, vizBuilder;
 
   vizBuilder = angular.module("vizBuilder");
+
+  STEPS = ['Datasets', 'Visualization type', 'Columns', 'Visualize!'];
+
+  vizBuilder.directive('wizardProgressBar', function() {
+    return {
+      restrict: 'AE',
+      link: function(scope, element, attrs) {
+        console.log('directive wizardProgressBar');
+        console.log(attrs);
+        scope.activeStep = attrs.activeStep;
+        scope.steps = STEPS;
+        console.log('scope');
+        return console.log(scope);
+      },
+      templateUrl: '/views/wizard-progress-bar.html'
+    };
+  });
 
   vizBuilder.controller("VizBuilderController", function($scope) {
     return console.log('VizBuilderController');
@@ -211,7 +315,7 @@
       if (col.selected === void 0) {
         col.selected = {};
       }
-      _ref = $scope.$parent.selectedDataset['structure']['qb:component'];
+      _ref = $scope.$parent.selectedDataset['structure']['component'];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         c = _ref[_i];
         if (c.selected !== void 0) {
@@ -234,6 +338,7 @@
         jsonSettings = {
           "name": "default",
           "contentType": "text/csv",
+          "visualizationType": scope.$parent.selectedRenderer.type,
           "fields": []
         };
         console.log(scope);
@@ -246,7 +351,7 @@
           console.log(f.col);
           fieldData = {
             vizField: f.vizField,
-            dataField: f.col['dtbl:fieldRef']
+            dataField: f.col['fieldRef']
           };
           jsonSettings.fields.push(fieldData);
         }
@@ -255,9 +360,8 @@
         renderOpt = {
           rendererName: scope.$parent.selectedRenderer['rendererName'],
           data: [jsonSettings],
-          vizOptions: {}
+          vizOptions: scope.$parent.selectedRenderer.vizOptions
         };
-        // TODO: convert to string
         scope.$parent.vizshareDef = JSON.stringify([jsonSettings]);
         console.log('scope.$parent');
         console.log(scope.$parent);

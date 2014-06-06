@@ -1,35 +1,28 @@
-<div class='container'>
+<h2>Choose datasets</h2>
+<wizard-progress-bar active-step='Datasets'></wizard-progress-bar>
+<div class='buttons'>
 <a href='#/select-type'>
 <div class='btn btn-primary pull-right'>Select visualization type</div>
 </a>
-<h2>Datasets</h2>
+</div>
 <div class='content'>
-<p>Browse datasets:</p>
-<ul ng-repeat='dataset in datatables'>
-<!-- | orderBy:'rdfs:label'"} -->
-<li>
-<div class='panel panel-default dataset'>
-<div class='panel-heading'>
-<h4 class='title'>{{dataset['rdfs:label']}}</h4>
+<!-- %p Browse datasets: -->
+<div class='list-group'>
+<div class='list-group-item' ng-repeat="dataset in datatables | orderBy:'label'">
+<h4 class='title'>{{dataset.label}}</h4>
 <div class='btn btn-success' ng-class='dataset.btnState' ng-click='select(dataset)'>{{ !dataset.selected && 'Select' || 'Remove' }}</div>
-</div>
-<div class='panel-body'>
-<!-- {{ dataset.selected }} -->
-Categories:
-<!-- .label.label-default {{dataset['rdfs:label']}} -->
+<p>Categories:</p>
+<!-- .source Source {{dataset.dataSource.url}} -->
 </div>
 </div>
-</li>
-</ul>
 </div>
 <div class='sidebar-right'>
 <div class='selected-data'>
 <h4>Selected datasets</h4>
 <ul ng-repeat='dataset in datatables | filter: {selected: true}'>
 <li>
-{{dataset['rdfs:label']}}
+{{dataset.label}}
 </li>
 </ul>
-</div>
 </div>
 </div>
