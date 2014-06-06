@@ -225,7 +225,27 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Content: Vote results */
+  $handler->display->display_options['relationships']['votingapi_cache']['id'] = 'votingapi_cache';
+  $handler->display->display_options['relationships']['votingapi_cache']['table'] = 'node';
+  $handler->display->display_options['relationships']['votingapi_cache']['field'] = 'votingapi_cache';
+  $handler->display->display_options['relationships']['votingapi_cache']['votingapi'] = array(
+    'value_type' => '',
+    'tag' => '',
+    'function' => 'count',
+  );
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Visualization data */
+  $handler->display->display_options['fields']['field_ov_visualization_data']['id'] = 'field_ov_visualization_data';
+  $handler->display->display_options['fields']['field_ov_visualization_data']['table'] = 'field_data_field_ov_visualization_data';
+  $handler->display->display_options['fields']['field_ov_visualization_data']['field'] = 'field_ov_visualization_data';
+  $handler->display->display_options['fields']['field_ov_visualization_data']['label'] = '';
+  $handler->display->display_options['fields']['field_ov_visualization_data']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ov_visualization_data']['type'] = 'vizshare_icon';
+  $handler->display->display_options['fields']['field_ov_visualization_data']['settings'] = array(
+    'height' => '400',
+  );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -233,10 +253,6 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Categories */
-  $handler->display->display_options['fields']['field_ov_categories']['id'] = 'field_ov_categories';
-  $handler->display->display_options['fields']['field_ov_categories']['table'] = 'field_data_field_ov_categories';
-  $handler->display->display_options['fields']['field_ov_categories']['field'] = 'field_ov_categories';
   /* Field: Content: Rating */
   $handler->display->display_options['fields']['field_ov_rating']['id'] = 'field_ov_rating';
   $handler->display->display_options['fields']['field_ov_rating']['table'] = 'field_data_field_ov_rating';
@@ -244,15 +260,23 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['fields']['field_ov_rating']['label'] = '';
   $handler->display->display_options['fields']['field_ov_rating']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ov_rating']['click_sort_column'] = 'rating';
-  $handler->display->display_options['fields']['field_ov_rating']['type'] = 'fivestar_formatter_rating';
   $handler->display->display_options['fields']['field_ov_rating']['settings'] = array(
     'widget' => array(
-      'fivestar_widget' => 'default',
+      'fivestar_widget' => 'sites/all/modules/contrib/fivestar/widgets/basic/basic.css',
     ),
     'expose' => 0,
     'style' => 'average',
-    'text' => 'average',
+    'text' => 'none',
   );
+  /* Field: Vote results: Value */
+  $handler->display->display_options['fields']['value']['id'] = 'value';
+  $handler->display->display_options['fields']['value']['table'] = 'votingapi_cache';
+  $handler->display->display_options['fields']['value']['field'] = 'value';
+  $handler->display->display_options['fields']['value']['relationship'] = 'votingapi_cache';
+  $handler->display->display_options['fields']['value']['label'] = '';
+  $handler->display->display_options['fields']['value']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['value']['precision'] = '0';
+  $handler->display->display_options['fields']['value']['suffix'] = ' votes';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Rating (field_ov_rating:rating) */
   $handler->display->display_options['sorts']['field_ov_rating_rating']['id'] = 'field_ov_rating_rating';
