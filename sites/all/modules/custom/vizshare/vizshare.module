@@ -56,11 +56,9 @@ function vizshare_get_angular_view($filename) {
  * TODO: improve.
  */
 function vizshare_page_alter(&$page) {
-  // $item = menu_get_item();
-  // $content = system_admin_menu_block($item);
   $content = $page['content']['system_main']['main']['#markup'];
   $content = str_replace('/node/add/ov-visualisation', '/visualization/new', $content);
-  // $page['content']['system_main']['main']['#markup'] = $content;
+  $page['content']['system_main']['main']['#markup'] = $content;
 }
 
 function vizshare_builder_form($form, &$form_state) {
