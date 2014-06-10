@@ -79,29 +79,6 @@ function openviz_visualisation_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-f3f5c7ed-d062-43fe-b138-38fae43d4b19';
-    $pane->panel = 'column1';
-    $pane->type = 'block';
-    $pane->subtype = 'views-53a3ce4c87e98a145ea02b5100775022';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'inherit_path' => 1,
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = 'f3f5c7ed-d062-43fe-b138-38fae43d4b19';
-    $display->content['new-f3f5c7ed-d062-43fe-b138-38fae43d4b19'] = $pane;
-    $display->panels['column1'][0] = 'new-f3f5c7ed-d062-43fe-b138-38fae43d4b19';
-    $pane = new stdClass();
     $pane->pid = 'new-502b1349-f695-4299-9267-dfc3c8a3d229';
     $pane->panel = 'column2';
     $pane->type = 'views_panes';
@@ -125,6 +102,29 @@ function openviz_visualisation_default_page_manager_pages() {
     $display->content['new-502b1349-f695-4299-9267-dfc3c8a3d229'] = $pane;
     $display->panels['column2'][0] = 'new-502b1349-f695-4299-9267-dfc3c8a3d229';
     $pane = new stdClass();
+    $pane->pid = 'new-f3f5c7ed-d062-43fe-b138-38fae43d4b19';
+    $pane->panel = 'contentmain';
+    $pane->type = 'block';
+    $pane->subtype = 'views-53a3ce4c87e98a145ea02b5100775022';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'inherit_path' => 1,
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'f3f5c7ed-d062-43fe-b138-38fae43d4b19';
+    $display->content['new-f3f5c7ed-d062-43fe-b138-38fae43d4b19'] = $pane;
+    $display->panels['contentmain'][0] = 'new-f3f5c7ed-d062-43fe-b138-38fae43d4b19';
+    $pane = new stdClass();
     $pane->pid = 'new-adbf6e20-b4ae-447f-8e55-23258589fbcc';
     $pane->panel = 'contentmain';
     $pane->type = 'views_panes';
@@ -142,11 +142,11 @@ function openviz_visualisation_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = 'adbf6e20-b4ae-447f-8e55-23258589fbcc';
     $display->content['new-adbf6e20-b4ae-447f-8e55-23258589fbcc'] = $pane;
-    $display->panels['contentmain'][0] = 'new-adbf6e20-b4ae-447f-8e55-23258589fbcc';
+    $display->panels['contentmain'][1] = 'new-adbf6e20-b4ae-447f-8e55-23258589fbcc';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-adbf6e20-b4ae-447f-8e55-23258589fbcc';
   $handler->conf['display'] = $display;

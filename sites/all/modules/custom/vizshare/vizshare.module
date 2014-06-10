@@ -37,26 +37,42 @@ function vizshare_menu() {
   return $items;
 }
 
+/**
+ * Suppports retrieving partials for the Angular wizard steps.
+ *
+ * TODO: improve integration.
+ */
 function vizshare_get_angular_view($filename) {
-  // print file_directory_path();
-  // dpm('vizshare_get_angular_view');
-  // $path = drupal_get_path('module', 'vizshare') . '/vizbuilder/views/select-columns.html';
-  // dsm('path: ' . $path);
-
-  // $path = drupal_realpath(drupal_get_path('module', 'vizshare') . '/vizbuilder/views/select-columns.html');
-  // dsm('path: ' . $path);
   $file = file_get_contents(DRUPAL_ROOT . '/' . drupal_get_path('module', 'vizshare') . '/vizbuilder/views/' . $filename);
-  // $file = file_get_contents(drupal_realpath(drupal_get_path('module', 'vizshare') . '/vizbuilder/views/select-columns.html'));
-  // dpm($file);
   print $file;
   exit(0);
-  // return $file;
+}
+
+/**
+ * Edit /node/add page to tweak new node URL for Visualizations.
+ *
+ * This is a temp hack. Better integration should be explored.
+ *
+ * TODO: improve.
+ */
+function vizshare_page_alter(&$page) {
+  // $item = menu_get_item();
+  // $content = system_admin_menu_block($item);
+  $content = $page['content']['system_main']['main']['#markup'];
+  $content = str_replace('/node/add/ov-visualisation', '/visualization/new', $content);
+  // $page['content']['system_main']['main']['#markup'] = $content;
 }
 
 function vizshare_builder_form($form, &$form_state) {
+  // dpm($form);
   // dpm($form_state);
 
   $form = array();
+  // Define the form to be the Angular root app
+  $form['#attributes'] = array(
+    'ng-app' => 'vizBuilder'
+  );
+
   //TODO: move to libraries
   $form['#attached']['js'] = array(
     drupal_get_path('module', 'vizshare') .'/js/d3.js',
@@ -73,6 +89,9 @@ function vizshare_builder_form($form, &$form_state) {
     drupal_get_path('module', 'vizshare') . '/vizbuilder/scripts/scripts.js',
   );
 
+  $vizDef = $form_state['build_info']['args'][0]->field_ov_visualization_data['und'][0]['value'];
+  // dpm($vizDef);
+  // dpm($vizDef->field_ov_visualization_data);
   $form['divapp'] = array(
     '#markup' => '
 <div ng-view></div>
@@ -82,16 +101,15 @@ function vizshare_builder_form($form, &$form_state) {
   $form['vizshare_definition'] = array(
     '#type' => 'textarea',
     '#attributes' => array(
-      'ng-value' => 'vizshareDef',
-      'style' => 'display: none'
-    )
+      'init-model' => '',
+      // 'ng-value' => 'vizshareDef'
+      // 'style' => 'display: none'
+    ),
+    '#default_value' => $form_state['build_info']['args'][0]->field_ov_visualization_data['und'][0]['value']
   );
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Save'
-  );
-  $form['#attributes'] = array(
-    'ng-app' => 'vizBuilder'
   );
 
   $settings = array(
@@ -262,14 +280,10 @@ function vizshare_field_formatter_view($entity_type, $entity, $field, $instance,
   switch ($display['type']) {
     case 'vizshare_draw':
       foreach ($items as $delta => $viz) {
-        $viz_id = drupal_html_id('vizshare_viz');
+        // dpm('vizshare_draw');
+        $viz_id = uniqid('vizshare_viz'); //drupal_html_id('vizshare_viz');
         $element[$delta] = array(
-          '#type' => 'html_tag',
-          '#tag' => 'div',
-          '#attributes' => array(
-            'style' => 'height: ' . $settings['height'] . 'px',
-            'id' => $viz_id
-          ),
+          '#markup' => '<div id="' . $viz_id .'" style="height: '. $settings['height'] . 'px"></div>',
         );
 
         $settings = array(
