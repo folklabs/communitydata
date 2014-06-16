@@ -1,4 +1,4 @@
-name = Review Content Type
+name = OpenViz Review
 description = OpenViz Review Content Type
 core = 7.x
 package = OpenViz
