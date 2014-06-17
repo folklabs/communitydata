@@ -74,3 +74,8 @@ wizard-progress-bar .wizard-box:after {
 wizard-progress-bar .active:after {
   border-left-color: #5cb85c;
 }
+
+
+.panels-ipe-region {
+  /*border: 1px solid black;*/
+}
