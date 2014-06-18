@@ -121,10 +121,10 @@ function vizshare_builder_form($form, &$form_state) {
     ),
     '#default_value' => $viz_def_to_edit
   );
-  // $form['submit'] = array(
-  //   '#type' => 'submit',
-  //   '#value' => 'Save'
-  // );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Save'
+  );
 
   $settings = array(
     'url' => variable_get('data_unity_url', ''),
