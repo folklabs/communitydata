@@ -3,6 +3,8 @@
 
   DATA_UNITY_URL = 'http://0.0.0.0:6543/api/beta';
 
+  DATA_UNITY_URL = 'http://data-unity.com/api/beta';
+
   vizBuilder = angular.module("vizBuilder", ['restangular']);
 
   vizBuilder.config(function($routeProvider) {
@@ -39,6 +41,8 @@
     console.log(window.data_unity_url);
     if (window.data_unity_url !== void 0) {
       url = window.data_unity_url;
+    } else {
+      window.data_unity_url = DATA_UNITY_URL;
     }
     RestangularProvider.setBaseUrl(url);
     return RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
@@ -54,13 +58,11 @@
 }).call(this);
 
 (function() {
-  var DU_API, renderers, vizBuilder;
-
-  DU_API = 'http://0.0.0.0:6543/';
+  var renderers, vizBuilder;
 
   vizBuilder = angular.module('vizBuilder');
 
-  vizBuilder.factory('datatableService', function($q, $timeout, $http, Restangular) {
+  vizBuilder.factory('DatatableService', function($q, $timeout, $http, Restangular) {
     Restangular.extendModel('datatables', function(model) {
       model.fetchFields = function() {
         var id, structPromise, structureDefURL;
@@ -71,12 +73,60 @@
           console.log(structureDefURL);
           id = structureDefURL.substring(structureDefURL.lastIndexOf('/') + 1);
           console.log(id);
-          structPromise = Restangular.one('qb-datastructdefs', id).get();
+          structPromise = Restangular.one('qb/datastructdefs', id).get();
           return structPromise.then(function(structData) {
             console.log(structData);
             return model.structure = structData;
           });
         }
+      };
+      model._poll = function(url, callback) {
+        console.log('poll: ' + url);
+        return $http.get(url, {
+          timeout: 1000
+        }).success(function(data, status, headers, config) {
+          console.log('success');
+          if (data.status === 'completed') {
+            return callback(data.data);
+          } else {
+            return $timeout(function() {
+              console.log('waiting...');
+              return model._poll(url, callback);
+            }, 1000);
+          }
+        }).error(function(data, status, headers, config) {
+          if (status === 404) {
+            console.log("404 error, going to try again");
+            return $timeout(function() {
+              return model._poll(url, callback);
+            }, 1000);
+          } else {
+            return console.log(data);
+          }
+        });
+      };
+      model.getDataEndpoint = function(callback) {
+        var dataIn, url;
+        console.log('getDataEndpoint');
+        console.log(this['@id']);
+        url = window.data_unity_url + '/jobs/datatable-jobs';
+        dataIn = {
+          "dataTable": this['@id']
+        };
+        return $http.post(url, dataIn, {
+          cache: false,
+          timeout: 3000
+        }).success(function(data, status, headers, config) {
+          var jobID, jobUrl;
+          console.log('success (creating a job)');
+          jobID = headers()['location'].replace(url, '');
+          jobID = jobID.replace('/', '');
+          console.log(jobID);
+          jobUrl = window.data_unity_url + '/jobs/datatable-jobs/' + jobID;
+          return model._poll(jobUrl, callback);
+        }).error(function(dataE, statusE, headersE, configE) {
+          return console.log('error!');
+        });
       };
       return model;
     });
@@ -212,10 +262,6 @@
                 "long": {
                   "vizField": "long"
                 },
-                "size": {
-                  "scale": "onetoten",
-                  "vizField": "value"
-                },
                 "text": {
                   "vizField": "title"
                 },
@@ -248,6 +294,22 @@
 
   STEPS = ['Datasets', 'Visualization type', 'Columns', 'Visualize!'];
 
+  vizBuilder.directive('initModel', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        console.log('directive initModel');
+        scope.imagePath = element.attr('image-path');
+        console.log(element[0].value);
+        scope.vizshareDef = element[0].value;
+        element.attr('ng-model', 'vizshareDef');
+        element.removeAttr('init-model');
+        console.log('scope');
+        return console.log(scope);
+      }
+    };
+  });
+
   vizBuilder.directive('wizardProgressBar', function() {
     return {
       restrict: 'AE',
@@ -267,7 +329,7 @@
     return console.log('VizBuilderController');
   });
 
-  vizBuilder.controller("DatatableController", function($scope, datatableService) {
+  vizBuilder.controller("DatatableController", function($scope, DatatableService) {
     var promise;
     $scope.select = function(dataset) {
       dataset.selected = !dataset.selected;
@@ -278,29 +340,33 @@
         return dataset.btnState = 'btn-danger';
       }
     };
-    promise = datatableService.fetchTables();
+    promise = DatatableService.fetchTables();
     return promise.then(function(data) {
-      $scope.datatables = data;
-      return console.log(data);
+      return $scope.datatables = data;
     });
   });
 
   vizBuilder.controller("VisualizationTypeController", function($scope, RendererService, $http) {
     $scope.renderers = RendererService.getRenderers();
-    return $scope.saveRenderer = function(renderer) {
-      console.log('renderer');
-      console.log(renderer);
-      return $scope.$parent.selectedRenderer = renderer;
+    return $scope.selectRenderer = function(renderer) {
+      var r, _i, _len, _ref;
+      _ref = $scope.renderers;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        r = _ref[_i];
+        r.selected = false;
+      }
+      $scope.$parent.selectedRenderer = renderer;
+      return renderer.selected = true;
     };
   });
 
-  vizBuilder.controller("ColumnsController", function($scope, datatableService, RendererService) {
+  vizBuilder.controller("ColumnsController", function($scope, DatatableService, RendererService) {
     var dtPromise;
     console.log('ColumnsController');
     console.log($scope.$parent.selectedDataset);
     console.log($scope.$parent.selectedRenderer);
     if (!$scope.$parent.selectedDataset.structure) {
-      dtPromise = datatableService.fetchTable($scope.$parent.selectedDataset);
+      dtPromise = DatatableService.fetchTable($scope.$parent.selectedDataset);
       dtPromise.then(function(datatable) {
         console.log('fetchTable promise');
         console.log(datatable);
@@ -333,52 +399,51 @@
     return {
       restrict: 'AE',
       link: function(scope, element, attrs) {
-        var f, fieldData, jsonSettings, renderOpt, _i, _len, _ref;
+        var endPoint, jsonSettings, vizType;
         console.log('directive visualization');
+        vizType = scope.$parent.selectedRenderer.type;
         jsonSettings = {
           "name": "default",
           "contentType": "text/csv",
-          "visualizationType": scope.$parent.selectedRenderer.type,
+          "visualizationType": vizType,
           "fields": []
         };
         console.log(scope);
         console.log(scope.$parent.selectedDataset);
         console.log(scope.$parent.selectedRenderer);
-        jsonSettings['url'] = scope.$parent.selectedDataset['@id'] + '/raw';
-        _ref = scope.$parent.selectedRenderer.datasets[0].fields;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          f = _ref[_i];
-          console.log(f.col);
-          fieldData = {
-            vizField: f.vizField,
-            dataField: f.col['fieldRef']
+        return endPoint = scope.$parent.selectedDataset.getDataEndpoint(function(endpoint) {
+          var f, fieldData, renderOpt, _i, _len, _ref;
+          console.log(endpoint);
+          jsonSettings['url'] = endpoint;
+          _ref = scope.$parent.selectedRenderer.datasets[0].fields;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            f = _ref[_i];
+            console.log(f.col);
+            fieldData = {
+              vizField: f.vizField,
+              dataField: f.col['fieldRef']
+            };
+            jsonSettings.fields.push(fieldData);
+          }
+          console.log('jsonSettings:');
+          console.log(JSON.stringify(jsonSettings));
+          element.css('width', '900px');
+          element.css('height', '500px');
+          renderOpt = {
+            selector: '#map',
+            rendererName: scope.$parent.selectedRenderer['rendererName'],
+            data: [jsonSettings],
+            vizOptions: scope.$parent.selectedRenderer.vizOptions
           };
-          jsonSettings.fields.push(fieldData);
-        }
-        console.log('jsonSettings:');
-        console.log(jsonSettings);
-        renderOpt = {
-          rendererName: scope.$parent.selectedRenderer['rendererName'],
-          data: [jsonSettings],
-          vizOptions: scope.$parent.selectedRenderer.vizOptions
-        };
-        scope.$parent.vizshareDef = JSON.stringify([jsonSettings]);
-        console.log('scope.$parent');
-        console.log(scope.$parent);
-        return element.vizshare(renderOpt);
+          scope.$parent.vizshareDef = JSON.stringify([jsonSettings]);
+          return element.vizshare(renderOpt);
+        });
       }
     };
   });
 
   vizBuilder.controller("VisualizationController", function($scope, RendererService) {
     return $scope.renderers = RendererService.getRenderers();
-  });
-
-}).call(this);
-
-(function() {
-  angular.module("vizBuilder").controller("MainCtrl", function($scope) {
-    return $scope.awesomeThings = ["HTML5 Boilerplate", "Bootstrap", "AngularJS", "HAML", "CoffeeScript", "Karma"];
   });
 
 }).call(this);

@@ -56,9 +56,13 @@ function vizshare_get_angular_view($filename) {
  * TODO: improve.
  */
 function vizshare_page_alter(&$page) {
-  $content = $page['content']['system_main']['main']['#markup'];
-  $content = str_replace('/node/add/ov-visualisation', '/visualization/new', $content);
-  $page['content']['system_main']['main']['#markup'] = $content;
+  // dpm($page);
+  // dpm($page['content']['system_main']['main']);
+  if (isset($page['content']) and isset($page['content']['system_main']['main'])) {
+    $content = $page['content']['system_main']['main']['#markup'];
+    $content = str_replace('/node/add/ov-visualisation', '/visualization/new', $content);
+    $page['content']['system_main']['main']['#markup'] = $content;
+  }
 }
 
 function vizshare_builder_form($form, &$form_state) {
@@ -75,8 +79,11 @@ function vizshare_builder_form($form, &$form_state) {
   $form['#attached']['js'] = array(
     drupal_get_path('module', 'vizshare') .'/js/d3.js',
     drupal_get_path('module', 'vizshare') .'/js/vega.js',
+    drupal_get_path('module', 'vizshare') .'/leaflet/leaflet.js',
+    drupal_get_path('module', 'vizshare') .'/js/queue.v1.min.js',
     drupal_get_path('module', 'vizshare') .'/js/vizshare-0.1.0.js',
     drupal_get_path('module', 'vizshare') .'/js/vizshare-renderers-0.1.0.js',
+    drupal_get_path('module', 'vizshare') .'/js/vizshare-renderer-geoleaflet-0.1.0.js',
     drupal_get_path('module', 'vizshare') .'/js/vizshare.drupal.js',
     drupal_get_path('module', 'vizshare') . '/vizbuilder/components/angular/angular.js',
     drupal_get_path('module', 'vizshare') . '/vizbuilder/components/angular-cookies/angular-cookies.js',
@@ -86,8 +93,15 @@ function vizshare_builder_form($form, &$form_state) {
     drupal_get_path('module', 'vizshare') . '/vizbuilder/components/json3/lib/json3.js',
     drupal_get_path('module', 'vizshare') . '/vizbuilder/scripts/scripts.js',
   );
-
-  $vizDef = $form_state['build_info']['args'][0]->field_ov_visualization_data['und'][0]['value'];
+  $form['#attached']['css'] = array(
+    drupal_get_path('module', 'vizshare') . '/vizbuilder/styles/datatable.css',
+    drupal_get_path('module', 'vizshare') . '/leaflet/leaflet.css',
+  );
+  // dpm($form_state['build_info']);
+  $viz_def_to_edit = '';
+  if (count($form_state['build_info']['args']) > 0) {
+    $viz_def_to_edit = $form_state['build_info']['args'][0]->field_ov_visualization_data['und'][0]['value'];
+  }
   // dpm($vizDef);
   // dpm($vizDef->field_ov_visualization_data);
   $form['divapp'] = array(
@@ -100,15 +114,17 @@ function vizshare_builder_form($form, &$form_state) {
     '#type' => 'textarea',
     '#attributes' => array(
       'init-model' => '',
+      'image-path' => '/' . drupal_get_path('module', 'vizshare') . '/vizbuilder'
       // 'ng-value' => 'vizshareDef'
+      // TODO: uncomment this to hide for form box
       // 'style' => 'display: none'
     ),
-    '#default_value' => $form_state['build_info']['args'][0]->field_ov_visualization_data['und'][0]['value']
+    '#default_value' => $viz_def_to_edit
   );
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => 'Save'
-  );
+  // $form['submit'] = array(
+  //   '#type' => 'submit',
+  //   '#value' => 'Save'
+  // );
 
   $settings = array(
     'url' => variable_get('data_unity_url', ''),

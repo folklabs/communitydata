@@ -5,9 +5,9 @@ vizshare = (function () {
 
     // Private methods
         render = function (options) {
-            var rendererName = null,
-                selector = null,
-                data = null,
+            var rendererName = null, 
+                selector = null, 
+                data = null, 
                 vizOptions = {},
                 renderOpt = null,
                 renderFunc = null,
@@ -40,7 +40,7 @@ vizshare = (function () {
                 throw "No data settings were supplied when getting renderer."
             }
             dataHelper = new vizshare.dataHelper(data);
-
+            
             // Run renderer
             if (!rendererLookup.hasOwnProperty(rendererName)) {
                 throw "No renderer has been registered with the name '" + rendererName + "'";
@@ -97,9 +97,13 @@ vizshare.dataHelper = (function () {
                 }
             }
             return null;
+        },
+        getDataSettings: function () {
+            // Gets the original data settings sent to the renderer
+            return dataSettings;
         }
     };
-
+    
     // return the constructor to be assigned to the new namespace
     return Constr;
 } ());
