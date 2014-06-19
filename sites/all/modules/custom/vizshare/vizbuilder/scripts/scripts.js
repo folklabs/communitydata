@@ -196,7 +196,7 @@
       vizOptions: {}
     }, {
       rendererName: 'vizshare.geoleaflet',
-      type: 'map',
+      type: 'geoleaflet',
       thumbnail: '/images/map.png',
       datasets: [
         {
@@ -418,7 +418,8 @@
             "name": "default",
             "contentType": "text/csv",
             "visualizationType": vizType,
-            "fields": []
+            "fields": [],
+            "vizOptions": scope.$parent.selectedRenderer.vizOptions
           };
           console.log(scope);
           console.log(scope.$parent.selectedDataset);
@@ -449,7 +450,6 @@
             };
             console.log('Setting vizDef...');
             $rootScope.vizshareDef = JSON.stringify([jsonSettings]);
-            scope.$parent.vizshareDef = JSON.stringify([jsonSettings]);
             console.log(scope);
             console.log(scope.$parent);
             console.log(scope.$parent.vizshareDef);
