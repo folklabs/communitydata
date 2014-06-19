@@ -227,21 +227,12 @@
             return scale;
         },
 
-        addMarkToMap = function (markConfig, map, dataHelper, dataLookup, scalesLookup, latLongPoints) {
+        addMarkToMap = function (markConfig, map, dataHelper, dataLookup, scalesLookup) {
             var markConfig = markConfig || {},
-                markType = markConfig.type,
-                markerType = "circle";
+                markType = markConfig.type;
 
             switch (markType) {
                 case "latlongcircle":
-                case "latlongmarker":
-
-                    if (markType === "latlongcircle") {
-                        markerType = "circle";
-                    } else {
-                        markerType = "marker";
-                    }
-
                     features = dataToPointGeoJSON(markConfig, dataHelper, dataLookup, scalesLookup);
 
                     L.geoJson(features, {
@@ -249,12 +240,9 @@
                             var feature = feature || {},
                                 featureProperties = feature.properties || {},
                                 geojsonMarkerOptions = {};
-
-                            latLongPoints.extend(latlng);
                             // Create marker
                             var marker = null;
-                            //if (featureProperties.circle === 'true') {
-                            if (markerType === "circle") {
+                            if (featureProperties.circle === 'true') {
                                 // Fill colour
                                 if (typeof featureProperties.fill !== "undefined") {
                                    geojsonMarkerOptions.color = featureProperties.fill;
@@ -278,7 +266,7 @@
             }
         },
 
-        addMarksToMap = function (map, dataHelper, dataLookup, vizSettings, latLongPoints) {
+        addMarksToMap = function (map, dataHelper, dataLookup, vizSettings) {
             console.log(vizSettings);
             // Uses the data settings to add features to map
             var dataSettings = dataHelper.getDataSettings(),
@@ -298,7 +286,7 @@
 
             // Generate marks
             $.each(markConfigs, function (index, markConfig) {
-                addMarkToMap(markConfig, map, dataHelper, dataLookup, scalesLookup, latLongPoints);
+                addMarkToMap(markConfig, map, dataHelper, dataLookup, scalesLookup);
             });
 
             // $.each(dataSettings, function (index, dataset) {
@@ -332,8 +320,7 @@
         renderFuncGeoLeaflet = function (selector, dataHelper, vizSettings) {
             // References to look up in the data settings
             var domElem = $(selector).get(0),
-                map = L.map(domElem),//.setView([51.505, -0.09], 13),
-                latLongPoints = L.latLngBounds([]);
+                map = L.map(domElem).setView([51.505, -0.09], 13);
 
             // Set the background tiles
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -357,8 +344,7 @@
                     //dataSettings[index]["_data"] = data;
                 });
                 //console.log(dataSettings);
-                addMarksToMap(map, dataHelper, dataLookup, vizSettings, latLongPoints);
-                map.fitBounds(latLongPoints.pad(0.1));
+                addMarksToMap(map, dataHelper, dataLookup, vizSettings);
             });
 
             function csv(path, callback) {

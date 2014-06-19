@@ -294,21 +294,24 @@
 
   STEPS = ['Datasets', 'Visualization type', 'Columns', 'Visualize!'];
 
-  vizBuilder.directive('initModel', function() {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attrs) {
-        console.log('directive initModel');
-        scope.imagePath = element.attr('image-path');
-        console.log(element[0].value);
-        scope.vizshareDef = element[0].value;
-        element.attr('ng-model', 'vizshareDef');
-        element.removeAttr('init-model');
-        console.log('scope');
-        return console.log(scope);
-      }
-    };
-  });
+  vizBuilder.directive('initModel', [
+    '$compile', function($compile) {
+      return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+          console.log('directive initModel');
+          scope.imagePath = element.attr('image-path');
+          console.log(element[0].value);
+          scope.vizshareDef = element[0].value;
+          element.attr('ng-model', 'vizshareDef');
+          element.removeAttr('init-model');
+          $compile(element)(scope);
+          console.log('scope');
+          return console.log(scope);
+        }
+      };
+    }
+  ]);
 
   vizBuilder.directive('wizardProgressBar', function() {
     return {
@@ -323,6 +326,14 @@
       },
       templateUrl: '/views/wizard-progress-bar.html'
     };
+  });
+
+  vizBuilder.controller("VizDefController", function($scope, $rootScope) {
+    console.log('VizDefController');
+    $scope.state = {};
+    return $rootScope.$watch('vizshareDef', function(newVal, old) {
+      return $scope.state.vizshareDef = newVal;
+    });
   });
 
   vizBuilder.controller("VizBuilderController", function($scope) {
@@ -395,52 +406,59 @@
     };
   });
 
-  vizBuilder.directive('visualization', function() {
-    return {
-      restrict: 'AE',
-      link: function(scope, element, attrs) {
-        var endPoint, jsonSettings, vizType;
-        console.log('directive visualization');
-        vizType = scope.$parent.selectedRenderer.type;
-        jsonSettings = {
-          "name": "default",
-          "contentType": "text/csv",
-          "visualizationType": vizType,
-          "fields": []
-        };
-        console.log(scope);
-        console.log(scope.$parent.selectedDataset);
-        console.log(scope.$parent.selectedRenderer);
-        return endPoint = scope.$parent.selectedDataset.getDataEndpoint(function(endpoint) {
-          var f, fieldData, renderOpt, _i, _len, _ref;
-          console.log(endpoint);
-          jsonSettings['url'] = endpoint;
-          _ref = scope.$parent.selectedRenderer.datasets[0].fields;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            f = _ref[_i];
-            console.log(f.col);
-            fieldData = {
-              vizField: f.vizField,
-              dataField: f.col['fieldRef']
-            };
-            jsonSettings.fields.push(fieldData);
-          }
-          console.log('jsonSettings:');
-          console.log(JSON.stringify(jsonSettings));
-          element.css('width', '900px');
-          element.css('height', '500px');
-          renderOpt = {
-            selector: '#map',
-            rendererName: scope.$parent.selectedRenderer['rendererName'],
-            data: [jsonSettings],
-            vizOptions: scope.$parent.selectedRenderer.vizOptions
+  vizBuilder.directive('visualization', [
+    '$rootScope', function($rootScope) {
+      return {
+        restrict: 'AE',
+        link: function(scope, element, attrs) {
+          var endPoint, jsonSettings, vizType;
+          console.log('directive visualization');
+          vizType = scope.$parent.selectedRenderer.type;
+          jsonSettings = {
+            "name": "default",
+            "contentType": "text/csv",
+            "visualizationType": vizType,
+            "fields": []
           };
-          scope.$parent.vizshareDef = JSON.stringify([jsonSettings]);
-          return element.vizshare(renderOpt);
-        });
-      }
-    };
-  });
+          console.log(scope);
+          console.log(scope.$parent.selectedDataset);
+          console.log(scope.$parent.selectedRenderer);
+          return endPoint = scope.$parent.selectedDataset.getDataEndpoint(function(endpoint) {
+            var f, fieldData, renderOpt, _i, _len, _ref;
+            console.log(endpoint);
+            jsonSettings['url'] = endpoint;
+            _ref = scope.$parent.selectedRenderer.datasets[0].fields;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              f = _ref[_i];
+              console.log(f.col);
+              fieldData = {
+                vizField: f.vizField,
+                dataField: f.col['fieldRef']
+              };
+              jsonSettings.fields.push(fieldData);
+            }
+            console.log('jsonSettings:');
+            console.log(JSON.stringify(jsonSettings));
+            element.css('width', '900px');
+            element.css('height', '500px');
+            renderOpt = {
+              selector: '#map',
+              rendererName: scope.$parent.selectedRenderer['rendererName'],
+              data: [jsonSettings],
+              vizOptions: scope.$parent.selectedRenderer.vizOptions
+            };
+            console.log('Setting vizDef...');
+            $rootScope.vizshareDef = JSON.stringify([jsonSettings]);
+            scope.$parent.vizshareDef = JSON.stringify([jsonSettings]);
+            console.log(scope);
+            console.log(scope.$parent);
+            console.log(scope.$parent.vizshareDef);
+            return element.vizshare(renderOpt);
+          });
+        }
+      };
+    }
+  ]);
 
   vizBuilder.controller("VisualizationController", function($scope, RendererService) {
     return $scope.renderers = RendererService.getRenderers();

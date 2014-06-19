@@ -28,7 +28,10 @@
       <form ng-app="vizBuilder">
         <div class="container" ng-controller="VizBuilderController" ng-view=""></div>
         <div class="form-item form-type-textarea form-item-vizshare-definition">
-          <div class="form-textarea-wrapper resizable"><textarea init-model="" image-path="foo" class="form-textarea form-control" name="vizshare_definition" id="edit-vizshare-definition" cols="60" rows="5">[{"name":"default","contentType":"text/csv","visualizationType":"piechart","fields":[{"vizField":"name","dataField":"Country"},{"vizField":"value","dataField":"Number"}],"url":"http://0.0.0.0:6543/api/beta/datatables/country/raw"}]</textarea></div>
+
+          <div class="container" ng-controller="VizDefController">
+          <input ng-model="state.vizshareDef" name="anim" class="my-input">
+          </div>
           </div>
       </form>
     </div>

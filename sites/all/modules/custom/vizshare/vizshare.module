@@ -106,16 +106,18 @@ function vizshare_builder_form($form, &$form_state) {
   // dpm($vizDef->field_ov_visualization_data);
   $form['divapp'] = array(
     '#markup' => '
-<div ng-view></div>
+<div ng-controller="VizBuilderController" ng-view></div>
 ',
     '#weight' => -1,
   );
   $form['vizshare_definition'] = array(
     '#type' => 'textarea',
     '#attributes' => array(
-      'init-model' => '',
-      'image-path' => '/' . drupal_get_path('module', 'vizshare') . '/vizbuilder'
+      // 'init-model' => '',
+      'image-path' => '/' . drupal_get_path('module', 'vizshare') . '/vizbuilder',
       // 'ng-value' => 'vizshareDef'
+      'ng-model' => 'state.vizshareDef',
+      'ng-controller'=>'VizDefController',
       // TODO: uncomment this to hide for form box
       // 'style' => 'display: none'
     ),
@@ -144,7 +146,7 @@ function vizshare_builder_form_submit($form, &$form_state) {
 
   $_SESSION['vizshare_definition'] = $form['vizshare_definition']['#value'];
 
-  // dpm($form_state);
+  dpm($form_state);
   drupal_goto('node/add/ov-visualisation');
 }
 
@@ -284,9 +286,15 @@ function vizshare_field_formatter_view($entity_type, $entity, $field, $instance,
   // kpr($items);
   drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/d3.js', array('weight' => 1));
   drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/vega.js', array('weight' => 2));
-  drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/vizshare-0.1.0.js', array('weight' => 3));
-  drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/vizshare-renderers-0.1.0.js', array('weight' => 4));
-  drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/vizshare.drupal.js', array('weight' => 5));
+  drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/queue.v1.min.js', array('weight' => 4));
+  drupal_add_js(drupal_get_path('module', 'vizshare') .'/leaflet/leaflet.js', array('weight' => 3));
+  drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/vizshare-0.1.0.js', array('weight' => 5));
+  drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/vizshare-renderers-0.1.0.js', array('weight' => 6));
+  drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/vizshare-renderer-geoleaflet-0.1.0.js', array('weight' => 7));
+  drupal_add_js(drupal_get_path('module', 'vizshare') .'/js/vizshare.drupal.js', array('weight' => 8));
+
+  drupal_add_css(drupal_get_path('module', 'vizshare') . '/leaflet/leaflet.css');
+  // drupal_add_css(drupal_get_path('module', 'vizshare') . '/vizbuilder/styles/datatable.css');
 
   $settings = $display['settings'];
   $element = array();
