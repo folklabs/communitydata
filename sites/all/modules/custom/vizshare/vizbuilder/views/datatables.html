@@ -1,28 +1,46 @@
 <h2>Choose datasets</h2>
-<wizard-progress-bar active-step='Datasets'></wizard-progress-bar>
+<wizard-progress-bar active-step='datasets'></wizard-progress-bar>
 <div class='buttons'>
 <a href='#/select-type'>
 <div class='btn btn-primary pull-right'>Select visualization type</div>
 </a>
 </div>
-<div class='content'>
-<!-- %p Browse datasets: -->
-<div class='list-group'>
+<h4>Add one or more datasets you wish to visualize by clicking the <span class="glyphicon glyphicon-plus-sign"></span> button.</h4>
+<hr>
+<div class='row'>
+<div class='list-group col-md-8'>
 <div class='list-group-item' ng-repeat="dataset in datatables | orderBy:'label'">
 <h4 class='title'>{{dataset.label}}</h4>
-<div class='btn btn-success' ng-class='dataset.btnState' ng-click='select(dataset)'>{{ !dataset.selected && 'Select' || 'Remove' }}</div>
-<p>Categories:</p>
-<!-- .source Source {{dataset.dataSource.url}} -->
+<p class='pull-right'>
+<strong class='placeholder'>Added:</strong>
+"date"
+</p>
+<p>
+<strong class='placeholder'>Source:</strong>
+"org name"
+</p>
+<p class='pull-right'>
+<strong class='placeholder'>Updated:</strong>
+"date"
+</p>
+<p>
+<strong class='placeholder'>Source URL:</strong>
+"link"
+</p>
+<div class='btn btn-success pull-right' ng-class='dataset.btnState' ng-click='select(dataset)'>{{ !dataset.selected && 'Select' || 'Remove' }}</div>
+<p>Columns available:</p>
+<div class='label label-default' ng-repeat='col in columns'>{{ col }}</div>
 </div>
 </div>
-</div>
-<div class='sidebar-right'>
-<div class='selected-data'>
-<h4>Selected datasets</h4>
-<ul ng-repeat='dataset in datatables | filter: {selected: true}'>
-<li>
+<div class='col-md-4'>
+<div class='selected-data panel panel-primary'>
+<div class='panel-heading'>Selected datasets</div>
+<ul class='list-group'>
+<li class='list-group-item' ng-repeat='dataset in datatables | filter: {selected: true}'>
 {{dataset.label}}
+<div class='btn btn-default pull-right' ng-click='select(dataset)'>Remove</div>
 </li>
 </ul>
+</div>
 </div>
 </div>

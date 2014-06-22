@@ -95,6 +95,7 @@ function vizshare_builder_form($form, &$form_state) {
   );
   $form['#attached']['css'] = array(
     drupal_get_path('module', 'vizshare') . '/vizbuilder/styles/datatable.css',
+    drupal_get_path('module', 'vizshare') . '/vizbuilder/styles/main.css',
     drupal_get_path('module', 'vizshare') . '/leaflet/leaflet.css',
   );
   // dpm($form_state['build_info']);
@@ -104,8 +105,10 @@ function vizshare_builder_form($form, &$form_state) {
   }
   // dpm($vizDef);
   // dpm($vizDef->field_ov_visualization_data);
+  // <div ng-controller="VizBuilderController" image-path="' . drupal_get_path('module', 'vizshare') . '/vizbuilder' . '" ng-view></div>
   $form['divapp'] = array(
     '#markup' => '
+
 <div ng-controller="VizBuilderController" ng-view></div>
 ',
     '#weight' => -1,
@@ -113,10 +116,10 @@ function vizshare_builder_form($form, &$form_state) {
   $form['vizshare_definition'] = array(
     '#type' => 'textarea',
     '#attributes' => array(
-      // 'init-model' => '',
+      'init-model' => '',
       'image-path' => '/' . drupal_get_path('module', 'vizshare') . '/vizbuilder',
       // 'ng-value' => 'vizshareDef'
-      'ng-model' => 'state.vizshareDef',
+      'ng-model' => 'state.vizDef',
       'ng-controller'=>'VizDefController',
       // TODO: uncomment this to hide for form box
       // 'style' => 'display: none'
@@ -125,7 +128,8 @@ function vizshare_builder_form($form, &$form_state) {
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Save'
+    '#value' => 'Save',
+    '#attributes' => array('style' => 'display: none'),
   );
 
   $settings = array(
@@ -146,7 +150,7 @@ function vizshare_builder_form_submit($form, &$form_state) {
 
   $_SESSION['vizshare_definition'] = $form['vizshare_definition']['#value'];
 
-  dpm($form_state);
+  // dpm($form_state);
   drupal_goto('node/add/ov-visualisation');
 }
 
@@ -326,14 +330,24 @@ function vizshare_field_formatter_view($entity_type, $entity, $field, $instance,
         $viz_json = drupal_json_decode($viz['value']);
         $vizType = $viz_json[0]['visualizationType'];
 
+        $src = drupal_get_path('module', 'vizshare') . '/images/thmb-' . $vizType . '.png';
+        $markup = '<img src="' . $src . '" style="height: 100px; width: 100px"></img>';
+        // See if icon image should link to the source node
+        if ($settings['link']) {
+          $markup = '<a href="">' . $markup . '</a>';
+        }
         $element[$delta] = array(
-          '#type' => 'html_tag',
-          '#tag' => 'img',
-          '#attributes' => array(
-            'src' => drupal_get_path('module', 'vizshare') . '/images/thmb-' . $vizType . '.png',
-            'style' => 'height: 100px; width: 100px',
-          ),
+          '#markup' => $markup,
         );
+        // $element[$delta] = array(
+        //   '#type' => 'html_tag',
+        //   '#tag' => 'img',
+        //   '#attributes' => array(
+        //     'src' => drupal_get_path('module', 'vizshare') . '/images/thmb-' . $vizType . '.png',
+        //     // TODO: fix size config
+        //     'style' => 'height: 100px; width: 100px',
+        //   ),
+        // );
       }
       break;
   }

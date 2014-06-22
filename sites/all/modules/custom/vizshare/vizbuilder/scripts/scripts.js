@@ -1,9 +1,11 @@
 (function() {
-  var DATA_UNITY_URL, vizBuilder;
+  var DATA_UNITY_HOST, DATA_UNITY_URL, vizBuilder;
 
   DATA_UNITY_URL = 'http://0.0.0.0:6543/api/beta';
 
-  DATA_UNITY_URL = 'http://data-unity.com/api/beta';
+  DATA_UNITY_HOST = 'http://data-unity.com';
+
+  DATA_UNITY_URL = DATA_UNITY_HOST + '/api/beta';
 
   vizBuilder = angular.module("vizBuilder", ['restangular']);
 
@@ -62,23 +64,28 @@
 
   vizBuilder = angular.module('vizBuilder');
 
-  vizBuilder.factory('DatatableService', function($q, $timeout, $http, Restangular) {
+  vizBuilder.factory('DatatableService', function($q, $timeout, $http, Restangular, $rootScope) {
     Restangular.extendModel('datatables', function(model) {
       model.fetchFields = function() {
         var id, structPromise, structureDefURL;
-        console.log('fetchFields');
-        console.log(model);
         if (!model.structData) {
           structureDefURL = model['structure'];
-          console.log(structureDefURL);
           id = structureDefURL.substring(structureDefURL.lastIndexOf('/') + 1);
-          console.log(id);
           structPromise = Restangular.one('qb/datastructdefs', id).get();
           return structPromise.then(function(structData) {
-            console.log(structData);
             return model.structure = structData;
           });
         }
+      };
+      model.createGroupAggregateDataTable = function(groupField, aggField) {
+        var deferred, tableCreated;
+        deferred = $q.defer();
+        dataunity.config.setBaseUrl('http://data-unity.com');
+        tableCreated = dataunity.querytemplate.createGroupAggregateDataTable('name', this['@id'], groupField, aggField);
+        tableCreated.done(function(dataTableURL) {
+          return $rootScope.$apply(deferred.resolve(dataTableURL));
+        });
+        return deferred.promise;
       };
       model._poll = function(url, callback) {
         console.log('poll: ' + url);
@@ -132,9 +139,24 @@
     });
     return {
       fetchTables: function() {
-        var promise;
-        promise = Restangular.all('datatablecatalogs/public').getList();
-        return promise;
+        var deferred, gotList;
+        deferred = $q.defer();
+        gotList = Restangular.all('datatablecatalogs/public').getList();
+        gotList.then(function(data) {
+          var dataTables;
+          dataTables = data.map(function(tableRef) {
+            var dataTable;
+            dataTable = Restangular.one(tableRef['@id']);
+            dataTable['@id'] = tableRef['@id'];
+            dataTable.label = tableRef.label;
+            return dataTable;
+          });
+          console.log($rootScope);
+          return $timeout(function() {
+            return deferred.resolve(dataTables);
+          });
+        });
+        return deferred.promise;
       },
       fetchTable: function(tableRef) {
         var dtPromise, id, tableURL;
@@ -154,8 +176,10 @@
   renderers = [
     {
       rendererName: 'vizshare.barchart',
+      label: 'Bar chart',
+      description: 'A bar chart or bar graph is a chart with rectangular bars with lengths proportional to the quantitative values that they represent.',
       type: 'barchart',
-      thumbnail: '/images/chart_bar.png',
+      thumbnail: '/images/thmb-barchart-245px.png',
       datasets: [
         {
           name: 'dataset1',
@@ -175,8 +199,10 @@
       vizOptions: {}
     }, {
       rendererName: 'vizshare.piechart',
+      label: 'Pie chart',
+      description: 'A pie chart is a circular chart divided into sectors, illustrating numerical proportion. In a pie chart, the arc length of each sector (and consequently its central angle and area), is proportional to the quantity it represents.',
       type: 'piechart',
-      thumbnail: '/images/chart_pie.png',
+      thumbnail: '/images/thmb-donutchart-245px.png',
       datasets: [
         {
           name: 'dataset1',
@@ -196,8 +222,10 @@
       vizOptions: {}
     }, {
       rendererName: 'vizshare.geoleaflet',
+      label: 'Map plot',
+      description: 'Maps are symbolic depictions highlighting the relationships between elements such as objects, regions and themes within a territorial space.',
       type: 'geoleaflet',
-      thumbnail: '/images/map.png',
+      thumbnail: '/images/thmb-map-location-245px.png',
       datasets: [
         {
           name: 'dataset1',
@@ -292,7 +320,21 @@
 
   vizBuilder = angular.module("vizBuilder");
 
-  STEPS = ['Datasets', 'Visualization type', 'Columns', 'Visualize!'];
+  STEPS = [
+    {
+      name: 'datasets',
+      text: 'Select datasets'
+    }, {
+      name: 'type',
+      text: 'Select visualization type'
+    }, {
+      name: 'columns',
+      text: 'Select data columns'
+    }, {
+      name: 'visualize',
+      text: 'Edit visualization'
+    }
+  ];
 
   vizBuilder.directive('initModel', [
     '$compile', function($compile) {
@@ -300,10 +342,10 @@
         restrict: 'A',
         link: function(scope, element, attrs) {
           console.log('directive initModel');
-          scope.imagePath = element.attr('image-path');
+          scope.$parent.imagePath = element.attr('image-path');
           console.log(element[0].value);
-          scope.vizshareDef = element[0].value;
-          element.attr('ng-model', 'vizshareDef');
+          scope.vizDef = element[0].value;
+          element.attr('ng-model', 'vizDef');
           element.removeAttr('init-model');
           $compile(element)(scope);
           console.log('scope');
@@ -317,12 +359,8 @@
     return {
       restrict: 'AE',
       link: function(scope, element, attrs) {
-        console.log('directive wizardProgressBar');
-        console.log(attrs);
         scope.activeStep = attrs.activeStep;
-        scope.steps = STEPS;
-        console.log('scope');
-        return console.log(scope);
+        return scope.steps = STEPS;
       },
       templateUrl: '/views/wizard-progress-bar.html'
     };
@@ -331,17 +369,18 @@
   vizBuilder.controller("VizDefController", function($scope, $rootScope) {
     console.log('VizDefController');
     $scope.state = {};
-    return $rootScope.$watch('vizshareDef', function(newVal, old) {
-      return $scope.state.vizshareDef = newVal;
+    return $rootScope.$watch('vizDef', function(newVal, old) {
+      return $scope.state.vizDef = newVal;
     });
   });
 
   vizBuilder.controller("VizBuilderController", function($scope) {
+    // $scope.imagePath = element.attr('image-path');
     return console.log('VizBuilderController');
   });
 
   vizBuilder.controller("DatatableController", function($scope, DatatableService) {
-    var promise;
+    var tablesFetched;
     $scope.select = function(dataset) {
       dataset.selected = !dataset.selected;
       $scope.$parent.selectedDataset = dataset;
@@ -351,9 +390,11 @@
         return dataset.btnState = 'btn-danger';
       }
     };
-    promise = DatatableService.fetchTables();
-    return promise.then(function(data) {
-      return $scope.datatables = data;
+    tablesFetched = DatatableService.fetchTables();
+    return tablesFetched.then(function(data) {
+      console.log('tablesFetched');
+      $scope.datatables = data;
+      return console.log(data);
     });
   });
 
@@ -421,25 +462,18 @@
             "fields": [],
             "vizOptions": scope.$parent.selectedRenderer.vizOptions
           };
-          console.log(scope);
-          console.log(scope.$parent.selectedDataset);
-          console.log(scope.$parent.selectedRenderer);
           return endPoint = scope.$parent.selectedDataset.getDataEndpoint(function(endpoint) {
             var f, fieldData, renderOpt, _i, _len, _ref;
-            console.log(endpoint);
             jsonSettings['url'] = endpoint;
             _ref = scope.$parent.selectedRenderer.datasets[0].fields;
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               f = _ref[_i];
-              console.log(f.col);
               fieldData = {
                 vizField: f.vizField,
                 dataField: f.col['fieldRef']
               };
               jsonSettings.fields.push(fieldData);
             }
-            console.log('jsonSettings:');
-            console.log(JSON.stringify(jsonSettings));
             element.css('width', '900px');
             element.css('height', '500px');
             renderOpt = {
@@ -448,11 +482,7 @@
               data: [jsonSettings],
               vizOptions: scope.$parent.selectedRenderer.vizOptions
             };
-            console.log('Setting vizDef...');
-            $rootScope.vizshareDef = JSON.stringify([jsonSettings]);
-            console.log(scope);
-            console.log(scope.$parent);
-            console.log(scope.$parent.vizshareDef);
+            $rootScope.vizDef = JSON.stringify([jsonSettings]);
             return element.vizshare(renderOpt);
           });
         }

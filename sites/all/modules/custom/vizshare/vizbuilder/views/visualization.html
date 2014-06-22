@@ -1,7 +1,11 @@
 <h2>Edit visualisation</h2>
-<wizard-progress-bar active-step='Visualize!'></wizard-progress-bar>
+<wizard-progress-bar active-step='visualize'></wizard-progress-bar>
+<div class='buttons'>
+<input class='btn btn-primary pull-right' id='edit-submit' name='op' type='submit' value='Save'>
 <a href='#/select-columns'>
-<div class='btn btn-primary'>Back</div>
+<div class='btn btn-default'>Back</div>
 </a>
-<!-- .btn.btn-primary{'ng-click' => 'drawMap()'} Draw map -->
+</div>
+<h4>Edit the physical attributes of your visualization.</h4>
+<hr>
 <div class='visualization' id='visualization' visualization></div>
