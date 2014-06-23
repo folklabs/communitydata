@@ -1,18 +1,23 @@
 <h2>Select columns</h2>
-<wizard-progress-bar active-step='Columns'></wizard-progress-bar>
+<wizard-progress-bar active-step='columns'></wizard-progress-bar>
+<div class='buttons'>
 <a href='#/visualization'>
 <div class='btn btn-primary pull-right'>Plot visualization</div>
 </a>
 <a href='#/select-type'>
-<div class='btn btn-primary'>Back</div>
+<div class='btn btn-default'>Back</div>
 </a>
+</div>
+<div class='row'>
 <div ng-if='structureAvailable'>
 <!-- TODO: datasets array access -->
-<div ng-repeat='field in $parent.selectedRenderer.datasets[0].fields'>
-<b>{{ field.vizField }}</b>
+<div class='col-md-8' ng-repeat='field in $parent.selectedRenderer.datasets[0].fields'>
+<h4>Assign column(s) to the {{ field.vizField }}</h4>
+<hr>
 <div class='list-group'></div>
 <a class='list-group-item' ng-class='{active: col.selected[field.vizField]}' ng-click='selectColForField(field, col)' ng-repeat="col in $parent.selectedDataset.structure.component | orderBy:'fieldRef'">
 {{ col.fieldRef }}
 </a>
+</div>
 </div>
 </div>

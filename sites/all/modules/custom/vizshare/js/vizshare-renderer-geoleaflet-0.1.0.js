@@ -332,7 +332,7 @@
         renderFuncGeoLeaflet = function (selector, dataHelper, vizSettings) {
             // References to look up in the data settings
             var domElem = $(selector).get(0),
-                map = L.map(domElem).setView([51.505, -0.09], 13),
+                map = L.map(domElem),//.setView([51.505, -0.09], 13),
                 latLongPoints = L.latLngBounds([]);
 
             // Set the background tiles

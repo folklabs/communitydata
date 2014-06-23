@@ -24,6 +24,7 @@ function vizshare_field_formatter_info() {
     'field types' => array('vizshare_value'),
     'settings' => array(
       'height' => 200,
+      'link' => false,
     )
   );
 
@@ -46,6 +47,13 @@ function vizshare_field_formatter_settings_form($field, $instance, $view_mode, $
     '#default_value' => $settings['height'],
     '#field_suffix' => t('px'),
     '#element_validate' => array('element_validate_integer_positive'),
+  );
+  $element['link'] = array(
+    '#title' => t('Link to source'),
+    '#type' => 'bool',
+    '#default_value' => $settings['link'],
+    // '#field_suffix' => t('px'),
+    // '#element_validate' => array('element_validate_integer_positive'),
   );
 
   return $element;

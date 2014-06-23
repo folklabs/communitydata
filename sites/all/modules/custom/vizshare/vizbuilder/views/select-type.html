@@ -1,19 +1,22 @@
 <h2>Choose visualisation</h2>
-<wizard-progress-bar active-step='Visualization type'></wizard-progress-bar>
+<wizard-progress-bar active-step='type'></wizard-progress-bar>
 <div class='buttons'>
 <a href='#/select-columns'>
 <div class='btn btn-primary pull-right'>Choose columns</div>
 </a>
 <a href='#/'>
-<div class='btn btn-primary'>Back</div>
+<div class='btn btn-default'>Back</div>
 </a>
 </div>
-<div class='explorer'>
-<ul>
-<li class='renderer' ng-repeat='renderer in renderers'>
-<h4>{{ renderer.rendererName }}</h4>
-<img ng-class='{selected: renderer.selected}' ng-click='selectRenderer(renderer)' src='{{ $parent.imagePath }}{{ renderer.thumbnail }}'>
-</li>
-</ul>
+<h4>Select the type of visualization you wish to create.</h4>
+<hr>
+<div class='row'>
+<div class='col-sm-6 col-md-3' ng-repeat='renderer in renderers'>
+<div class='thumbnail' ng-class='{selected: renderer.selected}' ng-click='selectRenderer(renderer)'>
+<img class='renderer' src='{{ $parent.imagePath }}{{ renderer.thumbnail }}'>
+<h4>{{ renderer.label }}</h4>
+<p>{{ renderer.description }}</p>
+</div>
+</div>
 <div class='vb-view'></div>
 </div>
