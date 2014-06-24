@@ -37,7 +37,8 @@ function openviz_visualisation_flag_default_flags() {
     'title' => 'Favorites',
     'global' => 0,
     'types' => array(
-      0 => 'ov_visualisation',
+      0 => 'ov_review',
+      1 => 'ov_visualisation',
     ),
     'flag_short' => 'Save as favourite',
     'flag_long' => '',
