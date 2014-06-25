@@ -9,18 +9,10 @@
  */
 function openviz_visualisation_taxonomy_default_vocabularies() {
   return array(
-    'ov_categories' => array(
-      'name' => 'Categories',
-      'machine_name' => 'ov_categories',
-      'description' => '',
-      'hierarchy' => 0,
-      'module' => 'taxonomy',
-      'weight' => 0,
-    ),
-    'ov_tags' => array(
-      'name' => 'Tags',
-      'machine_name' => 'ov_tags',
-      'description' => '',
+    'ov_visualization_type' => array(
+      'name' => 'Type',
+      'machine_name' => 'ov_visualization_type',
+      'description' => 'Visualization Type Vocabulary',
       'hierarchy' => 0,
       'module' => 'taxonomy',
       'weight' => 0,
