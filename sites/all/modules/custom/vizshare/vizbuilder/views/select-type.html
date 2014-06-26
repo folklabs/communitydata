@@ -12,7 +12,7 @@
 <hr>
 <div class='row'>
 <div class='col-sm-6 col-md-3' ng-repeat='renderer in renderers'>
-<div class='thumbnail' ng-class='{selected: renderer.selected}' ng-click='selectRenderer(renderer)'>
+<div class='thumbnail' ng-class='{active: renderer.selected}' ng-click='selectRenderer(renderer)'>
 <img class='renderer' src='{{ $parent.imagePath }}{{ renderer.thumbnail }}'>
 <h4>{{ renderer.label }}</h4>
 <p>{{ renderer.description }}</p>

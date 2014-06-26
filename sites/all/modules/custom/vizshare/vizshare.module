@@ -72,7 +72,8 @@ function vizshare_builder_form($form, &$form_state) {
   $form = array();
   // Define the form to be the Angular root app
   $form['#attributes'] = array(
-    'ng-app' => 'vizBuilder'
+    'ng-app' => 'vizBuilder',
+    'class' => 'viz-builder'
   );
 
   //TODO: move to libraries

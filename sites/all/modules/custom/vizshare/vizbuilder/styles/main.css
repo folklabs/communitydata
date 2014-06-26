@@ -54,6 +54,12 @@ wizard-progress-bar .complete:after {
   border: 2px solid red;
 }
 
+/* line 74, ../../app/styles/_vizbuilder.scss */
+.viz-builder .label {
+  display: inline-block;
+  margin-right: 5px;
+}
+
 /* line 7, ../../app/styles/main.scss */
 .placeholder {
   background: #F8E0E0;
