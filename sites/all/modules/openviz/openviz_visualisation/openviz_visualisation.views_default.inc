@@ -188,6 +188,30 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['sorts']['name']['table'] = 'taxonomy_term_data';
   $handler->display->display_options['sorts']['name']['field'] = 'name';
   $handler->display->display_options['sorts']['name']['relationship'] = 'field_ov_categories_tid';
+
+  /* Display: OpenViz Favourite Selector Pane */
+  $handler = $view->new_display('panel_pane', 'OpenViz Favourite Selector Pane', 'panel_pane_4');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Favourites';
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Flags: ov_favorites */
+  $handler->display->display_options['relationships']['flag_content_rel']['id'] = 'flag_content_rel';
+  $handler->display->display_options['relationships']['flag_content_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
+  $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'ov_favorites';
+  $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
+  /* Relationship: Flags: ov_favorites counter */
+  $handler->display->display_options['relationships']['flag_count_rel']['id'] = 'flag_count_rel';
+  $handler->display->display_options['relationships']['flag_count_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['flag_count_rel']['field'] = 'flag_count_rel';
+  $handler->display->display_options['relationships']['flag_count_rel']['flag'] = 'ov_favorites';
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Flags: Flag counter */
+  $handler->display->display_options['sorts']['count']['id'] = 'count';
+  $handler->display->display_options['sorts']['count']['table'] = 'flag_counts';
+  $handler->display->display_options['sorts']['count']['field'] = 'count';
+  $handler->display->display_options['sorts']['count']['relationship'] = 'flag_count_rel';
+  $handler->display->display_options['sorts']['count']['order'] = 'DESC';
   $export['openviz_selectors'] = $view;
 
   $view = new view();
@@ -653,6 +677,12 @@ function openviz_visualisation_views_default_views() {
     'style' => 'average',
     'text' => 'average',
   );
+  /* Field: Content: OV Type */
+  $handler->display->display_options['fields']['field_ov_type']['id'] = 'field_ov_type';
+  $handler->display->display_options['fields']['field_ov_type']['table'] = 'field_data_field_ov_type';
+  $handler->display->display_options['fields']['field_ov_type']['field'] = 'field_ov_type';
+  $handler->display->display_options['fields']['field_ov_type']['label'] = '';
+  $handler->display->display_options['fields']['field_ov_type']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
