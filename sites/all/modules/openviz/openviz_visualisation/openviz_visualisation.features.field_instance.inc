@@ -201,6 +201,49 @@ function openviz_visualisation_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ov_visualisation-field_ov_type'
+  $field_instances['node-ov_visualisation-field_ov_type'] = array(
+    'bundle' => 'ov_visualisation',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 6,
+      ),
+      'featured' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ov_type',
+    'label' => 'OV Type',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 8,
+    ),
+  );
+
   // Exported field_instance: 'node-ov_visualisation-field_ov_visualization_data'
   $field_instances['node-ov_visualisation-field_ov_visualization_data'] = array(
     'bundle' => 'ov_visualisation',
@@ -249,19 +292,21 @@ function openviz_visualisation_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ov_visualisation-field_type'
-  $field_instances['node-ov_visualisation-field_type'] = array(
-    'bundle' => 'ov_visualisation',
-    'default_value' => NULL,
+  // Exported field_instance: 'taxonomy_term-ov_visualization_type-field_ov_icon'
+  $field_instances['taxonomy_term-ov_visualization_type-field_ov_icon'] = array(
+    'bundle' => 'ov_visualization_type',
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 5,
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 0,
       ),
       'featured' => array(
         'label' => 'above',
@@ -269,26 +314,43 @@ function openviz_visualisation_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
     ),
-    'entity_type' => 'node',
-    'field_name' => 'field_type',
-    'label' => 'Type',
+    'entity_type' => 'taxonomy_term',
+    'field_name' => 'field_ov_icon',
+    'label' => 'OV Icon',
     'required' => 0,
     'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 0,
+      'file_directory' => '',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 7,
+      'module' => 'image',
+      'settings' => array(
+        'manualcrop_crop_info' => 1,
+        'manualcrop_default_crop_area' => 1,
+        'manualcrop_enable' => 0,
+        'manualcrop_inline_crop' => 0,
+        'manualcrop_instant_crop' => 0,
+        'manualcrop_instant_preview' => 1,
+        'manualcrop_keyboard' => 1,
+        'manualcrop_maximize_default_crop_area' => 0,
+        'manualcrop_require_cropping' => array(),
+        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => 0,
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'image_image',
+      'weight' => 31,
     ),
   );
 
@@ -296,9 +358,10 @@ function openviz_visualisation_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Categories');
+  t('OV Icon');
+  t('OV Type');
   t('Rating');
   t('Tags');
-  t('Type');
   t('Visualization data');
 
   return $field_instances;

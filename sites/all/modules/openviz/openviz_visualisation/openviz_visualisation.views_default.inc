@@ -122,7 +122,6 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  $handler->display->display_options['sorts']['created']['exposed'] = TRUE;
   $handler->display->display_options['sorts']['created']['expose']['label'] = 'Post date';
   /* Sort criterion: Content: Title */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
@@ -171,11 +170,20 @@ function openviz_visualisation_views_default_views() {
   $handler = $view->new_display('panel_pane', 'List', 'panel_pane_1');
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   /* Field: Content: Visualization data */
   $handler->display->display_options['fields']['field_ov_visualization_data']['id'] = 'field_ov_visualization_data';
   $handler->display->display_options['fields']['field_ov_visualization_data']['table'] = 'field_data_field_ov_visualization_data';
   $handler->display->display_options['fields']['field_ov_visualization_data']['field'] = 'field_ov_visualization_data';
   $handler->display->display_options['fields']['field_ov_visualization_data']['label'] = '';
+  $handler->display->display_options['fields']['field_ov_visualization_data']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_ov_visualization_data']['alter']['path'] = 'node/[nid]';
   $handler->display->display_options['fields']['field_ov_visualization_data']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ov_visualization_data']['type'] = 'vizshare_icon';
   $handler->display->display_options['fields']['field_ov_visualization_data']['settings'] = array(
@@ -214,16 +222,99 @@ function openviz_visualisation_views_default_views() {
     'style' => 'average',
     'text' => 'average',
   );
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ov_visualisation' => 'ov_visualisation',
+  );
+  /* Filter criterion: Content: Categories (field_ov_categories) */
+  $handler->display->display_options['filters']['field_ov_categories_tid']['id'] = 'field_ov_categories_tid';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['table'] = 'field_data_field_ov_categories';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['field'] = 'field_ov_categories_tid';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['operator_id'] = 'field_ov_categories_tid_op';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['label'] = 'Categories';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['operator'] = 'field_ov_categories_tid_op';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['identifier'] = 'field_ov_categories_tid';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+  );
+  $handler->display->display_options['filters']['field_ov_categories_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['vocabulary'] = 'ov_categories';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['error_message'] = FALSE;
+  /* Filter criterion: Content: Author uid */
+  $handler->display->display_options['filters']['uid']['id'] = 'uid';
+  $handler->display->display_options['filters']['uid']['table'] = 'node';
+  $handler->display->display_options['filters']['uid']['field'] = 'uid';
+  $handler->display->display_options['filters']['uid']['value'] = '';
+  $handler->display->display_options['filters']['uid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['uid']['expose']['operator_id'] = 'uid_op';
+  $handler->display->display_options['filters']['uid']['expose']['label'] = 'Author uid';
+  $handler->display->display_options['filters']['uid']['expose']['operator'] = 'uid_op';
+  $handler->display->display_options['filters']['uid']['expose']['identifier'] = 'uid';
+  $handler->display->display_options['filters']['uid']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+  );
+  $handler->display->display_options['filters']['uid']['is_grouped'] = TRUE;
+  $handler->display->display_options['filters']['uid']['group_info']['label'] = 'Author uid';
+  $handler->display->display_options['filters']['uid']['group_info']['identifier'] = 'uid';
+  $handler->display->display_options['filters']['uid']['group_info']['remember'] = FALSE;
+  /* Filter criterion: Content: Title */
+  $handler->display->display_options['filters']['title']['id'] = 'title';
+  $handler->display->display_options['filters']['title']['table'] = 'node';
+  $handler->display->display_options['filters']['title']['field'] = 'title';
+  $handler->display->display_options['filters']['title']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['label'] = 'Name';
+  $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
+  $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
+  $handler->display->display_options['filters']['title']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+  );
+  $handler->display->display_options['filters']['title']['expose']['autocomplete_items'] = '10';
+  $handler->display->display_options['filters']['title']['expose']['autocomplete_min_chars'] = '0';
+  $handler->display->display_options['filters']['title']['expose']['autocomplete_field'] = 'title';
+  $handler->display->display_options['filters']['title']['expose']['autocomplete_raw_suggestion'] = 1;
+  $handler->display->display_options['filters']['title']['expose']['autocomplete_raw_dropdown'] = 1;
+  $handler->display->display_options['filters']['title']['expose']['autocomplete_dependent'] = 0;
 
   /* Display: Top rated */
   $handler = $view->new_display('panel_pane', 'Top rated', 'panel_pane_2');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Top rated';
+  $handler->display->display_options['title'] = 'Top Visualizations';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['row_options']['inline'] = array(
+    'field_ov_icon' => 'field_ov_icon',
+    'counter' => 'counter',
+    'title' => 'title',
+  );
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Content: Vote results */
@@ -235,17 +326,32 @@ function openviz_visualisation_views_default_views() {
     'tag' => '',
     'function' => 'count',
   );
+  /* Relationship: Content: OV Type (field_ov_type) */
+  $handler->display->display_options['relationships']['field_ov_type_tid']['id'] = 'field_ov_type_tid';
+  $handler->display->display_options['relationships']['field_ov_type_tid']['table'] = 'field_data_field_ov_type';
+  $handler->display->display_options['relationships']['field_ov_type_tid']['field'] = 'field_ov_type_tid';
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Visualization data */
-  $handler->display->display_options['fields']['field_ov_visualization_data']['id'] = 'field_ov_visualization_data';
-  $handler->display->display_options['fields']['field_ov_visualization_data']['table'] = 'field_data_field_ov_visualization_data';
-  $handler->display->display_options['fields']['field_ov_visualization_data']['field'] = 'field_ov_visualization_data';
-  $handler->display->display_options['fields']['field_ov_visualization_data']['label'] = '';
-  $handler->display->display_options['fields']['field_ov_visualization_data']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ov_visualization_data']['type'] = 'vizshare_icon';
-  $handler->display->display_options['fields']['field_ov_visualization_data']['settings'] = array(
-    'height' => '400',
+  /* Field: Taxonomy term: OV Icon */
+  $handler->display->display_options['fields']['field_ov_icon']['id'] = 'field_ov_icon';
+  $handler->display->display_options['fields']['field_ov_icon']['table'] = 'field_data_field_ov_icon';
+  $handler->display->display_options['fields']['field_ov_icon']['field'] = 'field_ov_icon';
+  $handler->display->display_options['fields']['field_ov_icon']['relationship'] = 'field_ov_type_tid';
+  $handler->display->display_options['fields']['field_ov_icon']['label'] = '';
+  $handler->display->display_options['fields']['field_ov_icon']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ov_icon']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ov_icon']['settings'] = array(
+    'image_style' => '',
+    'image_link' => '',
   );
+  /* Field: Global: View result counter */
+  $handler->display->display_options['fields']['counter']['id'] = 'counter';
+  $handler->display->display_options['fields']['counter']['table'] = 'views';
+  $handler->display->display_options['fields']['counter']['field'] = 'counter';
+  $handler->display->display_options['fields']['counter']['label'] = '';
+  $handler->display->display_options['fields']['counter']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['counter']['alter']['text'] = '[counter].';
+  $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -253,30 +359,6 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: Content: Rating */
-  $handler->display->display_options['fields']['field_ov_rating']['id'] = 'field_ov_rating';
-  $handler->display->display_options['fields']['field_ov_rating']['table'] = 'field_data_field_ov_rating';
-  $handler->display->display_options['fields']['field_ov_rating']['field'] = 'field_ov_rating';
-  $handler->display->display_options['fields']['field_ov_rating']['label'] = '';
-  $handler->display->display_options['fields']['field_ov_rating']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ov_rating']['click_sort_column'] = 'rating';
-  $handler->display->display_options['fields']['field_ov_rating']['settings'] = array(
-    'widget' => array(
-      'fivestar_widget' => 'sites/all/modules/contrib/fivestar/widgets/basic/basic.css',
-    ),
-    'expose' => 0,
-    'style' => 'average',
-    'text' => 'none',
-  );
-  /* Field: Vote results: Value */
-  $handler->display->display_options['fields']['value']['id'] = 'value';
-  $handler->display->display_options['fields']['value']['table'] = 'votingapi_cache';
-  $handler->display->display_options['fields']['value']['field'] = 'value';
-  $handler->display->display_options['fields']['value']['relationship'] = 'votingapi_cache';
-  $handler->display->display_options['fields']['value']['label'] = '';
-  $handler->display->display_options['fields']['value']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['value']['precision'] = '0';
-  $handler->display->display_options['fields']['value']['suffix'] = ' votes';
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Rating (field_ov_rating:rating) */
   $handler->display->display_options['sorts']['field_ov_rating_rating']['id'] = 'field_ov_rating_rating';
@@ -310,78 +392,29 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'table';
-  $handler->display->display_options['style_options']['columns'] = array(
-    'field_ov_visualization_data' => 'field_ov_visualization_data',
-    'title' => 'title',
-    'name' => 'name',
-    'field_ov_rating' => 'name',
-    'created' => 'created',
-    'changed' => 'changed',
-    'body' => 'body',
-  );
-  $handler->display->display_options['style_options']['default'] = '-1';
-  $handler->display->display_options['style_options']['info'] = array(
-    'field_ov_visualization_data' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => 'views-align-left',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'title' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => 'views-align-center',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'name' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => 'views-align-right',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ov_rating' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'created' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => 'views-align-center',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'changed' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => 'views-align-center',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'body' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => 'views-align-center',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-  );
+  $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['path'] = 'node/[nid]';
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   /* Field: Content: Visualization data */
   $handler->display->display_options['fields']['field_ov_visualization_data']['id'] = 'field_ov_visualization_data';
   $handler->display->display_options['fields']['field_ov_visualization_data']['table'] = 'field_data_field_ov_visualization_data';
   $handler->display->display_options['fields']['field_ov_visualization_data']['field'] = 'field_ov_visualization_data';
   $handler->display->display_options['fields']['field_ov_visualization_data']['label'] = '';
+  $handler->display->display_options['fields']['field_ov_visualization_data']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['field_ov_visualization_data']['alter']['path'] = 'node/[nid]';
   $handler->display->display_options['fields']['field_ov_visualization_data']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ov_visualization_data']['type'] = 'vizshare_icon';
   $handler->display->display_options['fields']['field_ov_visualization_data']['settings'] = array(
@@ -394,28 +427,6 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Field: User: Name */
-  $handler->display->display_options['fields']['name']['id'] = 'name';
-  $handler->display->display_options['fields']['name']['table'] = 'users';
-  $handler->display->display_options['fields']['name']['field'] = 'name';
-  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['name']['label'] = 'Created by';
-  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
-  /* Field: Content: Rating */
-  $handler->display->display_options['fields']['field_ov_rating']['id'] = 'field_ov_rating';
-  $handler->display->display_options['fields']['field_ov_rating']['table'] = 'field_data_field_ov_rating';
-  $handler->display->display_options['fields']['field_ov_rating']['field'] = 'field_ov_rating';
-  $handler->display->display_options['fields']['field_ov_rating']['label'] = '';
-  $handler->display->display_options['fields']['field_ov_rating']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ov_rating']['click_sort_column'] = 'rating';
-  $handler->display->display_options['fields']['field_ov_rating']['settings'] = array(
-    'widget' => array(
-      'fivestar_widget' => 'default',
-    ),
-    'expose' => 0,
-    'style' => 'average',
-    'text' => 'average',
-  );
   /* Field: Content: Post date */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'node';
@@ -440,11 +451,82 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['fields']['body']['settings'] = array(
     'trim_length' => '200',
   );
+  /* Field: User: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['name']['label'] = 'Created by';
+  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
+  /* Field: Content: Rating */
+  $handler->display->display_options['fields']['field_ov_rating']['id'] = 'field_ov_rating';
+  $handler->display->display_options['fields']['field_ov_rating']['table'] = 'field_data_field_ov_rating';
+  $handler->display->display_options['fields']['field_ov_rating']['field'] = 'field_ov_rating';
+  $handler->display->display_options['fields']['field_ov_rating']['label'] = '';
+  $handler->display->display_options['fields']['field_ov_rating']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ov_rating']['click_sort_column'] = 'rating';
+  $handler->display->display_options['fields']['field_ov_rating']['settings'] = array(
+    'widget' => array(
+      'fivestar_widget' => 'default',
+    ),
+    'expose' => 0,
+    'style' => 'average',
+    'text' => 'average',
+  );
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['created']['expose']['label'] = 'Post date';
+  /* Sort criterion: Content: Title */
+  $handler->display->display_options['sorts']['title']['id'] = 'title';
+  $handler->display->display_options['sorts']['title']['table'] = 'node';
+  $handler->display->display_options['sorts']['title']['field'] = 'title';
+  $handler->display->display_options['sorts']['title']['exposed'] = TRUE;
+  $handler->display->display_options['sorts']['title']['expose']['label'] = 'Title';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 1;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ov_visualisation' => 'ov_visualisation',
+  );
+  /* Filter criterion: Content: Categories (field_ov_categories) */
+  $handler->display->display_options['filters']['field_ov_categories_tid']['id'] = 'field_ov_categories_tid';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['table'] = 'field_data_field_ov_categories';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['field'] = 'field_ov_categories_tid';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['operator_id'] = 'field_ov_categories_tid_op';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['label'] = 'Categories';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['operator'] = 'field_ov_categories_tid_op';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['identifier'] = 'field_ov_categories_tid';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+  );
+  $handler->display->display_options['filters']['field_ov_categories_tid']['type'] = 'select';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['vocabulary'] = 'ov_categories';
+  $handler->display->display_options['filters']['field_ov_categories_tid']['error_message'] = FALSE;
 
   /* Display: Top rated sidebar */
   $handler = $view->new_display('panel_pane', 'Top rated sidebar', 'panel_pane_4');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Top Visualizations';
+  $handler->display->display_options['enabled'] = FALSE;
   $handler->display->display_options['display_description'] = 'Title-only sidebar list of top Visualizations';
   $handler->display->display_options['defaults']['pager'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';

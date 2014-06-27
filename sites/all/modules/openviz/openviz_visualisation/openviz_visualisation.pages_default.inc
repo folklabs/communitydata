@@ -102,6 +102,75 @@ function openviz_visualisation_default_page_manager_pages() {
     $display->content['new-20036ef5-e0e6-44a6-9d05-2dfdb98a1359'] = $pane;
     $display->panels['column1'][0] = 'new-20036ef5-e0e6-44a6-9d05-2dfdb98a1359';
     $pane = new stdClass();
+    $pane->pid = 'new-f99baa23-db56-4d61-b70d-3dae96239bbd';
+    $pane->panel = 'column1';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'openviz_facets-panel_pane_2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_settings' => 'fields',
+      'header_type' => 'none',
+      'view_mode' => 'teaser',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'f99baa23-db56-4d61-b70d-3dae96239bbd';
+    $display->content['new-f99baa23-db56-4d61-b70d-3dae96239bbd'] = $pane;
+    $display->panels['column1'][1] = 'new-f99baa23-db56-4d61-b70d-3dae96239bbd';
+    $pane = new stdClass();
+    $pane->pid = 'new-925dc1a5-cc10-4001-865b-fb42e89acb22';
+    $pane->panel = 'column1';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'openviz_facets-panel_pane_3';
+    $pane->shown = FALSE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_settings' => 'fields',
+      'header_type' => 'none',
+      'view_mode' => 'teaser',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '925dc1a5-cc10-4001-865b-fb42e89acb22';
+    $display->content['new-925dc1a5-cc10-4001-865b-fb42e89acb22'] = $pane;
+    $display->panels['column1'][2] = 'new-925dc1a5-cc10-4001-865b-fb42e89acb22';
+    $pane = new stdClass();
+    $pane->pid = 'new-dc29392e-b3a3-4c49-a770-cb3be5ee5e7c';
+    $pane->panel = 'column1';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'openviz_facets-panel_pane_4';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_settings' => 'fields',
+      'header_type' => 'none',
+      'view_mode' => 'teaser',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = 'dc29392e-b3a3-4c49-a770-cb3be5ee5e7c';
+    $display->content['new-dc29392e-b3a3-4c49-a770-cb3be5ee5e7c'] = $pane;
+    $display->panels['column1'][3] = 'new-dc29392e-b3a3-4c49-a770-cb3be5ee5e7c';
+    $pane = new stdClass();
     $pane->pid = 'new-502b1349-f695-4299-9267-dfc3c8a3d229';
     $pane->panel = 'column2';
     $pane->type = 'views_panes';
@@ -170,6 +239,29 @@ function openviz_visualisation_default_page_manager_pages() {
     $pane->uuid = 'adbf6e20-b4ae-447f-8e55-23258589fbcc';
     $display->content['new-adbf6e20-b4ae-447f-8e55-23258589fbcc'] = $pane;
     $display->panels['contentmain'][1] = 'new-adbf6e20-b4ae-447f-8e55-23258589fbcc';
+    $pane = new stdClass();
+    $pane->pid = 'new-db4e6ba1-6505-40e2-952c-6b253fc95a6f';
+    $pane->panel = 'contentmain';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'openviz_visualisation-panel_pane_3';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_settings' => 'fields',
+      'header_type' => 'none',
+      'view_mode' => 'teaser',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = 'db4e6ba1-6505-40e2-952c-6b253fc95a6f';
+    $display->content['new-db4e6ba1-6505-40e2-952c-6b253fc95a6f'] = $pane;
+    $display->panels['contentmain'][2] = 'new-db4e6ba1-6505-40e2-952c-6b253fc95a6f';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-adbf6e20-b4ae-447f-8e55-23258589fbcc';
   $handler->conf['display'] = $display;
