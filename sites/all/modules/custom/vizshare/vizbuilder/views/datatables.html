@@ -11,25 +11,28 @@
 <div class='list-group col-md-8'>
 <div class='list-group-item' ng-repeat="dataset in datatables | orderBy:'label'">
 <h4 class='title'>{{dataset.label}}</h4>
+<div>{{dataset.source.description}}</div>
 <p class='pull-right'>
-<strong class='placeholder'>Added:</strong>
-"date"
+<strong>Issued:</strong>
+{{(dataset.source.distribution.issued | date:'d MMM yyyy') || "Unknown"}}
 </p>
 <p>
 <strong class='placeholder'>Source:</strong>
-"org name"
+{{dataset.source.distribution.author || "Unknown"}}
 </p>
 <p class='pull-right'>
-<strong class='placeholder'>Updated:</strong>
-"date"
+<strong>Modified:</strong>
+{{(dataset.source.distribution.modified | date:'d MMM yyyy') || "Unknown"}}
 </p>
 <p>
 <strong class='placeholder'>Source URL:</strong>
-"link"
+<a href='{{dataset.source.distribution.downloadURL}}' ng-show='dataset.source.distribution.downloadURL.length &gt; 0'>{{dataset.source.distribution.downloadURL}}</a>
+<span ng-hide='dataset.source.distribution.downloadURL.length &gt; 0'>Unknown</span>
 </p>
 <div class='btn btn-success pull-right' ng-class='dataset.btnState' ng-click='select(dataset)'>{{ !dataset.selected && 'Select' || 'Remove' }}</div>
 <p>Columns available:</p>
-<div class='label label-default' ng-repeat='col in columns'>{{ col }}</div>
+<!-- {{dataset}} -->
+<div class='label label-default' ng-repeat='col in dataset.structure.component'>{{ col.fieldRef }}</div>
 </div>
 </div>
 <div class='col-md-4'>

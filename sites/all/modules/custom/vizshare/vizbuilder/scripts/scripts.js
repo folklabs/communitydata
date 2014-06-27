@@ -46,15 +46,7 @@
     } else {
       window.data_unity_url = DATA_UNITY_URL;
     }
-    RestangularProvider.setBaseUrl(url);
-    return RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
-      var extractedData;
-      extractedData = data;
-      if (operation === "getList") {
-        extractedData = data.dataTable;
-      }
-      return extractedData;
-    });
+    return RestangularProvider.setBaseUrl(url);
   });
 
 }).call(this);
@@ -64,18 +56,32 @@
 
   vizBuilder = angular.module('vizBuilder');
 
+  vizBuilder.config(function(RestangularProvider) {
+    return RestangularProvider.addResponseInterceptor(function(data, operation, what, url, response, deferred) {
+      var extractedData;
+      console.log(url);
+      extractedData = data;
+      if (operation === "getList") {
+        if (url.match('datatablecatalogs')) {
+          extractedData = data.dataTable;
+        } else if (url.match('sources-datasets')) {
+          extractedData = [data.dataset];
+        }
+      }
+      console.log(extractedData.structure);
+      extractedData.structure2 = extractedData.structure;
+      return extractedData;
+    });
+  });
+
   vizBuilder.factory('DatatableService', function($q, $timeout, $http, Restangular, $rootScope) {
     Restangular.extendModel('datatables', function(model) {
-      model.fetchFields = function() {
-        var id, structPromise, structureDefURL;
-        if (!model.structData) {
-          structureDefURL = model['structure'];
-          id = structureDefURL.substring(structureDefURL.lastIndexOf('/') + 1);
-          structPromise = Restangular.one('qb/datastructdefs', id).get();
-          return structPromise.then(function(structData) {
-            return model.structure = structData;
-          });
-        }
+      model.fetchSources = function() {
+        var gotDatasets;
+        gotDatasets = this.all('sources-datasets').getList();
+        return gotDatasets.then(function(data) {
+          return model.source = data[0];
+        });
       };
       model.createGroupAggregateDataTable = function(groupField, aggField) {
         var deferred, tableCreated;
@@ -145,10 +151,22 @@
         gotList.then(function(data) {
           var dataTables;
           dataTables = data.map(function(tableRef) {
-            var dataTable;
-            dataTable = Restangular.one(tableRef['@id']);
+            var dataTable, id, tableURL;
+            console.log(tableRef['@id']);
+            tableURL = tableRef['@id'];
+            id = tableURL.substring(tableURL.lastIndexOf('/') + 1);
+            dataTable = Restangular.one('datatables', id);
             dataTable['@id'] = tableRef['@id'];
             dataTable.label = tableRef.label;
+            dataTable.get({
+              retrieve: 'structure'
+            }).then(function(dataTableData) {
+              dataTable.structure = dataTableData.structure;
+              console.log('dataTable2.structure');
+              console.log(dataTable.structure);
+              console.log(dataTable.label);
+              return dataTable.fetchSources();
+            });
             return dataTable;
           });
           console.log($rootScope);
@@ -375,7 +393,6 @@
   });
 
   vizBuilder.controller("VizBuilderController", function($scope) {
-    // $scope.imagePath = element.attr('image-path');
     return console.log('VizBuilderController');
   });
 
@@ -394,7 +411,8 @@
     return tablesFetched.then(function(data) {
       console.log('tablesFetched');
       $scope.datatables = data;
-      return console.log(data);
+      console.log(data);
+      return data[0].fetchSources();
     });
   });
 
