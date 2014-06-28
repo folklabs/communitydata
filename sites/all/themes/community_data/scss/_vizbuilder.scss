@@ -1,0 +1,85 @@
+// .container {
+//   padding-left: 10px;
+// }
+
+// .content {
+//   display: inline-block;
+//   width: 70%;
+//   .dataset {
+//     .title {
+//       display: inline-block;
+//       width: 70%;
+//     }
+//     .btn {
+//       display: inline-block;
+//       float: right;
+//     }
+//   }
+// }
+
+// .sidebar-right {
+//   display: inline-block;
+//   vertical-align: top;
+//   width: 20%;
+// }
+
+wizard-progress-bar {
+  display: block;
+  margin-bottom: 10px;
+  .wizard-box {
+    display: inline-block;
+    width: 17%;
+    height: 40px;
+    margin-right: 30px;
+    position: relative;
+    background-color: lighten($brand-primary, 35%);
+    color: darken($brand-primary, 10%);
+    padding: 5px 5px
+  }
+  .active {
+    background-color: $brand-primary;
+    color: white;
+  }
+  .complete {
+    background-color: $gray-lighter;
+    color: $gray-light;
+  }
+  .wizard-box:after {
+    left: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-color: rgba(0,0,0, 0);
+    border-left-color: lighten($brand-primary, 35%);
+    border-width: 20px;
+    margin-top: -20px;
+  }
+  .active:after {
+    border-left-color: $brand-primary;
+  }
+  .complete:after {
+    border-left-color: $gray-lighter;
+  }
+}
+
+.selected {
+  border: 1px solid red;
+}
+
+.viz-builder {
+  .label {
+    display: inline-block;
+    margin-right: 5px;
+  }
+}
+
+.selected-data {
+  .list-group-item {
+    padding-bottom: 25px;
+  }
+}
+
