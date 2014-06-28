@@ -9,15 +9,21 @@
 </a>
 </div>
 <div class='row'>
-<div ng-if='structureAvailable'>
+<!-- %div{'ng-if' => 'structureAvailable'} -->
 <!-- TODO: datasets array access -->
-<div class='col-md-8' ng-repeat='field in $parent.selectedRenderer.datasets[0].fields'>
+<div class='col-md-8' ng-repeat='field in state.renderer.datasets[0].fields'>
 <h4>Assign column(s) to the {{ field.vizField }}</h4>
 <hr>
-<div class='list-group'></div>
-<a class='list-group-item' ng-class='{active: col.selected[field.vizField]}' ng-click='selectColForField(field, col)' ng-repeat="col in $parent.selectedDataset.structure.component | orderBy:'fieldRef'">
+<div class='list-group'>
+<a class='list-group-item' ng-class='{active: col.selected[field.vizField]}' ng-click='selectColForField(field, col)' ng-repeat="col in state.dataset.structure.component | orderBy:'fieldRef'">
 {{ col.fieldRef }}
 </a>
+</div>
+<div ng-show='field.needsAggregate'>
+<h5>Select aggregation function for this column</h5>
+<label class='radio' ng-repeat='method in aggregationMethods'>
+<input id='{{method}}' name='inlineRadioOptions' ng-model='state.aggregationMethod' type='radio' value='{{method}}'>{{method}}</input>
+</label>
 </div>
 </div>
 </div>

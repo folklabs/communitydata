@@ -9,6 +9,10 @@
 <hr>
 <div class='row'>
 <div class='list-group col-md-8'>
+<div class='text-center' ng-hide='datatables'>
+<i class='fa fa-spinner fa-spin fa-5x'></i>
+<p class='text-center'>Loading data...</p>
+</div>
 <div class='list-group-item' ng-repeat="dataset in datatables | orderBy:'label'">
 <h4 class='title'>{{dataset.label}}</h4>
 <div>{{dataset.source.description}}</div>
@@ -17,7 +21,7 @@
 {{(dataset.source.distribution.issued | date:'d MMM yyyy') || "Unknown"}}
 </p>
 <p>
-<strong class='placeholder'>Source:</strong>
+<strong>Source:</strong>
 {{dataset.source.distribution.author || "Unknown"}}
 </p>
 <p class='pull-right'>
@@ -25,19 +29,21 @@
 {{(dataset.source.distribution.modified | date:'d MMM yyyy') || "Unknown"}}
 </p>
 <p>
-<strong class='placeholder'>Source URL:</strong>
-<a href='{{dataset.source.distribution.downloadURL}}' ng-show='dataset.source.distribution.downloadURL.length &gt; 0'>{{dataset.source.distribution.downloadURL}}</a>
+<strong>Source URL:</strong>
+<a href='{{dataset.source.distribution.downloadURL}}' ng-show='dataset.source.distribution.downloadURL.length &gt; 0' target='_blank'>{{dataset.source.distribution.downloadURL}}</a>
 <span ng-hide='dataset.source.distribution.downloadURL.length &gt; 0'>Unknown</span>
 </p>
-<div class='btn btn-success pull-right' ng-class='dataset.btnState' ng-click='select(dataset)'>{{ !dataset.selected && 'Select' || 'Remove' }}</div>
+<div class='btn btn-primary pull-right' ng-class='dataset.btnState' ng-click='select(dataset)'>{{ !dataset.selected && 'Select' || 'Remove' }}</div>
 <p>Columns available:</p>
-<!-- {{dataset}} -->
 <div class='label label-default' ng-repeat='col in dataset.structure.component'>{{ col.fieldRef }}</div>
 </div>
 </div>
 <div class='col-md-4'>
 <div class='selected-data panel panel-primary'>
-<div class='panel-heading'>Selected datasets</div>
+<div class='panel-heading'>
+Selected datasets
+<span class='badge pull-right'>{{(datatables | filter: {selected: true}).length}}</span>
+</div>
 <ul class='list-group'>
 <li class='list-group-item' ng-repeat='dataset in datatables | filter: {selected: true}'>
 {{dataset.label}}

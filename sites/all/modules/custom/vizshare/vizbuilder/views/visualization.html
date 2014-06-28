@@ -6,6 +6,11 @@
 <div class='btn btn-default'>Back</div>
 </a>
 </div>
-<h4>Edit the physical attributes of your visualization.</h4>
+<!-- %h4 Edit the physical attributes of your visualization. -->
+<h4>Review your visualization.</h4>
 <hr>
+<div class='text-center' ng-hide='state.vizRendered'>
+<i class='fa fa-spinner fa-spin fa-5x'></i>
+<p class='text-center'>Building visualization...</p>
+</div>
 <div class='visualization' id='visualization' visualization></div>
