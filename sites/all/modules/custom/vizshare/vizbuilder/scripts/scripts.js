@@ -95,7 +95,7 @@
         return $http.get(url, {
           timeout: 1000
         }).success(function(data, status, headers, config) {
-          console.log('success');
+          console.log('success: ' + status + ' ' + data.status);
           if (data.status === 'completed') {
             return callback(data.data);
           } else {
@@ -125,7 +125,7 @@
         };
         return $http.post(url, dataIn, {
           cache: false,
-          timeout: 9000
+          timeout: 19000
         }).success(function(data, status, headers, config) {
           var jobID, jobUrl;
           console.log('success (creating a job)');
@@ -201,7 +201,8 @@
             {
               vizField: 'xAxis',
               dataType: ['string'],
-              required: true
+              required: true,
+              needsGroup: true
             }, {
               vizField: 'yAxis',
               dataType: ['decimal'],
@@ -225,7 +226,8 @@
             {
               vizField: 'name',
               dataType: ['string'],
-              required: true
+              required: true,
+              needsGroup: true
             }, {
               vizField: 'value',
               dataType: ['decimal'],
@@ -465,11 +467,12 @@
       return {
         restrict: 'AE',
         link: function(scope, element, attrs) {
-          var aggField, aggType, dataTable, dataset, fieldNames, groupField, jsonSettings, tableCreated, vizType;
+          var aggDataField, aggField, aggType, dataTable, dataset, f, fieldNames, groupDataField, groupField, renderOpt, tableCreated, vizDef, vizType, _i, _j, _len, _len1, _ref, _ref1;
           console.log('directive visualization');
-          console.log($rootScope.state.aggregationMethod);
+          element.css('width', '900px');
+          element.css('height', '500px');
           vizType = $rootScope.state.renderer.type;
-          jsonSettings = {
+          vizDef = {
             "name": "default",
             "contentType": "text/csv",
             "visualizationType": vizType,
@@ -481,54 +484,95 @@
           console.log(dataset.fields[0].col['fieldRef']);
           console.log(dataset.fields[1].col['fieldRef']);
           console.log(dataTable);
-          groupField = dataset.fields[0].col['fieldRef'];
-          aggField = dataset.fields[1].col['fieldRef'];
-          aggType = $rootScope.state.aggregationMethod;
-          fieldNames = dataunity.querytemplate.groupAggregateDataTableFieldNames(groupField, aggField, aggType);
-          console.log('fieldNames');
-          console.log(fieldNames);
-          tableCreated = dataTable.createGroupAggregateDataTable(groupField, aggField, aggType);
-          console.log(tableCreated);
-          return tableCreated.then(function(dataTableURL) {
-            var tableFetched;
-            console.log(dataTableURL);
-            tableFetched = DatatableService.fetchTable({
-              '@id': dataTableURL
-            });
-            console.log(tableFetched);
-            return tableFetched.then(function(pipeDataTable) {
-              var endPoint;
-              return endPoint = pipeDataTable.getDataEndpoint(function(endpoint) {
-                var dataField, f, fieldData, renderOpt, _i, _len, _ref;
-                jsonSettings['url'] = endpoint;
-                _ref = dataset.fields;
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                  f = _ref[_i];
-                  console.log(f.col);
-                  dataField = fieldNames.groupField;
-                  if (f.needsAggregate) {
-                    dataField = fieldNames.aggField;
+          renderOpt = {
+            selector: '#map',
+            rendererName: $rootScope.state.renderer['rendererName'],
+            vizOptions: $rootScope.state.renderer.vizOptions
+          };
+          if ($rootScope.state.renderer.type !== 'geoleaflet') {
+            console.log('Getting endpoint for a chart');
+            groupDataField = null;
+            aggDataField = null;
+            _ref = dataset.fields;
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              f = _ref[_i];
+              if (f.needsGroup) {
+                groupDataField = f.col['fieldRef'];
+              }
+              if (f.needsAggregate) {
+                aggDataField = f.col['fieldRef'];
+              }
+            }
+            aggType = $rootScope.state.aggregationMethod;
+            fieldNames = dataunity.querytemplate.groupAggregateDataTableFieldNames(groupDataField, aggDataField, aggType);
+            console.log(fieldNames);
+            groupField = fieldNames.groupField;
+            aggField = fieldNames.aggField;
+            _ref1 = dataset.fields;
+            for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+              f = _ref1[_j];
+              if (f.needsGroup) {
+                f.col['fieldRef'] = fieldNames.groupField;
+              }
+              if (f.needsAggregate) {
+                f.col['fieldRef'] = fieldNames.aggField;
+              }
+            }
+            console.log(dataset);
+            tableCreated = dataTable.createGroupAggregateDataTable(groupDataField, aggDataField, aggType);
+            console.log(tableCreated);
+            return tableCreated.then(function(dataTableURL) {
+              var tableFetched;
+              console.log(dataTableURL);
+              tableFetched = DatatableService.fetchTable({
+                '@id': dataTableURL
+              });
+              console.log(tableFetched);
+              return tableFetched.then(function(pipeDataTable) {
+                var endPoint;
+                console.log('tableFetched');
+                console.log(pipeDataTable);
+                return endPoint = pipeDataTable.getDataEndpoint(function(endpoint) {
+                  var fieldData, _k, _len2, _ref2;
+                  vizDef['url'] = endpoint;
+                  _ref2 = dataset.fields;
+                  for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+                    f = _ref2[_k];
+                    console.log(f.col);
+                    fieldData = {
+                      vizField: f.vizField,
+                      dataField: f.col['fieldRef']
+                    };
+                    vizDef.fields.push(fieldData);
                   }
-                  fieldData = {
-                    vizField: f.vizField,
-                    dataField: dataField
-                  };
-                  jsonSettings.fields.push(fieldData);
-                }
-                element.css('width', '900px');
-                element.css('height', '500px');
-                renderOpt = {
-                  selector: '#map',
-                  rendererName: $rootScope.state.renderer['rendererName'],
-                  data: [jsonSettings],
-                  vizOptions: $rootScope.state.renderer.vizOptions
-                };
-                $rootScope.vizDef = JSON.stringify([jsonSettings]);
-                $rootScope.state.vizRendered = true;
-                return element.vizshare(renderOpt);
+                  renderOpt.data = [vizDef];
+                  $rootScope.vizDef = JSON.stringify([vizDef]);
+                  $rootScope.state.vizRendered = true;
+                  return element.vizshare(renderOpt);
+                });
               });
             });
-          });
+          } else {
+            console.log('Getting endpoint for a map');
+            return tableCreated = dataTable.getDataEndpoint(function(endpoint) {
+              var fieldData, _k, _len2, _ref2;
+              vizDef['url'] = endpoint;
+              _ref2 = dataset.fields;
+              for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+                f = _ref2[_k];
+                console.log(f.col);
+                fieldData = {
+                  vizField: f.vizField,
+                  dataField: f.col['fieldRef']
+                };
+                vizDef.fields.push(fieldData);
+              }
+              renderOpt.data = [vizDef];
+              $rootScope.vizDef = JSON.stringify([vizDef]);
+              $rootScope.state.vizRendered = true;
+              return element.vizshare(renderOpt);
+            });
+          }
         }
       };
     }
