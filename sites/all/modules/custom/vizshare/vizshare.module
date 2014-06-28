@@ -407,8 +407,8 @@ function vizshare_field_widget_info() {
  * 'rgb' form element.
  */
 function vizshare_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  dpm($items);
-  dpm($delta);
+  // dpm($items);
+  // dpm($delta);
   $value = isset($items[$delta]['value']) ? $items[$delta]['value'] : '';
 
   $widget = $element;
@@ -455,7 +455,7 @@ function vizshare_save_ajax_callback() {
 
   $name = $_POST['name'];
 
-  dpm($name);
+  // dpm($name);
 
   //database query executed succefully ,return 'success' message
   if($data){

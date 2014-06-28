@@ -1,0 +1,11 @@
+/* line 2, ../scss/components/_menus.scss */
+.main-menu {
+  margin-left: auto;
+  margin-right: auto;
+  width: 35%;
+  float: center;
+}
+/* line 3, ../scss/components/_menus.scss */
+.main-menu .navbar-nav {
+  float: none;
+}
