@@ -1,0 +1,135 @@
+<?php
+
+/**
+ * @file
+ * Recently read module file.
+ * Displays a history of recently read entities.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function recently_read_menu() {
+  $items['admin/config/system/recently-read'] = array(
+    'title' => 'Recently Read Config',
+    'description' => 'Tracks the history of recently read entities by each user.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('recently_read_settings'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Implements of hook_views_api().
+ */
+function recently_read_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module','recently_read') . '/includes',
+  );
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function recently_read_entity_view($entity, $type, $view_mode, $langcode) {
+  $config = variable_get('rr_config', array());
+  //If the entity is not config for recently read track...
+  if (!$config[$type]['enable']) {
+    return;
+  }
+  //If the currently view mode is not support recently read track...
+  if (!in_array($view_mode, array_filter($config[$type]['view_mode']))) {
+    return;
+  }
+
+  list($entity_id, $vid, $bundle) = entity_extract_ids($type, $entity);
+
+  //Write the record to DB.
+  //TODO::implements hook_cron to clean up the outdated data from the DB.
+  if (session_api_get_sid() && $entity_id) {
+    db_merge('recently_read')
+      ->key(array(
+        'sid' => session_api_get_sid(),
+        'entity_id' => $entity_id,
+        'type' => $type
+      ))
+      ->fields(array(
+        'type' => $type,
+        'language' => $langcode,
+        'timestamp' => REQUEST_TIME,
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Form builder; Configure recently read settings.
+ */
+function recently_read_settings($form, &$form_state) {
+  $entities = entity_get_info();
+  $form['#tree'] = TRUE;
+
+  $form['rr_config'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Recently Read Config'),
+  );
+
+  $form['rr_config']['session_api_cfg'] = array(
+    '#markup' => t('First, goto !link to config the session api Cookie expire time.',array('!link' => l('Session Api','admin/config/development/session-api'))),
+  );
+
+  $config = variable_get('rr_config', array());
+
+  foreach ($entities as $entity_type => $entity) {
+    if (!empty($entity['view modes']) && entity_type_supports($entity_type, 'view')) {
+      $form['rr_config'][$entity_type] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Recently Read ' . $entity['label'] . ' config'),
+      );
+      $form['rr_config'][$entity_type]['enable'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Enable'),
+        '#default_value' => isset($config[$entity_type]['enable']) ? $config[$entity_type]['enable'] : FALSE, 
+      );
+      $form['rr_config'][$entity_type]['max_record'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Max Record for reacently Read @entity',array('@entity' => $entity['label'])),
+        '#default_value' => isset($config[$entity_type]['max_record']) ? $config[$entity_type]['max_record'] : 10, 
+      );
+      $form['rr_config'][$entity_type]['view_mode'] = array(
+        '#type' => 'checkboxes',
+        '#title' => t('View mode for track'),
+        '#default_value' => isset($config[$entity_type]['view_mode']) ? $config[$entity_type]['view_mode'] : array('full' => 'full'), 
+        '#options' => isset($entity['view modes']) ? drupal_map_assoc(array_keys($entity['view modes'])) : array(),
+      );
+    }
+  }
+
+  return system_settings_form($form);
+}
+
+function recently_read_settings_validate($form, &$form_state) {
+  foreach ($form_state['values']['rr_config'] as $key => $config) {
+    if (!is_numeric($config['max_record']) || $config['max_record'] < 1) {
+      form_set_error('rr_config][' . $key . '][max_record', t('%field must be a positive integer value.', array('%field' => $key)));
+    }
+  }
+}
+
+function recently_read_settings_submit($form, &$form_state) {
+  variable_set('rr_config', $form_state['values']['rr_config']);
+  drupal_set_message(t('The configuration options have been saved.'));
+}
+
+/**
+ * Implement hook_session_api_cleanup.
+ * This hook is supplied by session_api module.
+ */
+function recently_read_session_api_cleanup($outdated_sids) {
+  db_delete('recently_read')
+    ->condition('sid', $outdated_sids, 'IN')
+    ->execute();
+}

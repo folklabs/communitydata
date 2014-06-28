@@ -12,8 +12,8 @@ function openviz_visualisation_views_default_views() {
 
   $view = new view();
   $view->name = 'openviz_selectors';
-  $view->description = '';
-  $view->tag = 'default';
+  $view->description = '(ASH)';
+  $view->tag = 'openviz';
   $view->base_table = 'node';
   $view->human_name = 'OpenViz Selectors';
   $view->core = 7;

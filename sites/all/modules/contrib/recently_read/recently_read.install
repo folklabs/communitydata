@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * @file
+ * Recently read installation file.
+ * Displays a history of recently read nodes by currently logged in user.
+ */
+
+
+/**
+ * Implements hook_schema().
+ */
+function recently_read_schema() {
+  $schema['recently_read'] = array(
+    'description' => 'Table for history of read entities',
+    'fields' => array(
+      'sid' => array(
+        'description' => 'The sid from session_api',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'type' => array(
+        'description' => 'The type of the read entity.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'entity_id' => array(
+        'description' => 'The entity id.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'language' => array(
+        'description' => 'The language of the read entity.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'timestamp' => array(
+        'description' => 'The time the node has been read.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('sid', 'type', 'entity_id'),
+  );
+  return $schema;
+}
+
+
+/**
+ * Implements hook_install().
+ */
+function recently_read_install() {
+  $default = array(
+    'node' => array(
+      'enable' => 1,
+      'max_record' => 10,
+      'view_mode' => array(
+        'full' => 'full',
+      ),
+    ),
+  );
+  variable_set('rr_config', $default);
+}
+/**
+ * Implements hook_uninstall().
+ */
+function recently_read_uninstall() {
+  variable_del('rr_config');
+}
