@@ -414,7 +414,7 @@ function defaultconfig_defaultconfig_components() {
         'features component' => $name,
         // We can't register CTools files as groups,
         // it causes a lot of things to fail.
-        'group' => $info['default_filename'],
+        'group' => !empty($info['default_filename']) ? $info['default_filename'] : NULL,
       );
     }
   }
