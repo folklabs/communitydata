@@ -139,6 +139,7 @@
         ?>
 
 
+
         <?php
           $sec_attributes = array(
             'id' => 'secondary-menu-links',
@@ -162,18 +163,25 @@
 
     </div>
     <div class="container">
-    <div class="main-menu">
-        <?php print theme('links__system_main_menu', array(
-          'links' => $main_menu_expanded,
-          'attributes' => $pri_attributes,
-          'heading' => array(
-            'text' => t('Main menu'),
-            'level' => 'h2',
-            'class' => array('element-invisible'),
-          ),
-        )); ?>
+      <div class="main-menu">
+          <?php print theme('links__system_main_menu', array(
+            'links' => $main_menu_expanded,
+            'attributes' => $pri_attributes,
+            'heading' => array(
+              'text' => t('Main menu'),
+              'level' => 'h2',
+              'class' => array('element-invisible'),
+            ),
+          )); ?>
+      </div>
+<!--     <div id="header" class="">
+          <?php print render($page['header']); ?>
+        </div> -->
+      <?php if ($search_form): ?>
+          <?php print $search_form; ?>
+      <?php endif; ?>
     </div>
-    </div>
+
   </header>
 
   <!-- Page Main -->

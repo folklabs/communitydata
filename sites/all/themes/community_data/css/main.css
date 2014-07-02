@@ -1,13 +1,20 @@
 /* line 2, ../scss/components/_menus.scss */
 .main-menu {
-  margin-left: auto;
-  margin-right: auto;
-  width: 35%;
-  float: center;
+  display: inline-block;
 }
 /* line 3, ../scss/components/_menus.scss */
 .main-menu .navbar-nav {
   float: none;
+}
+
+/* line 13, ../scss/components/_menus.scss */
+.search-form {
+  float: right;
+  display: inline-block;
+}
+/* line 16, ../scss/components/_menus.scss */
+.search-form input {
+  display: inline-block;
 }
 
 /* line 26, ../scss/_vizbuilder.scss */

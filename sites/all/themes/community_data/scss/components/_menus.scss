@@ -3,8 +3,17 @@
   .navbar-nav {
     float: none;
   }
-  margin-left: auto;
-  margin-right: auto;
-  width: 35%;
-  float: center;
+  display: inline-block;
+  // margin-left: auto;
+  // margin-right: auto;
+  // width: 35%;
+  // float: center;
+}
+
+.search-form {
+  float: right;
+  display: inline-block;
+  input {
+    display: inline-block;
+  }
 }
