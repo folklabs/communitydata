@@ -10,47 +10,33 @@
 function openviz_review_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_viz'
-  $field_bases['field_viz'] = array(
+  // Exported field_base: 'field_review_reason'
+  $field_bases['field_review_reason'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_viz',
+    'field_name' => 'field_review_reason',
     'foreign keys' => array(
-      'node' => array(
+      'format' => array(
         'columns' => array(
-          'target_id' => 'nid',
+          'format' => 'format',
         ),
-        'table' => 'node',
+        'table' => 'filter_format',
       ),
     ),
     'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
+      'format' => array(
+        0 => 'format',
       ),
     ),
     'locked' => 0,
-    'module' => 'entityreference',
+    'module' => 'text',
     'settings' => array(
-      'handler' => 'base',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'views-select-list' => array(
-            'status' => 0,
-          ),
-        ),
-        'sort' => array(
-          'type' => 'none',
-        ),
-        'target_bundles' => array(
-          'ov_visualisation' => 'ov_visualisation',
-        ),
-      ),
-      'target_type' => 'node',
+      'max_length' => 255,
     ),
     'translatable' => 0,
-    'type' => 'entityreference',
+    'type' => 'text',
   );
 
   return $field_bases;
