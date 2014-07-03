@@ -264,6 +264,31 @@ function openviz_visualisation_panelizer_defaults() {
     $display->content['new-c1dfb35d-804e-4282-8b51-2ba5bd3cbbe4'] = $pane;
     $display->panels['column2'][2] = 'new-c1dfb35d-804e-4282-8b51-2ba5bd3cbbe4';
     $pane = new stdClass();
+    $pane->pid = 'new-7e9e7971-d503-4417-a28e-256dc5fe6385';
+    $pane->panel = 'column2';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'admin_title' => '',
+      'title' => 'Review',
+      'body' => '<p><a href="/request-review?field_viz=%node:nid">Request A Review</a></p>',
+      'format' => 'panopoly_html_text',
+      'substitute' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = '7e9e7971-d503-4417-a28e-256dc5fe6385';
+    $display->content['new-7e9e7971-d503-4417-a28e-256dc5fe6385'] = $pane;
+    $display->panels['column2'][3] = 'new-7e9e7971-d503-4417-a28e-256dc5fe6385';
+    $pane = new stdClass();
     $pane->pid = 'new-3b00bb75-ad77-47e5-a798-64f7618a8a73';
     $pane->panel = 'contentmain';
     $pane->type = 'node_title';
