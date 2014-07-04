@@ -66,8 +66,8 @@ wizard-progress-bar {
   }
 }
 
-.selected {
-  border: 1px solid red;
+.selected,.selected:hover {
+  border: 2px solid red;
 }
 
 .viz-builder {

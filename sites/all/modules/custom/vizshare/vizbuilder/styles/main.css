@@ -7943,8 +7943,8 @@ wizard-progress-bar .complete:after {
 }
 
 /* line 69, ../../app/styles/_vizbuilder.scss */
-.selected {
-  border: 1px solid red;
+.selected, .selected:hover {
+  border: 2px solid red;
 }
 
 /* line 74, ../../app/styles/_vizbuilder.scss */

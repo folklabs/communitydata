@@ -2,7 +2,7 @@
 <wizard-progress-bar active-step='columns'></wizard-progress-bar>
 <div class='buttons'>
 <a href='#/visualization'>
-<div class='btn btn-primary pull-right'>Plot visualization</div>
+<div class='btn btn-primary pull-right' ng-class='{disabled: ! isAllColumnsSelected}'>Plot visualization</div>
 </a>
 <a href='#/select-type'>
 <div class='btn btn-default'>Back</div>
@@ -12,7 +12,8 @@
 <!-- %div{'ng-if' => 'structureAvailable'} -->
 <!-- TODO: datasets array access -->
 <div class='col-md-8' ng-repeat='field in state.renderer.datasets[0].fields'>
-<h4>Assign column(s) to the {{ field.vizField }}</h4>
+<h4>Assign a column to the {{ field.label }} visualization field</h4>
+<p>{{field.description}}</p>
 <hr>
 <div class='list-group'>
 <a class='list-group-item' ng-class='{active: col.selected[field.vizField]}' ng-click='selectColForField(field, col)' ng-repeat="col in state.dataset.structure.component | orderBy:'fieldRef'">

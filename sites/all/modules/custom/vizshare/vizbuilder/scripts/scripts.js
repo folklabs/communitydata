@@ -201,11 +201,15 @@
             {
               vizField: 'xAxis',
               dataType: ['string'],
+              label: "X axis",
+              description: "This defines the horizontal labels",
               required: true,
               needsGroup: true
             }, {
               vizField: 'yAxis',
               dataType: ['decimal'],
+              label: "Y axis",
+              description: "This defines the size each bar",
               required: true,
               needsAggregate: true
             }
@@ -226,11 +230,15 @@
             {
               vizField: 'name',
               dataType: ['string'],
+              label: "Name",
+              description: "This defines the label of a segment",
               required: true,
               needsGroup: true
             }, {
               vizField: 'value',
               dataType: ['decimal'],
+              label: "Value",
+              description: "This defines the size of a segment",
               required: true,
               needsAggregate: true
             }
@@ -250,15 +258,23 @@
           "fields": [
             {
               "vizField": "lat",
+              "label": "Latitude",
+              "description": "This defines the horizontal position on the map",
               "dataField": "Lat"
             }, {
               "vizField": "long",
+              "label": "Longitude",
+              "description": "This defines the vertical position on the map",
               "dataField": "Long"
             }, {
               "vizField": "title",
+              "label": "Title",
+              "description": "The content of the popup.",
               "dataField": "Name"
             }, {
               "vizField": "value",
+              "label": "Value",
+              "description": "",
               "dataField": "Value"
             }
           ]
@@ -364,12 +380,14 @@
           console.log('directive initModel');
           $rootScope.imagePath = element.attr('image-path');
           console.log(element[0].value);
-          scope.vizDef = element[0].value;
-          element.attr('ng-model', 'vizDef');
+          console.log(JSON.parse(element[0].value));
+          console.log($rootScope.state);
+          $rootScope.state.vizDef = JSON.parse(element[0].value);
+          console.log($rootScope.state);
           element.removeAttr('init-model');
           $compile(element)(scope);
-          console.log('scope');
-          return console.log(scope);
+          console.log('$rootScope');
+          return console.log($rootScope);
         }
       };
     }
@@ -388,10 +406,9 @@
 
   vizBuilder.controller("VizDefController", function($scope, $rootScope) {
     console.log('VizDefController');
-    $rootScope.state = {};
-    return $rootScope.$watch('vizDef', function(newVal, old) {
-      return $scope.state.vizDef = newVal;
-    });
+    if ($rootScope.state === void 0) {
+      return $rootScope.state = {};
+    }
   });
 
   vizBuilder.controller("VizBuilderController", function($scope) {
@@ -402,18 +419,24 @@
     var tablesFetched;
     $scope.select = function(dataset) {
       dataset.selected = !dataset.selected;
-      $rootScope.state.dataset = dataset;
+      if (dataset.selected) {
+        $rootScope.state.dataset = dataset;
+      } else {
+        $rootScope.state.dataset = void 0;
+      }
       dataset.btnState = 'btn-primary';
       if (dataset.selected) {
         return dataset.btnState = 'btn-danger';
       }
     };
-    tablesFetched = DatatableService.fetchTables();
-    return tablesFetched.then(function(data) {
-      console.log('tablesFetched');
-      $scope.datatables = data;
-      return console.log(data);
-    });
+    if ($scope.datatables === void 0) {
+      tablesFetched = DatatableService.fetchTables();
+      return tablesFetched.then(function(data) {
+        console.log('tablesFetched');
+        $rootScope.datatables = data;
+        return console.log(data);
+      });
+    }
   });
 
   vizBuilder.controller("VisualizationTypeController", function($scope, $rootScope, RendererService, $http) {
@@ -446,7 +469,7 @@
       return $scope.selectedMethod = method;
     };
     return $scope.selectColForField = function(field, col) {
-      var c, _i, _len, _ref;
+      var c, isAllColumnsSelected, _i, _j, _len, _len1, _ref, _ref1;
       if (col.selected === void 0) {
         col.selected = {};
       }
@@ -458,7 +481,16 @@
         }
       }
       field.col = col;
-      return col.selected[field.vizField] = !col.selected[field.vizField];
+      col.selected[field.vizField] = !col.selected[field.vizField];
+      isAllColumnsSelected = true;
+      _ref1 = $rootScope.state.renderer.datasets[0].fields;
+      for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+        field = _ref1[_j];
+        if (field.col === void 0) {
+          isAllColumnsSelected = false;
+        }
+      }
+      return $scope.isAllColumnsSelected = isAllColumnsSelected;
     };
   });
 
@@ -529,10 +561,9 @@
               });
               console.log(tableFetched);
               return tableFetched.then(function(pipeDataTable) {
-                var endPoint;
                 console.log('tableFetched');
                 console.log(pipeDataTable);
-                return endPoint = pipeDataTable.getDataEndpoint(function(endpoint) {
+                return pipeDataTable.getDataEndpoint(function(endpoint) {
                   var fieldData, _k, _len2, _ref2;
                   vizDef['url'] = endpoint;
                   _ref2 = dataset.fields;
@@ -554,7 +585,7 @@
             });
           } else {
             console.log('Getting endpoint for a map');
-            return tableCreated = dataTable.getDataEndpoint(function(endpoint) {
+            return dataTable.getDataEndpoint(function(endpoint) {
               var fieldData, _k, _len2, _ref2;
               vizDef['url'] = endpoint;
               _ref2 = dataset.fields;

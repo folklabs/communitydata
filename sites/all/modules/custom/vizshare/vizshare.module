@@ -170,10 +170,33 @@ function vizshare_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'ov_visualisation_node_form':
       // dpm('saving ov_visualisation_node_form');
+
       // Form modification code goes here.
       if (strlen($_SESSION['vizshare_definition']) > 0) {
         // dpm('saving vizshare_definition');
-        $form['field_ov_visualization_data']['und'][0]['value']['#default_value'] = $_SESSION['vizshare_definition'];
+        $viz_def = $_SESSION['vizshare_definition'];
+        $form['field_ov_visualization_data']['und'][0]['value']['#default_value'] = $viz_def;
+
+        // Extract viz type and initialize the "Type" field
+        $viz_def_json = drupal_json_decode($viz_def);
+        dpm('get viz type');
+        $viz_type = $viz_def_json[0]['visualizationType'];
+        // $form['field_ov_type']['und'][0]['default_value'] = 17;
+        dpm('change form');
+        $type_value = 0;
+        switch ($viz_type) {
+          case 'piechart':
+            $type_value = 20;
+            break;
+          case 'barchart':
+            $type_value = 19;
+            break;
+          case 'geoleaflet':
+            $type_value = 17;
+            break;
+        }
+        $form['field_ov_type']['und']['#default_value'] = $type_value;
+        dpm($form);
       }
       break;
   }
