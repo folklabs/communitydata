@@ -17,6 +17,11 @@
   display: inline-block;
 }
 
+/* line 4, ../scss/components/_node.scss */
+#edit-field-ov-visualization-data {
+  display: none;
+}
+
 /* line 26, ../scss/_vizbuilder.scss */
 wizard-progress-bar {
   display: block;

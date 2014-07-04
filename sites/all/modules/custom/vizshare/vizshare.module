@@ -124,7 +124,7 @@ function vizshare_builder_form($form, &$form_state) {
       'ng-model' => 'state.vizDef',
       'ng-controller'=>'VizDefController',
       // TODO: uncomment this to hide for form box
-      // 'style' => 'display: none'
+      'style' => 'display: none'
     ),
     '#default_value' => $viz_def_to_edit
   );
