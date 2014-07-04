@@ -17,7 +17,7 @@ function vizshare_menu() {
     // 'menu_name'       => 'main-menu',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('vizshare_builder_form'),
-    'access arguments' => array('access content')
+    'access arguments' => array('create ov_visualisation content')
   );
 
   $items['views'] = array(

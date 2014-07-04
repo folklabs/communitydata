@@ -29,5 +29,7 @@ function openviz_visualisation_menu() {
 function openviz_visualization_check_node_ov_visualization($node) {
   // dpm($node);
   //TODO: add user access check
-  return $node->type == 'ov_visualisation';
+  if ($node->type == 'ov_visualisation') {
+    return user_access('create ov_visualisation content');
+  }
 }
