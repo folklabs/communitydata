@@ -289,6 +289,29 @@ function openviz_visualisation_panelizer_defaults() {
     $display->content['new-7e9e7971-d503-4417-a28e-256dc5fe6385'] = $pane;
     $display->panels['column2'][3] = 'new-7e9e7971-d503-4417-a28e-256dc5fe6385';
     $pane = new stdClass();
+    $pane->pid = 'new-34c9ccc5-7beb-4d66-a9ae-33b2bd24d492';
+    $pane->panel = 'column2';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'review_requests-panel_pane_2';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_settings' => 'fields',
+      'header_type' => 'none',
+      'view_mode' => 'teaser',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = '34c9ccc5-7beb-4d66-a9ae-33b2bd24d492';
+    $display->content['new-34c9ccc5-7beb-4d66-a9ae-33b2bd24d492'] = $pane;
+    $display->panels['column2'][4] = 'new-34c9ccc5-7beb-4d66-a9ae-33b2bd24d492';
+    $pane = new stdClass();
     $pane->pid = 'new-3b00bb75-ad77-47e5-a798-64f7618a8a73';
     $pane->panel = 'contentmain';
     $pane->type = 'node_title';
