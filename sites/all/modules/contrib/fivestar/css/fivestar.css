@@ -55,7 +55,7 @@ div.fivestar-widget-static .star span.on {
 }
 
 div.fivestar-widget-static .star span.off {
-  display: block;
+  display: none;
   width: 100%;
   height: 100%;
   background: url(../widgets/default/star.gif) no-repeat 0 0; /* RTL */
