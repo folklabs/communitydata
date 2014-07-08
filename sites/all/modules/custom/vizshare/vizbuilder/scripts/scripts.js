@@ -126,7 +126,7 @@
         };
         return $http.post(url, dataIn, {
           cache: false,
-          timeout: 19000
+          timeout: 30000
         }).success(function(data, status, headers, config) {
           var jobID, jobUrl;
           console.log('success (creating a job)');
@@ -574,6 +574,7 @@
               return tableFetched.then(function(pipeDataTable) {
                 console.log('tableFetched');
                 console.log(pipeDataTable);
+                vizDef['datatable_url'] = dataTableURL;
                 return pipeDataTable.getDataEndpoint(function(endpoint) {
                   var fieldData, _k, _len2, _ref2;
                   vizDef['url'] = endpoint;
@@ -596,6 +597,7 @@
             });
           } else {
             console.log('Getting endpoint for a map');
+            vizDef['datatable_url'] = dataTable['@id'];
             return dataTable.getDataEndpoint(function(endpoint) {
               var fieldData, _k, _len2, _ref2;
               vizDef['url'] = endpoint;

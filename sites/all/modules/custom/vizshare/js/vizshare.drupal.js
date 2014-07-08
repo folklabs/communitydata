@@ -83,7 +83,7 @@ vizOptions = {
             rendererName: "vizshare." + vizDef.visualizationType,
             selector: selector,
             data: this.viz,
-            vizOptions: vizOptions,
+            vizOptions: vizDef.vizOptions,
           };
           vizshare.render(renderOpt);
         })
