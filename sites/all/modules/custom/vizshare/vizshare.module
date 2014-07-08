@@ -355,7 +355,10 @@ function vizshare_field_formatter_view($entity_type, $entity, $field, $instance,
         );
 
         $element[$delta]['#attached']['js'][] = array(
-          'data' => array('vizshare' => array($settings)),
+          'data' => array(
+            'vizshare' => array($settings),
+            'data_unity' => array('url' => variable_get('data_unity_url', '')),
+          ),
           'type' => 'setting',
         );
       }

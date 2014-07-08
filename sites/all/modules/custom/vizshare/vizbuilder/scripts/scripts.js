@@ -599,8 +599,7 @@
             console.log('Getting endpoint for a map');
             vizDef['datatable_url'] = dataTable['@id'];
             return dataTable.getDataEndpoint(function(endpoint) {
-              var fieldData, _k, _len2, _ref2;
-              vizDef['url'] = endpoint;
+              var fieldData, renderDef, _k, _len2, _ref2;
               _ref2 = dataset.fields;
               for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
                 f = _ref2[_k];
@@ -611,7 +610,12 @@
                 };
                 vizDef.fields.push(fieldData);
               }
-              renderOpt.data = [vizDef];
+              renderDef = angular.copy(vizDef);
+              renderDef['url'] = endpoint;
+              renderOpt.data = [renderDef];
+              console.log('Setting vizDef...');
+              console.log(vizDef);
+              console.log(renderDef);
               $rootScope.state.vizDef = JSON.stringify([vizDef]);
               $rootScope.state.vizRendered = true;
               return element.vizshare(renderOpt);
