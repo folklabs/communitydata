@@ -126,7 +126,7 @@
         };
         return $http.post(url, dataIn, {
           cache: false,
-          timeout: 30000
+          timeout: 60000
         }).success(function(data, status, headers, config) {
           var jobID, jobUrl;
           console.log('success (creating a job)');
