@@ -120,6 +120,7 @@
         console.log('getDataEndpoint');
         console.log(this['@id']);
         url = window.data_unity_url + '/jobs/datatable-jobs';
+        console.log(url);
         dataIn = {
           "dataTable": this['@id']
         };
@@ -356,16 +357,16 @@
 
   STEPS = [
     {
-      name: 'datasets',
+      name: 'datatables',
       text: 'Select datasets'
     }, {
-      name: 'type',
+      name: 'select-type',
       text: 'Select visualization type'
     }, {
-      name: 'columns',
+      name: 'select-columns',
       text: 'Select data columns'
     }, {
-      name: 'visualize',
+      name: 'visualization',
       text: 'Edit visualization'
     }
   ];
@@ -380,9 +381,11 @@
           console.log('directive initModel');
           $rootScope.imagePath = element.attr('image-path');
           console.log(element[0].value);
-          console.log(JSON.parse(element[0].value));
           console.log($rootScope.state);
-          $rootScope.state.vizDef = JSON.parse(element[0].value);
+          if (element[0].value !== void 0 && element[0].value.length > 0) {
+            $rootScope.state.vizDef = JSON.parse(element[0].value);
+            console.log(JSON.parse(element[0].value));
+          }
           console.log($rootScope.state);
           element.removeAttr('init-model');
           $compile(element)(scope);
@@ -397,8 +400,16 @@
     return {
       restrict: 'AE',
       link: function(scope, element, attrs) {
+        var index, _results;
         scope.activeStep = attrs.activeStep;
-        return scope.steps = STEPS;
+        scope.steps = STEPS;
+        index = 0;
+        _results = [];
+        while (scope.steps[index].name !== scope.activeStep) {
+          scope.steps[index].completed = true;
+          _results.push(index += 1);
+        }
+        return _results;
       },
       templateUrl: '/views/wizard-progress-bar.html'
     };
@@ -577,7 +588,7 @@
                     vizDef.fields.push(fieldData);
                   }
                   renderOpt.data = [vizDef];
-                  $rootScope.vizDef = JSON.stringify([vizDef]);
+                  $rootScope.state.vizDef = JSON.stringify([vizDef]);
                   $rootScope.state.vizRendered = true;
                   return element.vizshare(renderOpt);
                 });
@@ -599,7 +610,7 @@
                 vizDef.fields.push(fieldData);
               }
               renderOpt.data = [vizDef];
-              $rootScope.vizDef = JSON.stringify([vizDef]);
+              $rootScope.state.vizDef = JSON.stringify([vizDef]);
               $rootScope.state.vizRendered = true;
               return element.vizshare(renderOpt);
             });

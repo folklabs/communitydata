@@ -122,11 +122,20 @@ function vizshare_builder_form($form, &$form_state) {
       'image-path' => '/' . drupal_get_path('module', 'vizshare') . '/vizbuilder',
       // 'ng-value' => 'vizshareDef'
       'ng-model' => 'state.vizDef',
-      'ng-controller'=>'VizDefController',
+      // 'ng-controller'=>'VizDefController',
       // TODO: uncomment this to hide for form box
-      'style' => 'display: none'
+      // 'style' => 'display: none'
     ),
     '#default_value' => $viz_def_to_edit
+  );
+  $form['vizdef_out'] = array(
+    '#type' => 'textarea',
+    '#attributes' => array(
+      'ng-model' => 'state.vizDef',
+      'ng-controller'=>'VizDefController',
+      // TODO: uncomment this to hide for form box
+      // 'style' => 'display: none'
+    ),
   );
   $form['submit'] = array(
     '#type' => 'submit',
@@ -150,7 +159,7 @@ function vizshare_builder_form_submit($form, &$form_state) {
   // dpm('vizshare_builder_form_submit');
   // dpm($form);
 
-  $_SESSION['vizshare_definition'] = $form['vizshare_definition']['#value'];
+  $_SESSION['vizshare_definition'] = $form['vizdef_out']['#value'];
 
   // dpm($form_state);
   drupal_goto('node/add/ov-visualisation');
@@ -177,12 +186,14 @@ function vizshare_form_alter(&$form, &$form_state, $form_id) {
         $viz_def = $_SESSION['vizshare_definition'];
         $form['field_ov_visualization_data']['und'][0]['value']['#default_value'] = $viz_def;
 
+        $_SESSION['vizshare_definition'] = null;
+
         // Extract viz type and initialize the "Type" field
         $viz_def_json = drupal_json_decode($viz_def);
-        dpm('get viz type');
+        // dpm('get viz type');
         $viz_type = $viz_def_json[0]['visualizationType'];
         // $form['field_ov_type']['und'][0]['default_value'] = 17;
-        dpm('change form');
+        // dpm('change form');
         $type_value = 0;
         switch ($viz_type) {
           case 'piechart':
@@ -196,7 +207,7 @@ function vizshare_form_alter(&$form, &$form_state, $form_id) {
             break;
         }
         $form['field_ov_type']['und']['#default_value'] = $type_value;
-        dpm($form);
+        // dpm($form);
       }
       break;
   }
