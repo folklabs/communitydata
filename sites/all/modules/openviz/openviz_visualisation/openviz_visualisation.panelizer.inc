@@ -273,7 +273,7 @@ function openviz_visualisation_panelizer_defaults() {
     $pane->configuration = array(
       'admin_title' => '',
       'title' => '<none>',
-      'body' => '<p><a href="/request-review?field_viz=[%node:nid]">Request a review</a></p>',
+      'body' => '<p><a href="/request-review?field_viz=%node:nid">Request a review</a></p>',
       'format' => 'panopoly_html_text',
       'substitute' => 1,
     );
