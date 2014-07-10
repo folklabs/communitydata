@@ -149,49 +149,6 @@ function openviz_review_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ov_review-field_ov_categories'
-  $field_instances['node-ov_review-field_ov_categories'] = array(
-    'bundle' => 'ov_review',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'taxonomy',
-        'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 2,
-      ),
-      'featured' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_ov_categories',
-    'label' => 'Categories',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 34,
-    ),
-  );
-
   // Exported field_instance: 'node-ov_review-field_ov_rating'
   $field_instances['node-ov_review-field_ov_rating'] = array(
     'bundle' => 'ov_review',
@@ -352,7 +309,6 @@ function openviz_review_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
-  t('Categories');
   t('Please explain why you would like a review of this visualization.');
   t('Rating');
   t('Review Reason');

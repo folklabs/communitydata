@@ -13,9 +13,9 @@ function openviz_review_views_default_views() {
   $view = new view();
   $view->name = 'review_requests';
   $view->description = '';
-  $view->tag = 'default';
+  $view->tag = 'openviz';
   $view->base_table = 'entityform';
-  $view->human_name = 'Review Requests';
+  $view->human_name = 'OpenViz Review Requests';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
@@ -50,15 +50,6 @@ function openviz_review_views_default_views() {
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'entityform';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
-  /* Contextual filter: Content: Nid */
-  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['table'] = 'node';
-  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
-  $handler->display->display_options['arguments']['nid']['relationship'] = 'field_viz_target_id';
-  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
   /* Filter criterion: Entityform Submission: Entityform Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'entityform';
@@ -224,51 +215,61 @@ function openviz_review_views_default_views() {
     'link' => 0,
   );
 
-  /* Display: (NOT WORKING) */
-  $handler = $view->new_display('panel_pane', '(NOT WORKING)', 'panel_pane_2');
-  $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Review Requests on this Viz';
-  $handler->display->display_options['enabled'] = FALSE;
+  /* Display: My Review requests */
+  $handler = $view->new_display('panel_pane', 'My Review requests', 'panel_pane_2');
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Entityform Submission: Entityform submission ID */
-  $handler->display->display_options['fields']['entityform_id']['id'] = 'entityform_id';
-  $handler->display->display_options['fields']['entityform_id']['table'] = 'entityform';
-  $handler->display->display_options['fields']['entityform_id']['field'] = 'entityform_id';
-  /* Field: Entityform Submission: Review Reason */
-  $handler->display->display_options['fields']['field_review_reason']['id'] = 'field_review_reason';
-  $handler->display->display_options['fields']['field_review_reason']['table'] = 'field_data_field_review_reason';
-  $handler->display->display_options['fields']['field_review_reason']['field'] = 'field_review_reason';
+  /* Field: Global: View result counter */
+  $handler->display->display_options['fields']['counter']['id'] = 'counter';
+  $handler->display->display_options['fields']['counter']['table'] = 'views';
+  $handler->display->display_options['fields']['counter']['field'] = 'counter';
+  $handler->display->display_options['fields']['counter']['label'] = '';
+  $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
   /* Field: Entityform Submission: Date submitted */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'entityform';
   $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = '';
+  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'short';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'panopoly_time';
-  /* Field: Content: Nid */
-  $handler->display->display_options['fields']['nid']['id'] = 'nid';
-  $handler->display->display_options['fields']['nid']['table'] = 'node';
-  $handler->display->display_options['fields']['nid']['field'] = 'nid';
-  $handler->display->display_options['fields']['nid']['relationship'] = 'field_viz_target_id';
+  /* Field: Entityform Submission: Review Reason */
+  $handler->display->display_options['fields']['field_review_reason']['id'] = 'field_review_reason';
+  $handler->display->display_options['fields']['field_review_reason']['table'] = 'field_data_field_review_reason';
+  $handler->display->display_options['fields']['field_review_reason']['field'] = 'field_review_reason';
+  $handler->display->display_options['fields']['field_review_reason']['label'] = '';
+  $handler->display->display_options['fields']['field_review_reason']['element_label_colon'] = FALSE;
+  /* Field: Entityform Submission: Entityform submission ID */
+  $handler->display->display_options['fields']['entityform_id']['id'] = 'entityform_id';
+  $handler->display->display_options['fields']['entityform_id']['table'] = 'entityform';
+  $handler->display->display_options['fields']['entityform_id']['field'] = 'entityform_id';
+  $handler->display->display_options['fields']['entityform_id']['label'] = '';
+  $handler->display->display_options['fields']['entityform_id']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['entityform_id']['alter']['text'] = '<a href="/entityforms/[entityform_id]/delete">Delete this request</a>';
+  $handler->display->display_options['fields']['entityform_id']['element_label_colon'] = FALSE;
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Entityform Submission: Date submitted */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'entityform';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Field: Visualization (field_viz) */
-  $handler->display->display_options['arguments']['field_viz_target_id']['id'] = 'field_viz_target_id';
-  $handler->display->display_options['arguments']['field_viz_target_id']['table'] = 'field_data_field_viz';
-  $handler->display->display_options['arguments']['field_viz_target_id']['field'] = 'field_viz_target_id';
-  $handler->display->display_options['arguments']['field_viz_target_id']['default_action'] = 'default';
-  $handler->display->display_options['arguments']['field_viz_target_id']['default_argument_type'] = 'php';
-  $handler->display->display_options['arguments']['field_viz_target_id']['default_argument_options']['code'] = '$node->nid;';
-  $handler->display->display_options['arguments']['field_viz_target_id']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_viz_target_id']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_viz_target_id']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Entityform Submission: Entityform Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'entityform';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'review_request' => 'review_request',
-  );
+  /* Contextual filter: Content: Author uid */
+  $handler->display->display_options['arguments']['uid']['id'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['table'] = 'node';
+  $handler->display->display_options['arguments']['uid']['field'] = 'uid';
+  $handler->display->display_options['arguments']['uid']['relationship'] = 'field_viz_target_id';
+  $handler->display->display_options['arguments']['uid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['uid']['default_argument_type'] = 'current_user';
+  $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
   $export['review_requests'] = $view;
 
   return $export;

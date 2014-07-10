@@ -715,59 +715,9 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['style_plugin'] = 'table';
-  $handler->display->display_options['style_options']['columns'] = array(
-    'field_ov_visualization_data' => 'field_ov_visualization_data',
-    'title' => 'title',
-    'field_ov_categories' => 'title',
-    'field_ov_tags' => 'field_ov_tags',
-    'name' => 'name',
-    'field_ov_rating' => 'name',
-  );
-  $handler->display->display_options['style_options']['default'] = '-1';
-  $handler->display->display_options['style_options']['info'] = array(
-    'field_ov_visualization_data' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'title' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ov_categories' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ov_tags' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'name' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ov_rating' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-  );
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['row_plugin'] = 'fields';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
@@ -783,13 +733,6 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['fields']['field_ov_categories']['id'] = 'field_ov_categories';
   $handler->display->display_options['fields']['field_ov_categories']['table'] = 'field_data_field_ov_categories';
   $handler->display->display_options['fields']['field_ov_categories']['field'] = 'field_ov_categories';
-  /* Field: User: Name */
-  $handler->display->display_options['fields']['name']['id'] = 'name';
-  $handler->display->display_options['fields']['name']['table'] = 'users';
-  $handler->display->display_options['fields']['name']['field'] = 'name';
-  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['name']['label'] = '';
-  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   /* Field: Content: Rating */
   $handler->display->display_options['fields']['field_ov_rating']['id'] = 'field_ov_rating';
   $handler->display->display_options['fields']['field_ov_rating']['table'] = 'field_data_field_ov_rating';
@@ -815,7 +758,6 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
   $handler->display->display_options['sorts']['title']['field'] = 'title';
-  $handler->display->display_options['sorts']['title']['exposed'] = TRUE;
   $handler->display->display_options['sorts']['title']['expose']['label'] = 'Title';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
@@ -831,28 +773,6 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'ov_visualisation' => 'ov_visualisation',
   );
-  /* Filter criterion: Content: Categories (field_ov_categories) */
-  $handler->display->display_options['filters']['field_ov_categories_tid']['id'] = 'field_ov_categories_tid';
-  $handler->display->display_options['filters']['field_ov_categories_tid']['table'] = 'field_data_field_ov_categories';
-  $handler->display->display_options['filters']['field_ov_categories_tid']['field'] = 'field_ov_categories_tid';
-  $handler->display->display_options['filters']['field_ov_categories_tid']['value'] = array(
-    1 => '1',
-    2 => '2',
-  );
-  $handler->display->display_options['filters']['field_ov_categories_tid']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['operator_id'] = 'field_ov_categories_tid_op';
-  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['label'] = 'Categories';
-  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['operator'] = 'field_ov_categories_tid_op';
-  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['identifier'] = 'field_ov_categories_tid';
-  $handler->display->display_options['filters']['field_ov_categories_tid']['expose']['remember_roles'] = array(
-    2 => '2',
-    1 => 0,
-    3 => 0,
-    4 => 0,
-  );
-  $handler->display->display_options['filters']['field_ov_categories_tid']['type'] = 'select';
-  $handler->display->display_options['filters']['field_ov_categories_tid']['vocabulary'] = 'ov_categories';
-  $handler->display->display_options['filters']['field_ov_categories_tid']['error_message'] = FALSE;
 
   /* Display: List */
   $handler = $view->new_display('panel_pane', 'List', 'panel_pane_1');
@@ -993,6 +913,10 @@ function openviz_visualisation_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Top rated', 'panel_pane_2');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Top visualizations';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -1285,6 +1209,85 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'ov_visualisation' => 'ov_visualisation',
+  );
+
+  /* Display: Related visualizations */
+  $handler = $view->new_display('panel_pane', 'Related visualizations', 'panel_pane_5');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Related visualizations';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  $handler->display->display_options['sorts']['created']['expose']['label'] = 'Post date';
+  /* Sort criterion: Content: Title */
+  $handler->display->display_options['sorts']['title']['id'] = 'title';
+  $handler->display->display_options['sorts']['title']['table'] = 'node';
+  $handler->display->display_options['sorts']['title']['field'] = 'title';
+  $handler->display->display_options['sorts']['title']['expose']['label'] = 'Title';
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Content: Nid */
+  $handler->display->display_options['arguments']['nid']['id'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['table'] = 'node';
+  $handler->display->display_options['arguments']['nid']['field'] = 'nid';
+  $handler->display->display_options['arguments']['nid']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['nid']['default_argument_type'] = 'node';
+  $handler->display->display_options['arguments']['nid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['nid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['nid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['nid']['not'] = TRUE;
+  /* Contextual filter: Content: Has taxonomy term ID (with depth) */
+  $handler->display->display_options['arguments']['term_node_tid_depth']['id'] = 'term_node_tid_depth';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['table'] = 'node';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['field'] = 'term_node_tid_depth';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_type'] = 'taxonomy_tid';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['term_page'] = FALSE;
+  $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['node'] = TRUE;
+  $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['limit'] = TRUE;
+  $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['vocabularies'] = array(
+    'ov_categories' => 'ov_categories',
+  );
+  $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['term_node_tid_depth']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['validate_options']['vocabularies'] = array(
+    'ov_categories' => 'ov_categories',
+  );
+  $handler->display->display_options['arguments']['term_node_tid_depth']['depth'] = '0';
+  /* Contextual filter: Content: Has taxonomy term ID depth modifier */
+  $handler->display->display_options['arguments']['term_node_tid_depth_modifier']['id'] = 'term_node_tid_depth_modifier';
+  $handler->display->display_options['arguments']['term_node_tid_depth_modifier']['table'] = 'node';
+  $handler->display->display_options['arguments']['term_node_tid_depth_modifier']['field'] = 'term_node_tid_depth_modifier';
+  $handler->display->display_options['arguments']['term_node_tid_depth_modifier']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['term_node_tid_depth_modifier']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['argument_input'] = array(
+    'term_node_tid_depth' => array(
+      'type' => 'none',
+      'context' => 'entity:node.field-ov-categories',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID (with depth)',
+    ),
+    'term_node_tid_depth_modifier' => array(
+      'type' => 'context',
+      'context' => 'entity:node.field-ov-categories',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Content: Has taxonomy term ID depth modifier',
+    ),
   );
   $export['openviz_visualisation'] = $view;
 
