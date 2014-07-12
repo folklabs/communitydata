@@ -320,18 +320,27 @@ function openviz_visualisation_panelizer_defaults() {
         0 => array(
           'name' => 'php',
           'settings' => array(
-            'description' => 'Request Review',
-            'php' => '// OK
+            'description' => 'Request Review (PHP)',
+            'php' => '// V1.0, ASH, 2014-07-12
 $node_uid=$contexts[\'panelizer\']->data->uid;
 $user_id=$contexts[\'logged-in-user\']->data->uid;
-drupal_set_message(\'<pre>\' . $node_uid . $user_id . \'</pre>\');',
+// to examine $contexts, use print_r in a drupal_set_message statement, e.g.
+// drupal_set_message(\'<pre>\' . print_r($contexts,1) . \'</pre>\');
+// uncomment line below for debug
+// drupal_set_message(\'<pre>Node_uid: \' . $node_uid . \' | User_id: \' . $user_id . \'</pre>\');
+if ($node_uid == $user_id) {
+  return true;
+} else {
+  return false;
+}
+//',
           ),
           'not' => FALSE,
         ),
       ),
     );
     $pane->configuration = array(
-      'admin_title' => 'Request Review',
+      'admin_title' => 'Request Review (PHP Visibility rule)',
       'title' => '<none>',
       'body' => '<p><a href="/request-review?field_viz=%node:nid">Request a review</a></p>
 
