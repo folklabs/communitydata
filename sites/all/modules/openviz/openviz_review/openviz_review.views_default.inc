@@ -154,16 +154,64 @@ function openviz_review_views_default_views() {
     'review_request' => 'review_request',
   );
 
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page');
+  /* Display: Review Requests Page */
+  $handler = $view->new_display('page', 'Review Requests Page', 'page');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Review Requests';
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'role';
+  $handler->display->display_options['access']['role'] = array(
+    3 => '3',
+    5 => '5',
+  );
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'entityform_id' => 'entityform_id',
+    'field_viz_1' => 'field_viz_1',
+    'created' => 'created',
+    'field_review_reason' => 'field_review_reason',
+    'field_viz' => 'field_viz',
+    'name' => 'field_viz_1',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
     'entityform_id' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_viz_1' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '<br>',
+      'empty_column' => 0,
+    ),
+    'created' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_review_reason' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_viz' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'name' => array(
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -184,6 +232,10 @@ function openviz_review_views_default_views() {
   $handler->display->display_options['relationships']['field_viz_target_id_1']['table'] = 'field_data_field_viz';
   $handler->display->display_options['relationships']['field_viz_target_id_1']['field'] = 'field_viz_target_id';
   $handler->display->display_options['relationships']['field_viz_target_id_1']['relationship'] = 'field_viz_target_id';
+  /* Relationship: Entityform Submission: User uid */
+  $handler->display->display_options['relationships']['user']['id'] = 'user';
+  $handler->display->display_options['relationships']['user']['table'] = 'entityform';
+  $handler->display->display_options['relationships']['user']['field'] = 'user';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Entityform Submission: Entityform submission ID */
   $handler->display->display_options['fields']['entityform_id']['id'] = 'entityform_id';
@@ -218,6 +270,14 @@ function openviz_review_views_default_views() {
   $handler->display->display_options['fields']['field_viz']['settings'] = array(
     'link' => 0,
   );
+  /* Field: User: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['relationship'] = 'user';
+  $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
   $handler->display->display_options['path'] = 'view_review_requests';
   $handler->display->display_options['menu']['type'] = 'normal';
   $handler->display->display_options['menu']['title'] = 'Review Requests';
@@ -313,20 +373,69 @@ function openviz_review_views_default_views() {
 
   /* Display: My Review requests */
   $handler = $view->new_display('panel_pane', 'My Review requests', 'panel_pane_2');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'My Review Requests';
+  $handler->display->display_options['defaults']['access'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'view own entityform';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'field_viz' => 'field_viz',
+    'field_review_reason' => 'field_viz',
+    'created' => 'created',
+    'entityform_id' => 'created',
+  );
+  $handler->display->display_options['style_options']['default'] = '-1';
+  $handler->display->display_options['style_options']['info'] = array(
+    'field_viz' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'field_review_reason' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'created' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '<br>',
+      'empty_column' => 0,
+    ),
+    'entityform_id' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+  );
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Global: View result counter */
-  $handler->display->display_options['fields']['counter']['id'] = 'counter';
-  $handler->display->display_options['fields']['counter']['table'] = 'views';
-  $handler->display->display_options['fields']['counter']['field'] = 'counter';
-  $handler->display->display_options['fields']['counter']['label'] = '';
-  $handler->display->display_options['fields']['counter']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['counter']['counter_start'] = '1';
+  /* Field: Field: Visualization */
+  $handler->display->display_options['fields']['field_viz']['id'] = 'field_viz';
+  $handler->display->display_options['fields']['field_viz']['table'] = 'field_data_field_viz';
+  $handler->display->display_options['fields']['field_viz']['field'] = 'field_viz';
+  $handler->display->display_options['fields']['field_viz']['label'] = '';
+  $handler->display->display_options['fields']['field_viz']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_viz']['settings'] = array(
+    'link' => 1,
+  );
+  /* Field: Entityform Submission: Review Reason */
+  $handler->display->display_options['fields']['field_review_reason']['id'] = 'field_review_reason';
+  $handler->display->display_options['fields']['field_review_reason']['table'] = 'field_data_field_review_reason';
+  $handler->display->display_options['fields']['field_review_reason']['field'] = 'field_review_reason';
+  $handler->display->display_options['fields']['field_review_reason']['label'] = '';
+  $handler->display->display_options['fields']['field_review_reason']['element_label_colon'] = FALSE;
   /* Field: Entityform Submission: Date submitted */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'entityform';
@@ -335,12 +444,6 @@ function openviz_review_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'short';
   $handler->display->display_options['fields']['created']['second_date_format'] = 'panopoly_time';
-  /* Field: Entityform Submission: Review Reason */
-  $handler->display->display_options['fields']['field_review_reason']['id'] = 'field_review_reason';
-  $handler->display->display_options['fields']['field_review_reason']['table'] = 'field_data_field_review_reason';
-  $handler->display->display_options['fields']['field_review_reason']['field'] = 'field_review_reason';
-  $handler->display->display_options['fields']['field_review_reason']['label'] = '';
-  $handler->display->display_options['fields']['field_review_reason']['element_label_colon'] = FALSE;
   /* Field: Entityform Submission: Entityform submission ID */
   $handler->display->display_options['fields']['entityform_id']['id'] = 'entityform_id';
   $handler->display->display_options['fields']['entityform_id']['table'] = 'entityform';
