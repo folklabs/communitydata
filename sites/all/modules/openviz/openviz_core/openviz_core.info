@@ -1,7 +1,7 @@
 name = OpenViz Core
 core = 7.x
 package = OpenViz
-version = 7.x-1.0-alpha1
+version = 7.x-1.0-alpha2
 project = openviz_core
 dependencies[] = features
 dependencies[] = fivestar
