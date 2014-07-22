@@ -24,7 +24,7 @@
 function vizshare_field_schema($field) {
   $columns = array(
     //TODO: length
-    'value' => array('type' => 'varchar', 'length' => '1000', 'not null' => FALSE),
+    'value' => array('type' => 'varchar', 'length' => '10000', 'not null' => FALSE),
   );
   $indexes = array(
     // 'rgb' => array('rgb'),
