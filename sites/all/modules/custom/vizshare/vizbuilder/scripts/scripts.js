@@ -371,7 +371,30 @@
     }
   ];
 
-  AGGREGATION_METHODS = ["Count", "Sum", "Average", "Min", "Max", "First", "Last"];
+  AGGREGATION_METHODS = [
+    {
+      name: "Count",
+      description: 'Shows the total number of items'
+    }, {
+      name: "Sum",
+      description: 'Shows the sum of all the item values'
+    }, {
+      name: "Average",
+      description: 'Shows the mean average of all the item values'
+    }, {
+      name: "Min",
+      description: 'Shows the minimum value from all the item values'
+    }, {
+      name: "Max",
+      description: 'Shows the maximum value from all the item values'
+    }, {
+      name: "First",
+      description: 'Shows the first value in the list of values'
+    }, {
+      name: "Last",
+      description: 'Shows the last value in the list of values'
+    }
+  ];
 
   vizBuilder.directive('initModel', [
     '$rootScope', '$compile', function($rootScope, $compile) {

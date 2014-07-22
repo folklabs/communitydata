@@ -23,7 +23,8 @@
 <div ng-show='field.needsAggregate'>
 <h5>Select aggregation function for this column</h5>
 <label class='radio' ng-repeat='method in aggregationMethods'>
-<input id='{{method}}' name='inlineRadioOptions' ng-model='state.aggregationMethod' type='radio' value='{{method}}'>{{method}}</input>
+<input id='{{method}}' name='inlineRadioOptions' ng-model='state.aggregationMethod' type='radio' value='{{method}}'>
+<b>{{method.name}}: {{method.description}}</b>
 </label>
 </div>
 </div>
