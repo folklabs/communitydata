@@ -265,8 +265,7 @@ function openviz_review_views_default_views() {
   $handler->display->display_options['fields']['field_viz']['field'] = 'field_viz';
   $handler->display->display_options['fields']['field_viz']['label'] = 'Write Review';
   $handler->display->display_options['fields']['field_viz']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_viz']['alter']['text'] = '<a href="/visualizations/[field_viz]">Check Visualization</a><br>
-<a href="/node/add/ov-review?field_viz=[field_viz-target_id]">Write Review</a>';
+  $handler->display->display_options['fields']['field_viz']['alter']['text'] = '<a href="/node/add/ov-review?field_viz=[field_viz-target_id]">Write Review</a>';
   $handler->display->display_options['fields']['field_viz']['settings'] = array(
     'link' => 0,
   );
@@ -365,8 +364,7 @@ function openviz_review_views_default_views() {
   $handler->display->display_options['fields']['field_viz']['field'] = 'field_viz';
   $handler->display->display_options['fields']['field_viz']['label'] = 'Write Review';
   $handler->display->display_options['fields']['field_viz']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_viz']['alter']['text'] = '<a href="/visualizations/[field_viz]">Check Visualization</a><br>
-<a href="/node/add/ov-review?field_viz=[field_viz-target_id]">Write Review</a>';
+  $handler->display->display_options['fields']['field_viz']['alter']['text'] = '<a href="/node/add/ov-review?field_viz=[field_viz-target_id]">Write Review</a>';
   $handler->display->display_options['fields']['field_viz']['settings'] = array(
     'link' => 0,
   );
