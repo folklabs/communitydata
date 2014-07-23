@@ -231,7 +231,7 @@ function openviz_visualisation_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ov_type',
-    'label' => 'OV Type',
+    'label' => 'Type',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -423,9 +423,9 @@ function openviz_visualisation_field_default_field_instances() {
   t('Categories');
   t('OV Icon');
   t('OV Thumbnail');
-  t('OV Type');
   t('Rating');
   t('Tags');
+  t('Type');
   t('Visualization data');
 
   return $field_instances;

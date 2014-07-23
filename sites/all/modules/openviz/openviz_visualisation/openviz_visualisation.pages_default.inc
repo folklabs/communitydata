@@ -233,6 +233,27 @@ function openviz_visualisation_default_page_manager_pages() {
     $display->content['new-70c411f5-7e8f-426b-bcff-91399e491e85'] = $pane;
     $display->panels['column1'][3] = 'new-70c411f5-7e8f-426b-bcff-91399e491e85';
     $pane = new stdClass();
+    $pane->pid = 'new-d2d0313a-9e0a-47c0-8680-0d7fe49b9fce';
+    $pane->panel = 'column1';
+    $pane->type = 'fieldable_panels_pane';
+    $pane->subtype = 'fpid:8';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_mode' => 'full',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = 'd2d0313a-9e0a-47c0-8680-0d7fe49b9fce';
+    $display->content['new-d2d0313a-9e0a-47c0-8680-0d7fe49b9fce'] = $pane;
+    $display->panels['column1'][4] = 'new-d2d0313a-9e0a-47c0-8680-0d7fe49b9fce';
+    $pane = new stdClass();
     $pane->pid = 'new-502b1349-f695-4299-9267-dfc3c8a3d229';
     $pane->panel = 'column2';
     $pane->type = 'views_panes';

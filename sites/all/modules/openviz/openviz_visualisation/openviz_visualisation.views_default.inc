@@ -114,7 +114,7 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Indexed Node: OV Type */
+  /* Field: Indexed Node: Type */
   $handler->display->display_options['fields']['field_ov_type']['id'] = 'field_ov_type';
   $handler->display->display_options['fields']['field_ov_type']['table'] = 'search_api_index_database_node_index';
   $handler->display->display_options['fields']['field_ov_type']['field'] = 'field_ov_type';
@@ -124,7 +124,7 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['fields']['field_ov_type']['view_mode'] = 'full';
   $handler->display->display_options['fields']['field_ov_type']['bypass_access'] = 0;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Indexed Node: OV Type */
+  /* Sort criterion: Indexed Node: Type */
   $handler->display->display_options['sorts']['field_ov_type']['id'] = 'field_ov_type';
   $handler->display->display_options['sorts']['field_ov_type']['table'] = 'search_api_index_database_node_index';
   $handler->display->display_options['sorts']['field_ov_type']['field'] = 'field_ov_type';
@@ -308,7 +308,7 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['relationships']['field_viz']['id'] = 'field_viz';
   $handler->display->display_options['relationships']['field_viz']['table'] = 'search_api_index_database_node_index';
   $handler->display->display_options['relationships']['field_viz']['field'] = 'field_viz';
-  /* Relationship: Indexed Node: OV Type */
+  /* Relationship: Indexed Node: Type */
   $handler->display->display_options['relationships']['field_ov_type']['id'] = 'field_ov_type';
   $handler->display->display_options['relationships']['field_ov_type']['table'] = 'search_api_index_database_node_index';
   $handler->display->display_options['relationships']['field_ov_type']['field'] = 'field_ov_type';
@@ -357,7 +357,7 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['fields']['field_ov_tags']['link_to_entity'] = 1;
   $handler->display->display_options['fields']['field_ov_tags']['view_mode'] = 'full';
   $handler->display->display_options['fields']['field_ov_tags']['bypass_access'] = 0;
-  /* Field: Indexed Node: OV Type */
+  /* Field: Indexed Node: Type */
   $handler->display->display_options['fields']['field_ov_type']['id'] = 'field_ov_type';
   $handler->display->display_options['fields']['field_ov_type']['table'] = 'search_api_index_database_node_index';
   $handler->display->display_options['fields']['field_ov_type']['field'] = 'field_ov_type';
@@ -578,12 +578,12 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['row_options']['hide_empty'] = TRUE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Content: OV Type (field_ov_type) */
+  /* Relationship: Content: Type (field_ov_type) */
   $handler->display->display_options['relationships']['field_ov_type_tid']['id'] = 'field_ov_type_tid';
   $handler->display->display_options['relationships']['field_ov_type_tid']['table'] = 'field_data_field_ov_type';
   $handler->display->display_options['relationships']['field_ov_type_tid']['field'] = 'field_ov_type_tid';
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: OV Type */
+  /* Field: Content: Type */
   $handler->display->display_options['fields']['field_ov_type']['id'] = 'field_ov_type';
   $handler->display->display_options['fields']['field_ov_type']['table'] = 'field_data_field_ov_type';
   $handler->display->display_options['fields']['field_ov_type']['field'] = 'field_ov_type';
@@ -665,7 +665,7 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['relationships']['flag_count_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['flag_count_rel']['field'] = 'flag_count_rel';
   $handler->display->display_options['relationships']['flag_count_rel']['flag'] = 'ov_favorites';
-  /* Relationship: Content: OV Type (field_ov_type) */
+  /* Relationship: Content: Type (field_ov_type) */
   $handler->display->display_options['relationships']['field_ov_type_tid']['id'] = 'field_ov_type_tid';
   $handler->display->display_options['relationships']['field_ov_type_tid']['table'] = 'field_data_field_ov_type';
   $handler->display->display_options['relationships']['field_ov_type_tid']['field'] = 'field_ov_type_tid';
@@ -938,7 +938,7 @@ function openviz_visualisation_views_default_views() {
     'tag' => '',
     'function' => 'count',
   );
-  /* Relationship: Content: OV Type (field_ov_type) */
+  /* Relationship: Content: Type (field_ov_type) */
   $handler->display->display_options['relationships']['field_ov_type_tid']['id'] = 'field_ov_type_tid';
   $handler->display->display_options['relationships']['field_ov_type_tid']['table'] = 'field_data_field_ov_type';
   $handler->display->display_options['relationships']['field_ov_type_tid']['field'] = 'field_ov_type_tid';
@@ -1085,7 +1085,7 @@ function openviz_visualisation_views_default_views() {
     'style' => 'average',
     'text' => 'average',
   );
-  /* Field: Content: OV Type */
+  /* Field: Content: Type */
   $handler->display->display_options['fields']['field_ov_type']['id'] = 'field_ov_type';
   $handler->display->display_options['fields']['field_ov_type']['table'] = 'field_data_field_ov_type';
   $handler->display->display_options['fields']['field_ov_type']['field'] = 'field_ov_type';

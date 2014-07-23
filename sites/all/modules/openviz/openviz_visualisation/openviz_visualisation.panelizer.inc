@@ -43,7 +43,7 @@ function openviz_visualisation_panelizer_defaults() {
     ),
   );
   $display->cache = array();
-  $display->title = '%node:title';
+  $display->title = 'No Title';
   $display->uuid = '651143d9-6df5-4ec9-a9b8-89dfce3ed11c';
   $display->content = array();
   $display->panels = array();
