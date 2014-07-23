@@ -68,6 +68,14 @@ function openviz_review_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Reviews for this Viz pane', 'panel_pane_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'Reviews of this visualization';
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Unfiltered text */
+  $handler->display->display_options['empty']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['empty']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['label'] = 'No Reviews found';
+  $handler->display->display_options['empty']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area_text_custom']['content'] = 'No Reviews found for this Visualization.';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: Field: Visualization (field_viz) */
   $handler->display->display_options['arguments']['field_viz_target_id']['id'] = 'field_viz_target_id';
