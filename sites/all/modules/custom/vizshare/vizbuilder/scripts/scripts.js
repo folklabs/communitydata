@@ -82,7 +82,7 @@
       model.createGroupAggregateDataTable = function(groupField, aggField, aggType) {
         var deferred, tableCreated;
         deferred = $q.defer();
-        dataunity.config.setBaseUrl('http://data-unity.com');
+        dataunity.config.setBaseUrl(DATA_UNITY_HOST);
         tableCreated = dataunity.querytemplate.createGroupAggregateDataTable('name', this['@id'], groupField, aggField, aggType);
         tableCreated.done(function(dataTableURL) {
           return $rootScope.$apply(deferred.resolve(dataTableURL));
