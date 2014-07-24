@@ -224,84 +224,10 @@ function openviz_visualisation_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Visualization Browser Centre Pane', 'panel_pane_6');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'table';
-  $handler->display->display_options['style_options']['columns'] = array(
-    'field_ov_thumbnail' => 'field_ov_thumbnail',
-    'title' => 'title',
-    'field_ov_categories' => 'title',
-    'field_ov_tags' => 'title',
-    'field_ov_type' => 'field_ov_type',
-    'author' => 'field_ov_type',
-    'field_ov_rating' => 'field_ov_type',
-    'created' => 'title',
-    'changed' => 'title',
-    'body' => 'title',
-  );
-  $handler->display->display_options['style_options']['default'] = '-1';
-  $handler->display->display_options['style_options']['info'] = array(
-    'field_ov_thumbnail' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'title' => array(
-      'align' => 'views-align-left',
-      'separator' => ' <br>',
-      'empty_column' => 0,
-    ),
-    'field_ov_categories' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ov_tags' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'field_ov_type' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => 'views-align-right',
-      'separator' => '<br>',
-      'empty_column' => 0,
-    ),
-    'author' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => 'views-align-right',
-      'separator' => '<br>',
-      'empty_column' => 0,
-    ),
-    'field_ov_rating' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'created' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'changed' => array(
-      'sortable' => 0,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'body' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-  );
+  $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Indexed Node: Visualization */
@@ -325,6 +251,53 @@ function openviz_visualisation_views_default_views() {
     'image_style' => '',
     'image_link' => '',
   );
+  /* Field: Indexed Node: Type */
+  $handler->display->display_options['fields']['field_ov_type']['id'] = 'field_ov_type';
+  $handler->display->display_options['fields']['field_ov_type']['table'] = 'search_api_index_database_node_index';
+  $handler->display->display_options['fields']['field_ov_type']['field'] = 'field_ov_type';
+  $handler->display->display_options['fields']['field_ov_type']['label'] = '';
+  $handler->display->display_options['fields']['field_ov_type']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_ov_type']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ov_type']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['field_ov_type']['view_mode'] = 'full';
+  $handler->display->display_options['fields']['field_ov_type']['bypass_access'] = 0;
+  /* Field: Indexed Node: Author */
+  $handler->display->display_options['fields']['author']['id'] = 'author';
+  $handler->display->display_options['fields']['author']['table'] = 'search_api_index_database_node_index';
+  $handler->display->display_options['fields']['author']['field'] = 'author';
+  $handler->display->display_options['fields']['author']['label'] = '';
+  $handler->display->display_options['fields']['author']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['author']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['author']['alter']['text'] = 'Created by: [author] ';
+  $handler->display->display_options['fields']['author']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['author']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['author']['view_mode'] = 'full';
+  $handler->display->display_options['fields']['author']['bypass_access'] = 0;
+  /* Field: Indexed Node: Rating */
+  $handler->display->display_options['fields']['field_ov_rating']['id'] = 'field_ov_rating';
+  $handler->display->display_options['fields']['field_ov_rating']['table'] = 'search_api_index_database_node_index';
+  $handler->display->display_options['fields']['field_ov_rating']['field'] = 'field_ov_rating';
+  $handler->display->display_options['fields']['field_ov_rating']['label'] = '';
+  $handler->display->display_options['fields']['field_ov_rating']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_ov_rating']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ov_rating']['click_sort_column'] = 'rating';
+  $handler->display->display_options['fields']['field_ov_rating']['settings'] = array(
+    'widget' => array(
+      'fivestar_widget' => 'default',
+    ),
+    'expose' => 1,
+    'style' => 'average',
+    'text' => 'none',
+  );
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div>[field_ov_type]</div>
+<div>[author]</div>
+<div>[field_ov_rating] </div>';
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Indexed Node: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'search_api_index_database_node_index';
@@ -357,41 +330,6 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['fields']['field_ov_tags']['link_to_entity'] = 1;
   $handler->display->display_options['fields']['field_ov_tags']['view_mode'] = 'full';
   $handler->display->display_options['fields']['field_ov_tags']['bypass_access'] = 0;
-  /* Field: Indexed Node: Type */
-  $handler->display->display_options['fields']['field_ov_type']['id'] = 'field_ov_type';
-  $handler->display->display_options['fields']['field_ov_type']['table'] = 'search_api_index_database_node_index';
-  $handler->display->display_options['fields']['field_ov_type']['field'] = 'field_ov_type';
-  $handler->display->display_options['fields']['field_ov_type']['label'] = '';
-  $handler->display->display_options['fields']['field_ov_type']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ov_type']['link_to_entity'] = 1;
-  $handler->display->display_options['fields']['field_ov_type']['view_mode'] = 'full';
-  $handler->display->display_options['fields']['field_ov_type']['bypass_access'] = 0;
-  /* Field: Indexed Node: Author */
-  $handler->display->display_options['fields']['author']['id'] = 'author';
-  $handler->display->display_options['fields']['author']['table'] = 'search_api_index_database_node_index';
-  $handler->display->display_options['fields']['author']['field'] = 'author';
-  $handler->display->display_options['fields']['author']['label'] = '';
-  $handler->display->display_options['fields']['author']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['author']['alter']['text'] = 'Created by: [author] ';
-  $handler->display->display_options['fields']['author']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['author']['link_to_entity'] = 1;
-  $handler->display->display_options['fields']['author']['view_mode'] = 'full';
-  $handler->display->display_options['fields']['author']['bypass_access'] = 0;
-  /* Field: Indexed Node: Rating */
-  $handler->display->display_options['fields']['field_ov_rating']['id'] = 'field_ov_rating';
-  $handler->display->display_options['fields']['field_ov_rating']['table'] = 'search_api_index_database_node_index';
-  $handler->display->display_options['fields']['field_ov_rating']['field'] = 'field_ov_rating';
-  $handler->display->display_options['fields']['field_ov_rating']['label'] = '';
-  $handler->display->display_options['fields']['field_ov_rating']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ov_rating']['click_sort_column'] = 'rating';
-  $handler->display->display_options['fields']['field_ov_rating']['settings'] = array(
-    'widget' => array(
-      'fivestar_widget' => 'default',
-    ),
-    'expose' => 1,
-    'style' => 'average',
-    'text' => 'none',
-  );
   /* Field: Indexed Node: Date created */
   $handler->display->display_options['fields']['created']['id'] = 'created';
   $handler->display->display_options['fields']['created']['table'] = 'search_api_index_database_node_index';

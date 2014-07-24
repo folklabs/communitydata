@@ -1,3 +1,21 @@
+/* line 3, ../scss/components/_lists.scss */
+.view-openviz-facets .views-row {
+  margin-bottom: 30px;
+}
+/* line 7, ../scss/components/_lists.scss */
+.view-openviz-facets .views-field-field-ov-thumbnail {
+  float: left;
+  margin-right: 10px;
+}
+/* line 12, ../scss/components/_lists.scss */
+.view-openviz-facets .views-field-field-ov-type {
+  margin-bottom: 30px;
+}
+/* line 15, ../scss/components/_lists.scss */
+.view-openviz-facets .views-field-nothing {
+  float: right;
+}
+
 /* line 2, ../scss/components/_menus.scss */
 .main-menu {
   display: inline-block;
