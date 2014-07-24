@@ -3,8 +3,7 @@
 
   DATA_UNITY_URL = 'http://0.0.0.0:6543/api/beta';
 
-  DATA_UNITY_HOST = 'http://data-unity.com';
-
+  DATA_UNITY_HOST = 'http://lambeth.dataunityapp.com';
   DATA_UNITY_URL = DATA_UNITY_HOST + '/api/beta';
 
   vizBuilder = angular.module("vizBuilder", ['restangular']);
