@@ -82,7 +82,7 @@
       model.createGroupAggregateDataTable = function(groupField, aggField, aggType) {
         var deferred, tableCreated;
         deferred = $q.defer();
-        dataunity.config.setBaseUrl(DATA_UNITY_HOST);
+        dataunity.config.setBaseUrl('http://lambeth.dataunityapp.com');
         tableCreated = dataunity.querytemplate.createGroupAggregateDataTable('name', this['@id'], groupField, aggField, aggType);
         tableCreated.done(function(dataTableURL) {
           return $rootScope.$apply(deferred.resolve(dataTableURL));
