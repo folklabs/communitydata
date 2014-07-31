@@ -41,6 +41,11 @@
 }
 
 /* line 8, ../scss/components/_node.scss */
+#edit-field-ov-type {
+  display: none;
+}
+
+/* line 12, ../scss/components/_node.scss */
 h1#page-title {
   display: none;
 }
