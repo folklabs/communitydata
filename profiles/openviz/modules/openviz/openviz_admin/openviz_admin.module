@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the OpenViz Admin feature.
+ */
+
+include_once 'openviz_admin.features.inc';

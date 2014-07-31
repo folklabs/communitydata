@@ -51,7 +51,7 @@ function openviz_visualisation_flag_default_flags() {
     'unflag_message' => 'This item is removed from your favorites',
     'unflag_denied_text' => '',
     'link_type' => 'toggle',
-    'weight' => 0,
+    'weight' => -7,
     'show_in_links' => array(
       'full' => 'full',
       'teaser' => 0,
