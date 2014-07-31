@@ -3,7 +3,8 @@
 
   DATA_UNITY_URL = 'http://0.0.0.0:6543/api/beta';
 
-  DATA_UNITY_HOST = 'http://lambeth.dataunityapp.com';
+  DATA_UNITY_HOST = 'http://data-unity.com';
+
   DATA_UNITY_URL = DATA_UNITY_HOST + '/api/beta';
 
   vizBuilder = angular.module("vizBuilder", ['restangular']);
@@ -41,6 +42,7 @@
     url = DATA_UNITY_URL;
     console.log(window.data_unity_url);
     if (window.data_unity_url !== void 0) {
+      console.log('Getting DATA_UNITY_URL from window environment...');
       url = window.data_unity_url;
     } else {
       window.data_unity_url = DATA_UNITY_URL;
@@ -80,9 +82,12 @@
         });
       };
       model.createGroupAggregateDataTable = function(groupField, aggField, aggType) {
-        var deferred, tableCreated;
+        var deferred, duBaseUrl, tableCreated, urlElement;
         deferred = $q.defer();
-        dataunity.config.setBaseUrl('http://lambeth.dataunityapp.com');
+        urlElement = document.createElement("a");
+        urlElement.href = window.data_unity_url;
+        duBaseUrl = 'http://' + urlElement.hostname;
+        dataunity.config.setBaseUrl(duBaseUrl);
         tableCreated = dataunity.querytemplate.createGroupAggregateDataTable('name', this['@id'], groupField, aggField, aggType);
         tableCreated.done(function(dataTableURL) {
           return $rootScope.$apply(deferred.resolve(dataTableURL));
@@ -406,6 +411,7 @@
           console.log($rootScope.state);
           if (element[0].value !== void 0 && element[0].value.length > 0) {
             $rootScope.state.vizDef = JSON.parse(element[0].value);
+            $rootScope.state.edit = true;
             console.log(JSON.parse(element[0].value));
           }
           console.log($rootScope.state);
@@ -465,16 +471,30 @@
     if ($scope.datatables === void 0) {
       tablesFetched = DatatableService.fetchTables();
       return tablesFetched.then(function(data) {
+        var d, _i, _len, _results;
         console.log('tablesFetched');
         $rootScope.datatables = data;
-        return console.log(data);
+        console.log(data);
+        if ($rootScope.state.edit && $rootScope.state.vizDef[0].datatable) {
+          console.log('Scanning to initialize datatable');
+          _results = [];
+          for (_i = 0, _len = data.length; _i < _len; _i++) {
+            d = data[_i];
+            if (d['@id'] === $rootScope.state.vizDef[0].datatable['@id']) {
+              _results.push($scope.select(d));
+            } else {
+              _results.push(void 0);
+            }
+          }
+          return _results;
+        }
       });
     }
   });
 
   vizBuilder.controller("VisualizationTypeController", function($scope, $rootScope, RendererService, $http) {
-    $scope.renderers = RendererService.getRenderers();
-    return $scope.selectRenderer = function(renderer) {
+    var r, _i, _len, _ref, _results;
+    $scope.selectRenderer = function(renderer) {
       var r, _i, _len, _ref;
       console.log('selectRenderer');
       _ref = $scope.renderers;
@@ -486,24 +506,27 @@
       console.log($rootScope.state);
       return renderer.selected = true;
     };
+    $scope.renderers = RendererService.getRenderers();
+    if ($rootScope.state.edit && $rootScope.state.vizDef[0].visualizationType) {
+      _ref = $scope.renderers;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        r = _ref[_i];
+        if (r.type === $rootScope.state.vizDef[0].visualizationType) {
+          _results.push($scope.selectRenderer(r));
+        } else {
+          _results.push(void 0);
+        }
+      }
+      return _results;
+    }
   });
 
   vizBuilder.controller("ColumnsController", function($scope, $rootScope, DatatableService, RendererService) {
-    console.log('ColumnsController');
-    console.log($rootScope.state.dataset);
-    console.log($rootScope.state.renderer);
-    $scope.aggregationMethods = AGGREGATION_METHODS;
-    $rootScope.state.aggregationMethod = "Count";
-    console.log($scope);
-    $scope.$watch('state.aggregationMethod', function(newVal) {
-      return console.log('aggregationMethod ' + newVal);
-    });
-    $scope.selectAggregationMethod = function(method) {
-      return $scope.selectedMethod = method;
-    };
-    return $scope.selectColForField = function(field, col) {
+    var col, colMatch, field, fieldMapping, fieldMatch, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results;
+    $scope.selectColForField = function(field, col) {
       var c, isAllColumnsSelected, _i, _j, _len, _len1, _ref, _ref1;
-      if (col.selected === void 0) {
+      if (col['selected'] === void 0) {
         col.selected = {};
       }
       _ref = $rootScope.state.dataset['structure']['component'];
@@ -525,6 +548,42 @@
       }
       return $scope.isAllColumnsSelected = isAllColumnsSelected;
     };
+    $scope.selectAggregationMethod = function(method) {
+      return $scope.selectedMethod = method;
+    };
+    console.log('ColumnsController');
+    console.log($rootScope.state.dataset);
+    console.log($rootScope.state.renderer);
+    $scope.aggregationMethods = AGGREGATION_METHODS;
+    $rootScope.state.aggregationMethod = "Count";
+    $scope.$watch('state.aggregationMethod', function(newVal) {
+      return console.log('aggregationMethod ' + newVal);
+    });
+    if ($rootScope.state.edit) {
+      _ref = $rootScope.state.vizDef[0].fields;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        fieldMapping = _ref[_i];
+        fieldMatch = void 0;
+        _ref1 = $rootScope.state.renderer.datasets[0].fields;
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          field = _ref1[_j];
+          if (field.vizField = fieldMapping.vizField) {
+            fieldMatch = field;
+          }
+        }
+        colMatch = void 0;
+        _ref2 = $rootScope.state.dataset['structure']['component'];
+        for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+          col = _ref2[_k];
+          if (col.fieldRef === fieldMapping.dataField) {
+            colMatch = col;
+          }
+        }
+        _results.push($scope.selectColForField(fieldMatch, colMatch));
+      }
+      return _results;
+    }
   });
 
   vizBuilder.directive('visualization', [
@@ -542,7 +601,10 @@
             "contentType": "text/csv",
             "visualizationType": vizType,
             "fields": [],
-            "vizOptions": $rootScope.state.renderer.vizOptions
+            "vizOptions": $rootScope.state.renderer.vizOptions,
+            datatable: {
+              '@id': $rootScope.state.dataset['@id']
+            }
           };
           dataset = $rootScope.state.renderer.datasets[0];
           dataTable = $rootScope.state.dataset;
