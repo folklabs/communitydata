@@ -1,1 +1,0 @@
-window.tinyMCEPreInit = {"base":"\/profiles\/panopoly\/libraries\/tinymce\/jscripts\/tiny_mce","suffix":"","query":""};
