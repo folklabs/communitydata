@@ -40,6 +40,11 @@
   display: none;
 }
 
+/* line 8, ../scss/components/_node.scss */
+h1#page-title {
+  display: none;
+}
+
 /* line 26, ../scss/_vizbuilder.scss */
 wizard-progress-bar {
   display: block;
