@@ -278,42 +278,6 @@ function openviz_review_panelizer_defaults() {
     $pane->uuid = 'bff50fb6-0264-41a6-88b3-63450beccf0e';
     $display->content['new-bff50fb6-0264-41a6-88b3-63450beccf0e'] = $pane;
     $display->panels['first_column'][4] = 'new-bff50fb6-0264-41a6-88b3-63450beccf0e';
-    $pane = new stdClass();
-    $pane->pid = 'new-7275dd56-5a1d-4059-aa6a-6a305472b682';
-    $pane->panel = 'second_column';
-    $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_ov_rating';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'label' => 'title',
-      'formatter' => 'fivestar_formatter_default',
-      'delta_limit' => 0,
-      'delta_offset' => '0',
-      'delta_reversed' => FALSE,
-      'formatter_settings' => array(
-        'widget' => array(
-          'fivestar_widget' => 'default',
-        ),
-        'style' => 'average',
-        'text' => 'average',
-        'expose' => 1,
-      ),
-      'context' => array(),
-      'override_title' => 0,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '7275dd56-5a1d-4059-aa6a-6a305472b682';
-    $display->content['new-7275dd56-5a1d-4059-aa6a-6a305472b682'] = $pane;
-    $display->panels['second_column'][0] = 'new-7275dd56-5a1d-4059-aa6a-6a305472b682';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $panelizer->display = $display;
