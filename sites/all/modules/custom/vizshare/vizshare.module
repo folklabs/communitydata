@@ -133,15 +133,22 @@ function vizshare_builder_form($form, &$form_state) {
   $form['vizdef_out'] = array(
     '#type' => 'textarea',
     '#attributes' => array(
-      'ng-model' => 'state.vizDef',
+      'ng-model' => 'vizDefText',
       'ng-controller'=>'VizDefController',
       // TODO: uncomment this to hide for form box
       // 'style' => 'display: none'
     ),
   );
+
+  // The form needs a Submit button but a similar one is provided by the Angular
+  // app in another location to fit the wizard layout.
+  $submit_value = 'Add';
+  if ($viz_def_to_edit) {
+    $submit_value = 'Save';
+  }
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Save',
+    '#value' => $submit_value,
     '#attributes' => array('style' => 'display: none'),
   );
 
@@ -160,11 +167,19 @@ function vizshare_builder_form($form, &$form_state) {
 function vizshare_builder_form_submit($form, &$form_state) {
   // dpm('vizshare_builder_form_submit');
   // dpm($form);
-
-  $_SESSION['vizshare_definition'] = $form['vizdef_out']['#value'];
-
   // dpm($form_state);
-  drupal_goto('node/add/ov-visualisation');
+  // dpm('Switching to new form');
+
+  if ($form_state['build_info']['args'][0]) {
+    $node = $form_state['build_info']['args'][0];
+    $node->field_ov_visualization_data['und'][0]['value'] = $form['vizdef_out']['#value'];
+    node_save($form_state['build_info']['args'][0]);
+    drupal_goto('node/' . $node->nid);
+  }
+  else {
+    $_SESSION['vizshare_definition'] = $form['vizdef_out']['#value'];
+    drupal_goto('node/add/ov-visualisation');
+  }
 }
 
 
@@ -175,7 +190,6 @@ function vizshare_form_alter(&$form, &$form_state, $form_id) {
   // dpm($form_id);
   // dpm($form);
   // dpm($_SESSION);
-  // dpm("SESSION[vizshare_definition]");
   // dpm($_SESSION['vizshare_definition']);
   // dpm($form_state);
   switch ($form_id) {

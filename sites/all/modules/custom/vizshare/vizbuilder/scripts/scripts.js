@@ -571,10 +571,8 @@
     $scope.$watch('state.aggregationMethod', function(newVal, oldVal) {
       return console.log('aggregationMethod ' + newVal);
     });
-    $scope.$watch('aggregationMethod2', function(newVal, oldVal) {
-      return console.log('aggregationMethod2 ' + newVal);
-    });
     if ($rootScope.state.edit) {
+      console.log($rootScope.state.vizDef);
       _ref = $rootScope.state.vizDef[0].fields;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -591,7 +589,7 @@
         _ref2 = $rootScope.state.dataset['structure']['component'];
         for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
           col = _ref2[_k];
-          if (col.fieldRef === fieldMapping.dataField) {
+          if (col.fieldRef === fieldMapping.fieldRefLabel) {
             colMatch = col;
           }
         }
@@ -657,11 +655,12 @@
             _ref1 = dataset.fields;
             for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
               f = _ref1[_j];
+              f.vizDataFieldName = f.col['fieldRef'];
               if (f.needsGroup) {
-                f.col['fieldRef'] = fieldNames.groupField;
+                f.vizDataFieldName = fieldNames.groupField;
               }
               if (f.needsAggregate) {
-                f.col['fieldRef'] = fieldNames.aggField;
+                f.vizDataFieldName = fieldNames.aggField;
               }
             }
             console.log(dataset);
@@ -687,12 +686,14 @@
                     console.log(f.col);
                     fieldData = {
                       vizField: f.vizField,
-                      dataField: f.col['fieldRef']
+                      dataField: f.vizDataFieldName,
+                      fieldRefLabel: f.col['fieldRef']
                     };
                     vizDef.fields.push(fieldData);
                   }
                   renderOpt.data = [vizDef];
-                  $rootScope.state.vizDef = JSON.stringify([vizDef]);
+                  $rootScope.state.vizDef = [vizDef];
+                  console.log($rootScope.state.vizDef);
                   $rootScope.state.vizRendered = true;
                   return element.vizshare(renderOpt);
                 });
@@ -719,7 +720,7 @@
               console.log('Setting vizDef...');
               console.log(vizDef);
               console.log(renderDef);
-              $rootScope.state.vizDef = JSON.stringify([vizDef]);
+              $rootScope.state.vizDef = [vizDef];
               $rootScope.state.vizRendered = true;
               return element.vizshare(renderOpt);
             });
@@ -729,7 +730,11 @@
     }
   ]);
 
-  vizBuilder.controller("VisualizationController", function($scope, RendererService) {
+  vizBuilder.controller("VisualizationController", function($scope, $rootScope, RendererService) {
+    $scope.handleFormSubmit = function() {
+      console.log('handleFormSubmit');
+      return $rootScope.vizDefText = JSON.stringify($rootScope.state.vizDef);
+    };
     return $scope.renderers = RendererService.getRenderers();
   });
 
