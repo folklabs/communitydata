@@ -5,6 +5,8 @@
 
   DATA_UNITY_HOST = 'http://data-unity.com';
 
+  DATA_UNITY_HOST = 'http://lambeth.dataunityapp.com';
+
   DATA_UNITY_URL = DATA_UNITY_HOST + '/api/beta';
 
   vizBuilder = angular.module("vizBuilder", ['restangular']);
@@ -405,14 +407,22 @@
       return {
         restrict: 'A',
         link: function(scope, element, attrs) {
+          var vizDefContent;
           console.log('directive initModel');
           $rootScope.imagePath = element.attr('image-path');
           console.log(element[0].value);
+          if ($rootScope.state === void 0) {
+            $rootScope.state = {};
+          }
           console.log($rootScope.state);
-          if (element[0].value !== void 0 && element[0].value.length > 0) {
-            $rootScope.state.vizDef = JSON.parse(element[0].value);
+          vizDefContent = element[0].value;
+          if (vizDefContent !== void 0) {
+            vizDefContent = vizDefContent.replace(/^\s+|\s+$/g, "");
+          }
+          if (vizDefContent.length > 0) {
+            $rootScope.state.vizDef = JSON.parse(vizDefContent);
             $rootScope.state.edit = true;
-            console.log(JSON.parse(element[0].value));
+            console.log(JSON.parse(vizDefContent));
           }
           console.log($rootScope.state);
           element.removeAttr('init-model');
@@ -526,6 +536,7 @@
     var col, colMatch, field, fieldMapping, fieldMatch, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _results;
     $scope.selectColForField = function(field, col) {
       var c, isAllColumnsSelected, _i, _j, _len, _len1, _ref, _ref1;
+      console.log('selectColForField');
       if (col['selected'] === void 0) {
         col.selected = {};
       }
@@ -536,6 +547,8 @@
           c.selected[field.vizField] = false;
         }
       }
+      console.log(field);
+      console.log(col);
       field.col = col;
       col.selected[field.vizField] = !col.selected[field.vizField];
       isAllColumnsSelected = true;
@@ -548,16 +561,18 @@
       }
       return $scope.isAllColumnsSelected = isAllColumnsSelected;
     };
-    $scope.selectAggregationMethod = function(method) {
-      return $scope.selectedMethod = method;
-    };
     console.log('ColumnsController');
     console.log($rootScope.state.dataset);
     console.log($rootScope.state.renderer);
     $scope.aggregationMethods = AGGREGATION_METHODS;
     $rootScope.state.aggregationMethod = "Count";
-    $scope.$watch('state.aggregationMethod', function(newVal) {
+    $scope.a = {};
+    $scope.aggregationMethod = "Count";
+    $scope.$watch('state.aggregationMethod', function(newVal, oldVal) {
       return console.log('aggregationMethod ' + newVal);
+    });
+    $scope.$watch('aggregationMethod2', function(newVal, oldVal) {
+      return console.log('aggregationMethod2 ' + newVal);
     });
     if ($rootScope.state.edit) {
       _ref = $rootScope.state.vizDef[0].fields;
@@ -568,7 +583,7 @@
         _ref1 = $rootScope.state.renderer.datasets[0].fields;
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           field = _ref1[_j];
-          if (field.vizField = fieldMapping.vizField) {
+          if (field.vizField === fieldMapping.vizField) {
             fieldMatch = field;
           }
         }
@@ -580,7 +595,11 @@
             colMatch = col;
           }
         }
-        _results.push($scope.selectColForField(fieldMatch, colMatch));
+        if (fieldMatch !== void 0 && colMatch !== void 0) {
+          _results.push($scope.selectColForField(fieldMatch, colMatch));
+        } else {
+          _results.push(console.log('Existing state: field match failed: ' + fieldMatch + ', ' + colMatch));
+        }
       }
       return _results;
     }

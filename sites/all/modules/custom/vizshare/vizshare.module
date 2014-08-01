@@ -100,7 +100,9 @@ function vizshare_builder_form($form, &$form_state) {
     drupal_get_path('module', 'vizshare') . '/vizbuilder/styles/main.css',
     drupal_get_path('module', 'vizshare') . '/leaflet/leaflet.css',
   );
+
   // dpm($form_state['build_info']);
+  // Extract vizDef from node to pass to Angular form.
   $viz_def_to_edit = '';
   if (count($form_state['build_info']['args']) > 0) {
     $viz_def_to_edit = $form_state['build_info']['args'][0]->field_ov_visualization_data['und'][0]['value'];
