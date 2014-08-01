@@ -1,4 +1,3 @@
-<h2>Select columns</h2>
 <wizard-progress-bar active-step='select-columns'></wizard-progress-bar>
 <div class='buttons'>
 <a href='#/visualization'>
@@ -23,8 +22,7 @@
 <div ng-show='field.needsAggregate'>
 <h5>Select aggregation function for this column</h5>
 <label class='radio' ng-repeat='method in aggregationMethods'>
-<input id='{{method}}' name='inlineRadioOptions' ng-model='state.aggregationMethod' type='radio' value='{{method}}'>
-<b>{{method.name}}: {{method.description}}</b>
+<input name='inlineRadioOptions' ng-model='state.aggregationMethod' type='radio' value='{{method.name}}'>{{method.name}}: {{method.description}}</input>
 </label>
 </div>
 </div>
