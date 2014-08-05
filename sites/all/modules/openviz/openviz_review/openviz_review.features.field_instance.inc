@@ -178,7 +178,62 @@ function openviz_review_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 3,
+      'weight' => 31,
+    ),
+  );
+
+  // Exported field_instance: 'node-ov_review-field_ov_rating'
+  $field_instances['node-ov_review-field_ov_rating'] = array(
+    'bundle' => 'ov_review',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'fivestar',
+        'settings' => array(
+          'expose' => TRUE,
+          'style' => 'average',
+          'text' => 'average',
+          'widget' => array(
+            'fivestar_widget' => NULL,
+          ),
+        ),
+        'type' => 'fivestar_formatter_default',
+        'weight' => 4,
+      ),
+      'featured' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ov_rating',
+    'label' => 'Rating',
+    'required' => 0,
+    'settings' => array(
+      'allow_clear' => 0,
+      'allow_ownvote' => 1,
+      'allow_revote' => 0,
+      'stars' => 5,
+      'target' => 'none',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'fivestar',
+      'settings' => array(),
+      'type' => 'exposed',
+      'weight' => 38,
     ),
   );
 
@@ -221,7 +276,7 @@ function openviz_review_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 4,
+      'weight' => 36,
     ),
   );
 
@@ -262,7 +317,7 @@ function openviz_review_field_default_field_instances() {
     'settings' => array(
       'behaviors' => array(
         'prepopulate' => array(
-          'action' => 'disable',
+          'action' => 'none',
           'action_on_edit' => 0,
           'fallback' => 'none',
           'providers' => array(
@@ -280,7 +335,7 @@ function openviz_review_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 2,
+      'weight' => 32,
     ),
   );
 
@@ -289,6 +344,7 @@ function openviz_review_field_default_field_instances() {
   t('Body');
   t('Comment');
   t('Please explain why you would like a review of this visualization.');
+  t('Rating');
   t('Review Reason');
   t('Tags');
   t('Visualization');
