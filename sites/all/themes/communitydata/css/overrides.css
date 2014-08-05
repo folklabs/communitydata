@@ -185,7 +185,7 @@ select,
   width: auto;
 }
 input.error {
-  color: #b94a48;
+  color: #a94442;
   border-color: #ebccd1;
 }
 fieldset legend.panel-heading {
@@ -221,7 +221,7 @@ fieldset .panel-heading a.panel-title:hover {
 }
 .help-block,
 .control-group .help-inline {
-  color: #999999;
+  color: #777777;
   font-size: 12px;
   margin: 5px 0 10px;
   padding: 0;
@@ -234,19 +234,19 @@ a.tabledrag-handle .handle {
   width: auto;
 }
 .error {
-  color: #b94a48;
+  color: #a94442;
 }
 div.error,
 table tr.error {
   background-color: #f2dede;
-  color: #b94a48;
+  color: #a94442;
 }
 .control-group.error {
   background: none;
 }
 .control-group.error label,
 .control-group.error .control-label {
-  color: #b94a48;
+  color: #a94442;
   font-weight: 600;
 }
 .control-group.error input,
@@ -296,14 +296,14 @@ ul li.leaf {
   font-weight: bold;
 }
 .password-indicator {
-  background-color: #949494;
+  background-color: #727272;
   height: 0.3em;
   width: 100%;
 }
 .password-indicator div {
   height: 100%;
   width: 0%;
-  background-color: #999999;
+  background-color: #777777;
 }
 input.password-confirm,
 input.password-field {
@@ -340,7 +340,7 @@ div.password-suggestions ul {
   float: left;
 }
 .form-autocomplete .glyphicon {
-  color: #999999;
+  color: #777777;
   font-size: 120%;
 }
 .form-autocomplete .glyphicon.glyphicon-spin {
@@ -427,7 +427,7 @@ a .glyphicon-spin {
 .tabs-below > .nav-tabs .summary,
 .tabs-left > .nav-tabs .summary,
 .tabs-right > .nav-tabs .summary {
-  color: #999999;
+  color: #777777;
   font-size: 12px;
 }
 .tab-pane > .panel-heading {
@@ -564,14 +564,14 @@ table .checkbox input[type="checkbox"] {
   font-weight: bold;
 }
 .alert-success a {
-  color: #356635;
+  color: #2b542c;
 }
 .alert-info a {
-  color: #2d6987;
+  color: #245269;
 }
 .alert-warning a {
-  color: #a47e3c;
+  color: #66512c;
 }
 .alert-danger a {
-  color: #953b39;
+  color: #843534;
 }
