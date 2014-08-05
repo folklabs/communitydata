@@ -1169,6 +1169,39 @@ function openviz_visualisation_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_type'] = 'h4';
+  $handler->display->display_options['fields']['title']['element_class'] = 'list-group-item-heading media-body';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  /* Field: Content: Categories */
+  $handler->display->display_options['fields']['field_ov_categories']['id'] = 'field_ov_categories';
+  $handler->display->display_options['fields']['field_ov_categories']['table'] = 'field_data_field_ov_categories';
+  $handler->display->display_options['fields']['field_ov_categories']['field'] = 'field_ov_categories';
+  $handler->display->display_options['fields']['field_ov_categories']['element_wrapper_type'] = 'p';
+  $handler->display->display_options['fields']['field_ov_categories']['element_wrapper_class'] = 'small list-group-item-text media-body';
+  $handler->display->display_options['fields']['field_ov_categories']['delta_offset'] = '0';
+  /* Field: Content: Rating */
+  $handler->display->display_options['fields']['field_ov_rating']['id'] = 'field_ov_rating';
+  $handler->display->display_options['fields']['field_ov_rating']['table'] = 'field_data_field_ov_rating';
+  $handler->display->display_options['fields']['field_ov_rating']['field'] = 'field_ov_rating';
+  $handler->display->display_options['fields']['field_ov_rating']['label'] = '';
+  $handler->display->display_options['fields']['field_ov_rating']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ov_rating']['click_sort_column'] = 'rating';
+  $handler->display->display_options['fields']['field_ov_rating']['settings'] = array(
+    'widget' => array(
+      'fivestar_widget' => 'default',
+    ),
+    'expose' => 0,
+    'style' => 'average',
+    'text' => 'average',
+  );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
