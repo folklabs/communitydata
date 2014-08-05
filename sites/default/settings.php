@@ -455,10 +455,11 @@ ini_set('session.cookie_lifetime', 2000000);
  *
  * Remove the leading hash signs to enable.
  */
-# $conf['locale_custom_strings_en'][''] = array(
-#   'forum'      => 'Discussion board',
-#   '@count min' => '@count minutes',
-# );
+$conf['locale_custom_strings_en'][''] = array(
+  'permalink'      => 'link to this',
+  'Permalink'      => 'Link to this',
+# '@count min' => '@count minutes',
+);
 
 /**
  *
