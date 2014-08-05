@@ -43,7 +43,7 @@ function openviz_visualisation_panelizer_defaults() {
     ),
   );
   $display->cache = array();
-  $display->title = 'No Title';
+  $display->title = '%node:title';
   $display->uuid = '651143d9-6df5-4ec9-a9b8-89dfce3ed11c';
   $display->content = array();
   $display->panels = array();
@@ -178,19 +178,17 @@ function openviz_visualisation_panelizer_defaults() {
     $display->content['new-0e6d84e7-29a4-4386-b436-9411c95f5682'] = $pane;
     $display->panels['column1'][4] = 'new-0e6d84e7-29a4-4386-b436-9411c95f5682';
     $pane = new stdClass();
-    $pane->pid = 'new-c1dfb35d-804e-4282-8b51-2ba5bd3cbbe4';
+    $pane->pid = 'new-8caa1d79-5b28-43b7-965f-eb482c61608e';
     $pane->panel = 'column2';
-    $pane->type = 'node_links';
-    $pane->subtype = 'node_links';
+    $pane->type = 'flag_link';
+    $pane->subtype = 'node';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'flag_name' => 'ov_favorites',
+      'context' => 'panelizer',
       'override_title' => 1,
       'override_title_text' => '<none>',
-      'build_mode' => 'full',
-      'identifier' => '',
-      'link' => 1,
-      'context' => 'panelizer',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -200,9 +198,9 @@ function openviz_visualisation_panelizer_defaults() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $pane->uuid = 'c1dfb35d-804e-4282-8b51-2ba5bd3cbbe4';
-    $display->content['new-c1dfb35d-804e-4282-8b51-2ba5bd3cbbe4'] = $pane;
-    $display->panels['column2'][0] = 'new-c1dfb35d-804e-4282-8b51-2ba5bd3cbbe4';
+    $pane->uuid = '8caa1d79-5b28-43b7-965f-eb482c61608e';
+    $display->content['new-8caa1d79-5b28-43b7-965f-eb482c61608e'] = $pane;
+    $display->panels['column2'][0] = 'new-8caa1d79-5b28-43b7-965f-eb482c61608e';
     $pane = new stdClass();
     $pane->pid = 'new-6dd08950-0e8a-44f5-9601-359f303efa2a';
     $pane->panel = 'column2';
@@ -240,51 +238,75 @@ function openviz_visualisation_panelizer_defaults() {
     $display->content['new-6dd08950-0e8a-44f5-9601-359f303efa2a'] = $pane;
     $display->panels['column2'][1] = 'new-6dd08950-0e8a-44f5-9601-359f303efa2a';
     $pane = new stdClass();
-    $pane->pid = 'new-a57439d5-92a5-4349-ac07-2a82f65c4cd5';
+    $pane->pid = 'new-c1dfb35d-804e-4282-8b51-2ba5bd3cbbe4';
     $pane->panel = 'column2';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'openviz_reviews-panel_pane_1';
+    $pane->type = 'node_links';
+    $pane->subtype = 'node_links';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'view_settings' => 'fields',
-      'header_type' => 'none',
-      'view_mode' => 'teaser',
+      'override_title' => 1,
+      'override_title_text' => '<none>',
+      'build_mode' => 'full',
+      'identifier' => '',
+      'link' => 1,
+      'context' => 'panelizer',
     );
     $pane->cache = array();
     $pane->style = array(
+      'style' => 'default',
       'settings' => NULL,
     );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $pane->uuid = 'a57439d5-92a5-4349-ac07-2a82f65c4cd5';
-    $display->content['new-a57439d5-92a5-4349-ac07-2a82f65c4cd5'] = $pane;
-    $display->panels['column2'][2] = 'new-a57439d5-92a5-4349-ac07-2a82f65c4cd5';
+    $pane->uuid = 'c1dfb35d-804e-4282-8b51-2ba5bd3cbbe4';
+    $display->content['new-c1dfb35d-804e-4282-8b51-2ba5bd3cbbe4'] = $pane;
+    $display->panels['column2'][2] = 'new-c1dfb35d-804e-4282-8b51-2ba5bd3cbbe4';
     $pane = new stdClass();
-    $pane->pid = 'new-63a5eb40-be13-4b5e-9b13-b59e8781ccf5';
+    $pane->pid = 'new-740c56a1-0797-4138-9517-5e4b17708495';
     $pane->panel = 'column2';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'openviz_visualisation-panel_pane_5';
+    $pane->type = 'custom';
+    $pane->subtype = 'custom';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 3,
+              1 => 5,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
-      'view_settings' => 'fields',
-      'header_type' => 'none',
-      'view_mode' => 'teaser',
+      'admin_title' => 'Write Review',
+      'title' => '',
+      'body' => '<p><a href="/node/add/ov-review?field_viz=%node:nid">Write Review</a></p>',
+      'format' => 'panopoly_html_text',
+      'substitute' => 1,
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
+      'style' => 'default',
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 3;
     $pane->locks = array();
-    $pane->uuid = '63a5eb40-be13-4b5e-9b13-b59e8781ccf5';
-    $display->content['new-63a5eb40-be13-4b5e-9b13-b59e8781ccf5'] = $pane;
-    $display->panels['column2'][3] = 'new-63a5eb40-be13-4b5e-9b13-b59e8781ccf5';
+    $pane->uuid = '740c56a1-0797-4138-9517-5e4b17708495';
+    $display->content['new-740c56a1-0797-4138-9517-5e4b17708495'] = $pane;
+    $display->panels['column2'][3] = 'new-740c56a1-0797-4138-9517-5e4b17708495';
     $pane = new stdClass();
     $pane->pid = 'new-141a58d1-c3c2-4a4b-846f-16f44f1d1694';
     $pane->panel = 'column2';
@@ -337,32 +359,16 @@ if ($node_uid == $user_id) {
     $display->content['new-141a58d1-c3c2-4a4b-846f-16f44f1d1694'] = $pane;
     $display->panels['column2'][4] = 'new-141a58d1-c3c2-4a4b-846f-16f44f1d1694';
     $pane = new stdClass();
-    $pane->pid = 'new-740c56a1-0797-4138-9517-5e4b17708495';
+    $pane->pid = 'new-a57439d5-92a5-4349-ac07-2a82f65c4cd5';
     $pane->panel = 'column2';
-    $pane->type = 'custom';
-    $pane->subtype = 'custom';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'openviz_reviews-panel_pane_1';
     $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 3,
-              1 => 5,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
-      ),
-    );
+    $pane->access = array();
     $pane->configuration = array(
-      'admin_title' => 'Write Review',
-      'title' => '',
-      'body' => '<p><a href="/node/add/ov-review?field_viz=%node:nid">Write Review</a></p>',
-      'format' => 'panopoly_html_text',
-      'substitute' => 1,
+      'view_settings' => 'fields',
+      'header_type' => 'none',
+      'view_mode' => 'teaser',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -372,9 +378,32 @@ if ($node_uid == $user_id) {
     $pane->extras = array();
     $pane->position = 5;
     $pane->locks = array();
-    $pane->uuid = '740c56a1-0797-4138-9517-5e4b17708495';
-    $display->content['new-740c56a1-0797-4138-9517-5e4b17708495'] = $pane;
-    $display->panels['column2'][5] = 'new-740c56a1-0797-4138-9517-5e4b17708495';
+    $pane->uuid = 'a57439d5-92a5-4349-ac07-2a82f65c4cd5';
+    $display->content['new-a57439d5-92a5-4349-ac07-2a82f65c4cd5'] = $pane;
+    $display->panels['column2'][5] = 'new-a57439d5-92a5-4349-ac07-2a82f65c4cd5';
+    $pane = new stdClass();
+    $pane->pid = 'new-63a5eb40-be13-4b5e-9b13-b59e8781ccf5';
+    $pane->panel = 'column2';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'openviz_visualisation-panel_pane_5';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_settings' => 'fields',
+      'header_type' => 'none',
+      'view_mode' => 'teaser',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 6;
+    $pane->locks = array();
+    $pane->uuid = '63a5eb40-be13-4b5e-9b13-b59e8781ccf5';
+    $display->content['new-63a5eb40-be13-4b5e-9b13-b59e8781ccf5'] = $pane;
+    $display->panels['column2'][6] = 'new-63a5eb40-be13-4b5e-9b13-b59e8781ccf5';
     $pane = new stdClass();
     $pane->pid = 'new-3b00bb75-ad77-47e5-a798-64f7618a8a73';
     $pane->panel = 'contentmain';
