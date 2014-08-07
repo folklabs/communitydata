@@ -11,12 +11,21 @@ module_load_include('inc', 'vizshare', 'vizshare.formatters');
  */
 function vizshare_menu() {
   $items = array();
+
   $items['visualization/new'] = array(
     'title' => 'Create visualization',
     'description' => 'Create a visualization',
     // 'menu_name'       => 'main-menu',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('vizshare_builder_form'),
+    'access arguments' => array('create ov_visualisation content')
+  );
+
+  $items['dataunity/dataset/add'] = array(
+    'title' => 'Add dataset to Data Unity',
+    'description' => 'Add dataset to Data Unity',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('vizshare_add_dataset_form'),
     'access arguments' => array('create ov_visualisation content')
   );
 
@@ -182,6 +191,59 @@ function vizshare_builder_form_submit($form, &$form_state) {
   }
 }
 
+function vizshare_add_dataset_form($form, &$form_state) {
+  // dpm($form);
+  // dpm($form_state);
+
+  $form = array();
+
+  //TODO: move to libraries
+  $form['#attached']['js'] = array(
+    drupal_get_path('module', 'vizshare') .'/js/jsonld.js',
+    drupal_get_path('module', 'vizshare') . '/js/angular-1.2.min.js',
+    drupal_get_path('module', 'vizshare') .'/js/dataunity-hydraclient-0.1.0.js',
+
+  );
+
+  $form['divapp'] = array(
+    '#markup' => '
+<p>Please step through this form to add a new dataset from a CKAN data portal such as <a href="http://data.gov.uk">data.gov.uk</a> or the <a href="http://5.101.100.119">Lambeth data store</a>.</p>
+<!-- Hydra client -->
+<div ng-app="dataunity-hydra">
+  <div id="du-error"></div>
+    <div ng-controller="HydraCtrl" ng-init="initPage()">
+        <h2>{{title}}</h2>
+        <div ng-repeat="link in links" ng-show="areLinksVisible">
+            {{getLiteralValue(link.prop, rdfsNs.label)}}
+            <span ng-if="hasGET(link.prop)">
+                <a href="#" ng-click="loadPage(link.url)">Go</a>
+            </span>
+            <span ng-if="hasPOST(link.prop)">
+                <a href="#" ng-click="showForm(link.url, link.prop, \'POST\')">Create</a>
+            </span>
+        </div>
+
+        <form name="du-form-hydra" action="{{formURL}}" method="{{formMethod}}" ng-show="isFormVisible">
+            <span ng-repeat="suppProp in hydraForm.data.fields">
+                <label for="{{getSupportedPropertyPropertyId(suppProp)}}">
+                    {{getSupportedPropertyLabel(suppProp)}}
+                </label>
+                <input name="{{getSupportedPropertyPropertyId(suppProp)}}"
+                    type="text"
+                    data-ng-model="suppProp.data"
+                    value="">
+            </span>
+            <div><button ng-click="submitForm()">Add</button></div>
+            <div du-form-feedback></div>
+        </form>
+    </div>
+</div>
+',
+    '#weight' => -1,
+  );
+
+  return $form;
+}
 
 /**
  * Implements hook_form_alter().
